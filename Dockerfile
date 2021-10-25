@@ -1,5 +1,5 @@
 # Get node that installed in the my computer  
-FROM node:14.17.0
+FROM node:14.17-alpine
 
 # Copy project to the image
 RUN mkdir /srv/app

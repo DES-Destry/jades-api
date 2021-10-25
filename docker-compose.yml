@@ -5,10 +5,9 @@ services:
         container_name: unimaster-blog-core
         restart: always
         build: .
-        environment:
-            - POSTGRES_HOST=postgres
+        env_file: .env
         ports: 
-            - 3000:3000
+            - 10010:10010
         depends_on: 
             - postgres
 
