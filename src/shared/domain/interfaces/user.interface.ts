@@ -1,10 +1,12 @@
+import { IUserEmail } from './user-email.interface';
+
 export interface IUser {
   id?: string;
   username: string;
   alias?: string;
   urlAlias?: string;
   description?: string;
-  // emails: IUserEmail[],
+  emails: IUserEmail[];
   password: string;
   karma: number;
   location?: string;
@@ -12,6 +14,6 @@ export interface IUser {
   // userIdenteties: IUserIdenteties[],
   isVerified: boolean;
   lastPasswordChanged: Date;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

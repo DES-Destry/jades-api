@@ -16,8 +16,8 @@ export class User extends AggregateRoot<IUser> {
   // public readonly userIdenteties = this.props.userIdenteties;
   public readonly isVerified = this.props.isVerified;
   public readonly lastPasswordChanged = this.props.lastPasswordChanged;
-  public readonly createdAt = this.props.createdAt;
-  public readonly updatedAt = this.props.updatedAt;
+  public readonly createdAt? = this.props.createdAt;
+  public readonly updatedAt? = this.props.updatedAt;
 
   public static create(props: IUser): User {
     return new User({
