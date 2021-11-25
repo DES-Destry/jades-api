@@ -19,12 +19,20 @@ export class UserRepository implements IUserRepository {
     });
     return model;
   }
-  public async getByLogin(login: string): Promise<IUser> {
-    // TODO: find user by username or email
+  public async getByEmail(email: string): Promise<IUser> {
     const model = await this._userModel.findOne({
-      where: { username: login },
+      where: { emails: [email] },
     });
     return model;
+  }
+  public async getByLogin(login: string): Promise<IUser> {
+    const usernameModel = await this._userModel.findOne({
+      where: { username: login },
+    });
+    const emailModel = await this._userModel.findOne({
+      where: { emails: [login] },
+    });
+    return usernameModel || emailModel;
   }
 
   public async create(dto: CreateUserDto): Promise<IUser> {

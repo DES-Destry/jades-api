@@ -3,6 +3,7 @@ import {
   Column,
   CreatedAt,
   Default,
+  HasMany,
   Model,
   PrimaryKey,
   Table,
@@ -11,6 +12,7 @@ import {
 } from 'sequelize-typescript';
 import { v4 as uuid } from 'uuid';
 import { User } from 'src/shared/domain/user';
+import { UserEmailModel } from 'src/user-email/user-email.model';
 
 interface UserModelCreationAttributes {
   username: string;
@@ -40,6 +42,9 @@ export class UserModel extends Model<User, UserModelCreationAttributes> {
   @AllowNull
   @Column
   description?: string;
+
+  @HasMany(() => UserEmailModel)
+  emails: UserEmailModel[];
 
   @Column
   password: string;

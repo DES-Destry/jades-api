@@ -9,14 +9,30 @@ export class UserController {
   constructor(private readonly _userService: UserService) {}
 
   @Get('/username/:username/exists')
-  public async byUsernameExists(
+  public async isByUsernameExists(
     @Param('username') username: string,
   ): Promise<ActionResultDto<UserExistsResponseDto>> {
-    const user = await this._userService.getByUsername(username);
-    return ResultFactory.ok({
-      exists: Boolean(user),
-    });
+    try {
+      const user = await this._userService.getByUsername(username);
+      return ResultFactory.ok({
+        exists: Boolean(user),
+      });
+    } catch (err) {
+      ResultFactory.internalServerError(err.message);
+    }
   }
 
-  // TODO: byEmailExists
+  @Get('/email/:email/exists')
+  public async isByEmailExists(
+    @Param('email') email: string,
+  ): Promise<ActionResultDto<UserExistsResponseDto>> {
+    try {
+      const user = await this._userService.getByEmail(email);
+      return ResultFactory.ok({
+        exists: Boolean(user),
+      });
+    } catch (err) {
+      ResultFactory.internalServerError(err.message);
+    }
+  }
 }
