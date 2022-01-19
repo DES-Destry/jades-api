@@ -1,5 +1,6 @@
 import { InjectModel } from '@nestjs/sequelize';
 import { IUser } from 'src/shared/domain/interfaces/user.interface';
+import { User } from 'src/shared/domain/user';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { IUserRepository } from '../interfaces/user-repository.dto';
 import { UserModel } from '../user.model';
@@ -11,19 +12,19 @@ export class UserRepository implements IUserRepository {
 
   public async getById(userId: string): Promise<IUser> {
     const model = await this._userModel.findByPk(userId);
-    return model;
+    return model && User.transform(model);
   }
   public async getByUsername(username: string): Promise<IUser> {
     const model = await this._userModel.findOne({
       where: { username },
     });
-    return model;
+    return model && User.transform(model);
   }
   public async getByEmail(email: string): Promise<IUser> {
     const model = await this._userModel.findOne({
       where: { emails: [email] },
     });
-    return model;
+    return model && User.transform(model);
   }
   public async getByLogin(login: string): Promise<IUser> {
     const usernameModel = await this._userModel.findOne({
@@ -32,12 +33,17 @@ export class UserRepository implements IUserRepository {
     const emailModel = await this._userModel.findOne({
       where: { emails: [login] },
     });
-    return usernameModel || emailModel;
+
+    if (usernameModel || emailModel) {
+      return User.transform(usernameModel || emailModel);
+    }
+
+    return null;
   }
 
   public async create(dto: CreateUserDto): Promise<IUser> {
     const model = await this._userModel.create(dto);
-    return model;
+    return model && User.transform(model);
   }
 
   public async updateProfile(user: Partial<IUser>): Promise<IUser> {
@@ -51,8 +57,18 @@ export class UserRepository implements IUserRepository {
     model.urlAlias = user?.urlAlias || model?.urlAlias;
     model.description = user?.description || model?.description;
     model.location = user?.location || model?.location;
-    model.save();
+    await model.save();
 
     return model;
+  }
+  public async verify(userId: string): Promise<void> {
+    const model = await this._userModel.findByPk(userId);
+
+    if (!model) {
+      return null;
+    }
+
+    model.isVerified = true;
+    await model.save();
   }
 }

@@ -43,4 +43,8 @@ export class UserService {
 
     return user;
   }
+
+  public async verify(userId: string): Promise<void> {
+    await this._userRepository.verify(userId);
+  }
 }

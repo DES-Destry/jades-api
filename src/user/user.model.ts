@@ -13,6 +13,7 @@ import {
 import { v4 as uuid } from 'uuid';
 import { User } from 'src/shared/domain/user';
 import { UserEmailModel } from 'src/user-email/user-email.model';
+import { UserIdentityModel } from 'src/user-identity/user-identity.model';
 
 interface UserModelCreationAttributes {
   username: string;
@@ -55,6 +56,9 @@ export class UserModel extends Model<User, UserModelCreationAttributes> {
 
   @Column
   location?: string;
+
+  @HasMany(() => UserIdentityModel)
+  userIdentities: UserIdentityModel[];
 
   @Default(false)
   @Column({ field: 'is_verified' })

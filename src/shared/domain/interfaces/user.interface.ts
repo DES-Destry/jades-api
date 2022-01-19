@@ -1,4 +1,5 @@
 import { IUserEmail } from './user-email.interface';
+import { IUserIdentity } from './user-identity.interface';
 
 export interface IUser {
   id?: string;
@@ -10,8 +11,8 @@ export interface IUser {
   password: string;
   karma: number;
   location?: string;
-  // contacts: IUserContact[],
-  // userIdenteties: IUserIdenteties[],
+  // contacts: IUserContact[];
+  userIdentities: IUserIdentity[];
   isVerified: boolean;
   lastPasswordChanged: Date;
   createdAt?: Date;

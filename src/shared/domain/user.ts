@@ -13,7 +13,7 @@ export class User extends AggregateRoot<IUser> {
   public readonly karma = this.props.karma;
   public readonly location? = this.props.location;
   // public readonly contacts = this.props.contacts;
-  // public readonly userIdenteties = this.props.userIdenteties;
+  public readonly userIdentities = this.props.userIdentities;
   public readonly isVerified = this.props.isVerified;
   public readonly lastPasswordChanged = this.props.lastPasswordChanged;
   public readonly createdAt? = this.props.createdAt;
@@ -33,5 +33,10 @@ export class User extends AggregateRoot<IUser> {
 
   public static transform(props: IUser): User {
     return new User(props);
+  }
+
+  public getPrimaryMail(): string {
+    const emailData = this.emails.find((email) => email.isMain);
+    return emailData.email;
   }
 }
