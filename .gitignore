@@ -35,4 +35,5 @@ lerna-debug.log*
 
 # Production file
 .env
+.env.development
 docker-compose.yml
