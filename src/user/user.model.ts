@@ -12,8 +12,8 @@ import {
 } from 'sequelize-typescript';
 import { v4 as uuid } from 'uuid';
 import { User } from 'src/shared/domain/user';
-import { UserEmailModel } from 'src/user-email/user-email.model';
-import { UserIdentityModel } from 'src/user-identity/user-identity.model';
+import { UserEmailModel } from 'src/user/modules/user-email/user-email.model';
+import { UserIdentityModel } from './modules/user-identity/user-identity.model';
 
 interface UserModelCreationAttributes {
   username: string;

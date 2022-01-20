@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { IUser } from 'src/shared/domain/interfaces/user.interface';
-import { UserEmailService } from 'src/user-email/user-email.service';
+import { UserEmailService } from 'src/user/modules/user-email/user-email.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UserRepository } from './repositories/user.repository';
 
