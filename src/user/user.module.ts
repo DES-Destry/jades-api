@@ -8,12 +8,14 @@ import { UserRepository } from './repositories/user.repository';
 import { UserController } from './user.controller';
 import { UserModel } from './user.model';
 import { UserService } from './user.service';
+import { RoleModule } from './modules/role/role.module';
 
 @Module({
   imports: [
     SequelizeModule.forFeature([UserModel]),
     UserEmailModule,
     forwardRef(() => UserIdentityModule),
+    RoleModule,
   ],
   controllers: [UserController],
   providers: [UserService, UserRepository],
