@@ -19,18 +19,6 @@ export class RoleRepository implements IRoleRepository {
     await this._roleModel.create(roleDomain);
     return roleDomain;
   }
-  public async addRolePrivilege(
-    roleId: string,
-    privilegeId: string,
-  ): Promise<void> {
-    throw new Error('Method not implemented.');
-  }
-  public async deleteRolePrivilege(
-    roleId: string,
-    privilegeId: string,
-  ): Promise<void> {
-    throw new Error('Method not implemented.');
-  }
 
   public async deleteRole(roleId: string): Promise<boolean> {
     const count = await this._roleModel.destroy({

@@ -16,23 +16,9 @@ export class RoleService {
     const role = await this._roleRepository.createRole(name);
     return role;
   }
-  public async addRolePrivilege(
-    roleId: string,
-    privilegeId: string,
-  ): Promise<void> {
-    await this._roleRepository.addRolePrivilege(roleId, privilegeId);
-  }
-  public async deleteRolePrivilege(
-    roleId: string,
-    privilegeId: string,
-  ): Promise<void> {
-    await this._roleRepository.deleteRolePrivilege(roleId, privilegeId);
-  }
 
   public async deleteRole(roleId: string): Promise<DeleteRoleResponseDto> {
     const isDeleted = await this._roleRepository.deleteRole(roleId);
-    return {
-      isDeleted,
-    };
+    return { isDeleted };
   }
 }

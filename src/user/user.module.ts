@@ -9,6 +9,7 @@ import { UserController } from './user.controller';
 import { UserModel } from './user.model';
 import { UserService } from './user.service';
 import { RoleModule } from './modules/role/role.module';
+import { RolePrivilegeModule } from './modules/role-privilege/role-privilege.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { RoleModule } from './modules/role/role.module';
     UserEmailModule,
     forwardRef(() => UserIdentityModule),
     RoleModule,
+    RolePrivilegeModule,
   ],
   controllers: [UserController],
   providers: [UserService, UserRepository],
