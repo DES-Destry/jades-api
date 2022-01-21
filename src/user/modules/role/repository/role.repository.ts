@@ -33,8 +33,9 @@ export class RoleRepository implements IRoleRepository {
   }
 
   public async deleteRole(roleId: string): Promise<boolean> {
-    await this._roleModel.destroy({
+    const count = await this._roleModel.destroy({
       where: { id: roleId },
     });
+    return count > 0;
   }
 }
