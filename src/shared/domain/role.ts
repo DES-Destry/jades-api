@@ -5,6 +5,7 @@ import { IRole } from './interfaces/role.interface';
 export class Role extends AggregateRoot<IRole> {
   public readonly id? = this.props.id;
   public readonly name = this.props.name;
+  public readonly privileges? = this.props.privileges;
   public readonly createdAt? = this.props.createdAt;
   public readonly updatedAt? = this.props.updatedAt;
 

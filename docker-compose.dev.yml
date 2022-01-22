@@ -1,14 +1,14 @@
 version: '3.7'
 
-services: 
+services:
     application:
         container_name: unimaster-blog-core
         restart: always
         build: .
         env_file: .env
-        ports: 
+        ports:
             - 10010:10010
-        depends_on: 
+        depends_on:
             - postgres
 
     postgres:

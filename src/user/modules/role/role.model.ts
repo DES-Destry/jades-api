@@ -2,6 +2,7 @@ import {
   Column,
   CreatedAt,
   Default,
+  HasMany,
   Model,
   PrimaryKey,
   Table,
@@ -9,6 +10,7 @@ import {
 } from 'sequelize-typescript';
 import { v4 as uuid } from 'uuid';
 import { Role } from 'src/shared/domain/role';
+import { RolePrivilegeModel } from '../role-privilege/role-privilege.model';
 
 interface RoleModelCreationAttributes {
   name: string;
@@ -23,6 +25,9 @@ export class RoleModel extends Model<Role, RoleModelCreationAttributes> {
 
   @Column
   name: string;
+
+  @HasMany(() => RolePrivilegeModel)
+  privileges: RolePrivilegeModel[];
 
   @CreatedAt
   @Default(new Date())

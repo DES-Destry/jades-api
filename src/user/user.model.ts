@@ -1,8 +1,10 @@
 import {
   AllowNull,
+  BelongsTo,
   Column,
   CreatedAt,
   Default,
+  ForeignKey,
   HasMany,
   Model,
   PrimaryKey,
@@ -14,6 +16,7 @@ import { v4 as uuid } from 'uuid';
 import { User } from 'src/shared/domain/user';
 import { UserEmailModel } from 'src/user/modules/user-email/user-email.model';
 import { UserIdentityModel } from './modules/user-identity/user-identity.model';
+import { RoleModel } from './modules/role/role.model';
 
 interface UserModelCreationAttributes {
   username: string;
@@ -56,6 +59,14 @@ export class UserModel extends Model<User, UserModelCreationAttributes> {
 
   @Column
   location?: string;
+
+  @AllowNull
+  @ForeignKey(() => RoleModel)
+  @Column({ field: 'role_id' })
+  roleId?: string;
+
+  @BelongsTo(() => RoleModel)
+  role?: RoleModel;
 
   @HasMany(() => UserIdentityModel)
   userIdentities: UserIdentityModel[];

@@ -1,3 +1,4 @@
+import { IRole } from './role.interface';
 import { IUserEmail } from './user-email.interface';
 import { IUserIdentity } from './user-identity.interface';
 
@@ -11,6 +12,8 @@ export interface IUser {
   password: string;
   karma: number;
   location?: string;
+  roleId?: string;
+  role?: IRole;
   // contacts: IUserContact[];
   userIdentities: IUserIdentity[];
   isVerified: boolean;
