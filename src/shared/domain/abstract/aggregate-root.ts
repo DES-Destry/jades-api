@@ -2,6 +2,8 @@ export abstract class AggregateRoot<T> {
   protected props: T;
 
   constructor(props: T) {
-    this.props = props;
+    for (const field in props) {
+      this.props[field] = props[field];
+    }
   }
 }
