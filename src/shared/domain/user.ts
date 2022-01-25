@@ -14,7 +14,7 @@ export class User extends AggregateRoot<IUser> {
   public readonly location? = this.props.location;
   public readonly roleId? = this.props.roleId;
   public readonly role? = this.props.role;
-  // public readonly contacts = this.props.contacts;
+  public readonly contacts = this.props.contacts;
   public readonly userIdentities = this.props.userIdentities;
   public readonly isVerified = this.props.isVerified;
   public readonly lastPasswordChanged = this.props.lastPasswordChanged;

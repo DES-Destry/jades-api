@@ -1,4 +1,5 @@
 import { IRole } from './role.interface';
+import { IUserContact } from './user-contact.interface';
 import { IUserEmail } from './user-email.interface';
 import { IUserIdentity } from './user-identity.interface';
 
@@ -14,7 +15,7 @@ export interface IUser {
   location?: string;
   roleId?: string;
   role?: IRole;
-  // contacts: IUserContact[];
+  contacts: IUserContact[];
   userIdentities: IUserIdentity[];
   isVerified: boolean;
   lastPasswordChanged: Date;
