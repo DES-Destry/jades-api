@@ -2,6 +2,8 @@ import { IUserEmail } from 'src/shared/domain/interfaces/user-email.interface';
 import { CreateUserEmailDto } from '../dtos/create-user-email.dto';
 
 export interface IUserEmailRepository {
+  getById(id: string): Promise<IUserEmail>;
+
   create(dto: CreateUserEmailDto): Promise<IUserEmail>;
 
   toggleMain(emailId: string): Promise<void>;

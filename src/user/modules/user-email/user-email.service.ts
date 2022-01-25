@@ -8,13 +8,10 @@ import { UserEmailRepository } from './repository/user-email.repository';
 export class UserEmailService {
   constructor(private readonly _userEmailRepository: UserEmailRepository) {}
 
-  public async create(dto: CreateUserEmailDto): Promise<IUserEmail> {
-    const domain = UserEmail.create({
-      ...dto,
-      isVisible: false,
-    });
-
-    const userEmail = await this._userEmailRepository.create(domain);
+  public async createUserEmailOrNull(
+    dto: CreateUserEmailDto,
+  ): Promise<IUserEmail> {
+    const userEmail = await this._userEmailRepository.create(dto);
     return userEmail;
   }
 }

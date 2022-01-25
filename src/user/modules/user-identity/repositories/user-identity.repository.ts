@@ -10,12 +10,16 @@ export class UserIdentityRepository implements IUserIdentityRepository {
     private readonly _userIdentityModel: typeof UserIdentityModel,
   ) {}
 
-  public async getById(identityId: string): Promise<IUserIdentity> {
-    const model = await this._userIdentityModel.findByPk(identityId);
+  public async getById(id: string): Promise<IUserIdentity> {
+    if (!id) {
+      return null;
+    }
+
+    const model = await this._userIdentityModel.findByPk(id);
     return model && UserIdentity.transform(model);
   }
 
-  public async createIdentityOrNull(
+  public async createIdentity(
     userId: string,
     code: string,
   ): Promise<IUserIdentity> {

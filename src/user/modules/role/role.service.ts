@@ -7,12 +7,12 @@ import { RoleRepository } from './repository/role.repository';
 export class RoleService {
   constructor(private readonly _roleRepository: RoleRepository) {}
 
-  public async getById(id: string): Promise<IRole> {
+  public async getByIdOrNull(id: string): Promise<IRole> {
     const role = await this._roleRepository.getById(id);
     return role;
   }
 
-  public async createRole(name: string): Promise<IRole> {
+  public async createRoleOrNull(name: string): Promise<IRole> {
     const role = await this._roleRepository.createRole(name);
     return role;
   }

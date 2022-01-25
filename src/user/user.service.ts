@@ -11,31 +11,35 @@ export class UserService {
     private readonly _userEmailService: UserEmailService,
   ) {}
 
-  public async getByUsername(username: string): Promise<IUser> {
+  public async getByUsernameOrNull(username: string): Promise<IUser> {
     const user = await this._userRepository.getByUsername(username);
     return user;
   }
 
-  public async getByLogin(login: string): Promise<IUser> {
+  public async getByLoginOrNull(login: string): Promise<IUser> {
     const user = await this._userRepository.getByLogin(login);
     return user;
   }
 
-  public async getByEmail(email: string): Promise<IUser> {
+  public async getByEmailOrNull(email: string): Promise<IUser> {
     const user = await this._userRepository.getByEmail(email);
     return user;
   }
 
-  public async createUserOrNull(dto: CreateUserDto): Promise<IUser | null> {
-    const byUsernameCandidate = await this.getByUsername(dto.username);
-    const byEmailCandidate = await this.getByEmail(dto.email);
+  public async createUserOrNull(dto: CreateUserDto): Promise<IUser> {
+    if (!dto) {
+      return null;
+    }
+
+    const byUsernameCandidate = await this.getByUsernameOrNull(dto.username);
+    const byEmailCandidate = await this.getByEmailOrNull(dto.email);
 
     if (byUsernameCandidate || byEmailCandidate) {
       return null;
     }
 
     const user = await this._userRepository.create(dto);
-    await this._userEmailService.create({
+    await this._userEmailService.createUserEmailOrNull({
       email: dto.email,
       isMain: true,
       userId: user?.id,

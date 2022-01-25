@@ -10,17 +10,29 @@ export class RoleRepository implements IRoleRepository {
   ) {}
 
   public async getById(id: string): Promise<IRole> {
+    if (!id) {
+      return null;
+    }
+
     const model = await this._roleModel.findByPk(id);
     return model && Role.transform(model);
   }
 
   public async createRole(name: string): Promise<IRole> {
+    if (!name) {
+      return null;
+    }
+
     const roleDomain = Role.create({ name });
     await this._roleModel.create(roleDomain);
     return roleDomain;
   }
 
   public async deleteRole(roleId: string): Promise<boolean> {
+    if (!roleId) {
+      return false;
+    }
+
     const count = await this._roleModel.destroy({
       where: { id: roleId },
     });

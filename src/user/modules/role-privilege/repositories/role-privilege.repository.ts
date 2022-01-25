@@ -26,6 +26,10 @@ export class RolePrivilegeRepository implements IRolePrivilegeRepository {
     roleId: string,
     privilege: Privilege,
   ): Promise<IRolePrivilege> {
+    if (!roleId || !privilege) {
+      return null;
+    }
+
     const rolePrivilegeDomain = RolePrivilege.create({ roleId, privilege });
     await this._rolePrivilegeModel.create(rolePrivilegeDomain);
 
@@ -33,6 +37,10 @@ export class RolePrivilegeRepository implements IRolePrivilegeRepository {
   }
 
   public async deleteRolePrivilege(privilegeId: string): Promise<boolean> {
+    if (!privilegeId) {
+      return null;
+    }
+
     const count = await this._rolePrivilegeModel.destroy({
       where: { id: privilegeId },
     });

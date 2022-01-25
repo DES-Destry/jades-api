@@ -36,17 +36,18 @@ export class UserContactRepository implements IUserContactRepository {
 
     const model = await this._userContactModel.findByPk(contact.id);
 
-    if (model) {
-      model.title = contact.title;
-      model.description = contact.description;
-      model.mediaType = contact.mediaType;
-      model.link = contact.link;
-      model.updatedAt = new Date();
-
-      await model.save();
+    if (!model) {
+      return null;
     }
 
-    return null;
+    model.title = contact.title;
+    model.description = contact.description;
+    model.mediaType = contact.mediaType;
+    model.link = contact.link;
+    model.updatedAt = new Date();
+
+    await model.save();
+    return UserContact.transform(model);
   }
 
   public async deleteContact(contactId: string): Promise<boolean> {

@@ -13,7 +13,7 @@ export class UserController {
     @Param('username') username: string,
   ): Promise<ActionResultDto<UserExistsResponseDto>> {
     try {
-      const user = await this._userService.getByUsername(username);
+      const user = await this._userService.getByUsernameOrNull(username);
       return ResultFactory.ok({
         exists: Boolean(user),
       });
@@ -27,7 +27,7 @@ export class UserController {
     @Param('email') email: string,
   ): Promise<ActionResultDto<UserExistsResponseDto>> {
     try {
-      const user = await this._userService.getByEmail(email);
+      const user = await this._userService.getByEmailOrNull(email);
       return ResultFactory.ok({
         exists: Boolean(user),
       });

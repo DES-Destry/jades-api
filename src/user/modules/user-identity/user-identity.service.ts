@@ -13,12 +13,14 @@ export class UserIdentityService {
     private readonly _emailSender: EmailSender,
   ) {}
 
-  public async createIdentity(
+  public async createIdentityOrNull(
     userId: string,
     code: string,
   ): Promise<IUserIdentity> {
-    const userIdentity =
-      await this._userIdentityRepository.createIdentityOrNull(userId, code);
+    const userIdentity = await this._userIdentityRepository.createIdentity(
+      userId,
+      code,
+    );
 
     if (userIdentity) {
       const mainMail = User.transform(userIdentity.user).getPrimaryMail();
@@ -33,7 +35,7 @@ export class UserIdentityService {
     return userIdentity;
   }
 
-  public async verifyIdentity(
+  public async verifyIdentityOrNull(
     identityId: string,
     code: string,
   ): Promise<boolean> {
@@ -45,7 +47,9 @@ export class UserIdentityService {
     // Set is verified for user
     if (isVerified) {
       const identity = await this._userIdentityRepository.getById(identityId);
-      await this._userService.verify(identity.userId);
+      if (identity) {
+        await this._userService.verify(identity.userId);
+      }
     }
 
     return isVerified;

@@ -12,12 +12,12 @@ export class RolePrivilegeService {
     private readonly _rolePrivilegeRepository: RolePrivilegeRepository,
   ) {}
 
-  public async getById(id: string): Promise<IRolePrivilege> {
+  public async getByIdOrNull(id: string): Promise<IRolePrivilege> {
     const privilege = await this._rolePrivilegeRepository.getById(id);
     return privilege;
   }
 
-  public async createRolePrivilege(
+  public async createRolePrivilegeOrNull(
     roleId: string,
     privilege: Privilege,
   ): Promise<IRolePrivilege> {

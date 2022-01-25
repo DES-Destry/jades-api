@@ -11,22 +11,38 @@ export class UserRepository implements IUserRepository {
   ) {}
 
   public async getById(userId: string): Promise<IUser> {
+    if (!userId) {
+      return null;
+    }
+
     const model = await this._userModel.findByPk(userId);
     return model && User.transform(model);
   }
   public async getByUsername(username: string): Promise<IUser> {
+    if (username) {
+      return null;
+    }
+
     const model = await this._userModel.findOne({
       where: { username },
     });
     return model && User.transform(model);
   }
   public async getByEmail(email: string): Promise<IUser> {
+    if (!email) {
+      return null;
+    }
+
     const model = await this._userModel.findOne({
       where: { emails: [email] },
     });
     return model && User.transform(model);
   }
   public async getByLogin(login: string): Promise<IUser> {
+    if (!login) {
+      return null;
+    }
+
     const usernameModel = await this._userModel.findOne({
       where: { username: login },
     });
@@ -42,12 +58,19 @@ export class UserRepository implements IUserRepository {
   }
 
   public async create(dto: CreateUserDto): Promise<IUser> {
+    if (!dto) {
+      return null;
+    }
+
     const model = await this._userModel.create(dto);
     return model && User.transform(model);
   }
 
   public async updateProfile(user: Partial<IUser>): Promise<IUser> {
-    const model = await this._userModel.findByPk(user?.id);
+    if (!user && !user.id) {
+      return null;
+    }
+    const model = await this._userModel.findByPk(user.id);
 
     if (!model) {
       return null;
@@ -62,10 +85,14 @@ export class UserRepository implements IUserRepository {
     return model;
   }
   public async verify(userId: string): Promise<void> {
+    if (!userId) {
+      return;
+    }
+
     const model = await this._userModel.findByPk(userId);
 
     if (!model) {
-      return null;
+      return;
     }
 
     model.isVerified = true;
