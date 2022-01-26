@@ -1,3 +1,4 @@
+import { UserGender } from '../common/user-gender';
 import { IRole } from './role.interface';
 import { IUserContact } from './user-contact.interface';
 import { IUserEmail } from './user-email.interface';
@@ -9,6 +10,7 @@ export interface IUser {
   alias?: string;
   urlAlias?: string;
   description?: string;
+  gender: UserGender;
   emails: IUserEmail[];
   password: string;
   karma: number;

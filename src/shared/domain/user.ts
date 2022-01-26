@@ -8,6 +8,7 @@ export class User extends AggregateRoot<IUser> {
   public readonly alias? = this.props.alias;
   public readonly urlAlias? = this.props.urlAlias;
   public readonly description? = this.props.description;
+  public readonly gender = this.props.gender;
   public readonly emails = this.props.emails;
   public readonly password = this.props.password;
   public readonly karma = this.props.karma;

@@ -3,6 +3,7 @@ import {
   BelongsTo,
   Column,
   CreatedAt,
+  DataType,
   Default,
   ForeignKey,
   HasMany,
@@ -18,6 +19,7 @@ import { UserEmailModel } from 'src/user/modules/user-email/user-email.model';
 import { UserIdentityModel } from './modules/user-identity/user-identity.model';
 import { RoleModel } from './modules/role/role.model';
 import { UserContactModel } from './modules/user-contact/user-contact.model';
+import { UserGender } from 'src/shared/domain/common/user-gender';
 
 interface UserModelCreationAttributes {
   username: string;
@@ -47,6 +49,9 @@ export class UserModel extends Model<User, UserModelCreationAttributes> {
   @AllowNull
   @Column
   description?: string;
+
+  @Column({ type: DataType.STRING })
+  gender: UserGender;
 
   @HasMany(() => UserEmailModel)
   emails: UserEmailModel[];
