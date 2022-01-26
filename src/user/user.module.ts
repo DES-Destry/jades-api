@@ -9,6 +9,7 @@ import { UserService } from './user.service';
 import { RoleModule } from './modules/role/role.module';
 import { RolePrivilegeModule } from './modules/role-privilege/role-privilege.module';
 import { UserContactModule } from './modules/user-contact/user-contact.module';
+import { UserStrikeModule } from './modules/user-strike/user-strike.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { UserContactModule } from './modules/user-contact/user-contact.module';
     UserContactModule,
     RoleModule,
     RolePrivilegeModule,
+    UserStrikeModule,
   ],
   controllers: [UserController],
   providers: [UserService, UserRepository],
