@@ -13,7 +13,7 @@ import {
 import { v4 as uuid } from 'uuid';
 import { Privilege } from 'src/shared/domain/interfaces/role-privilege.interface';
 import { RolePrivilege } from 'src/shared/domain/role-privilege';
-import { RoleModel } from '../role/role.model';
+import { RoleModel } from '../../role.model';
 
 interface RolePrivilegeModelCreationAttributes {
   roleId: string;

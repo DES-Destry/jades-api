@@ -1,5 +1,5 @@
 import { SequelizeModuleOptions } from '@nestjs/sequelize';
-import { RolePrivilegeModel } from 'src/user/modules/role-privilege/role-privilege.model';
+import { RolePrivilegeModel } from 'src/user/modules/role/modules/role-privilege/role-privilege.model';
 import { RoleModel } from 'src/user/modules/role/role.model';
 import { UserContactModel } from 'src/user/modules/user-contact/user-contact.model';
 import { UserEmailModel } from 'src/user/modules/user-email/user-email.model';

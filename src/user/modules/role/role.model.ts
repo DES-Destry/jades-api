@@ -10,7 +10,7 @@ import {
 } from 'sequelize-typescript';
 import { v4 as uuid } from 'uuid';
 import { Role } from 'src/shared/domain/role';
-import { RolePrivilegeModel } from '../role-privilege/role-privilege.model';
+import { RolePrivilegeModel } from './modules/role-privilege/role-privilege.model';
 
 interface RoleModelCreationAttributes {
   name: string;
