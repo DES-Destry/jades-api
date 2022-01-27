@@ -7,6 +7,7 @@ import {
   ForeignKey,
   Model,
   PrimaryKey,
+  Table,
   UpdatedAt,
 } from 'sequelize-typescript';
 import { v4 as uuid } from 'uuid';
@@ -19,6 +20,7 @@ interface UserContactModelCreationAttributes {
   link: string;
 }
 
+@Table({ tableName: 'user_contacts' })
 export class UserContactModel extends Model<
   UserContact,
   UserContactModelCreationAttributes
