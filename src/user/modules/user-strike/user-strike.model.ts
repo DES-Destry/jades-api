@@ -10,6 +10,7 @@ import {
   Model,
   PrimaryKey,
   Table,
+  Unique,
   UpdatedAt,
 } from 'sequelize-typescript';
 import { v4 as uuid } from 'uuid';
@@ -58,6 +59,7 @@ export class UserStrikeModel extends Model<
   @Column
   expiredAt: Date;
 
+  @Unique(true)
   @AllowNull
   @Column({ field: 'appeal_id' })
   appealId?: string;
