@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { RateType } from 'src/shared/domain/common/rate-type';
 import { IUserStrikeRate } from 'src/shared/domain/interfaces/user-strike-rate.interface';
@@ -6,6 +7,7 @@ import { ToggleRateResponseDto } from '../dtos/toggle-rate.dto';
 import { IUserStrikeRateRepository } from '../interfaces/user-strike-rate-repository.interface';
 import { UserStrikeRateModel } from '../user-strike-rate.model';
 
+@Injectable()
 export class UserStrikeRateRepository implements IUserStrikeRateRepository {
   constructor(
     @InjectModel(UserStrikeRateModel)
