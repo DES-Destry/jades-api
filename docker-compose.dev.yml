@@ -2,10 +2,11 @@ version: '3.7'
 
 services:
     application:
+        image: unimaster-blog-core:0.0.1
         container_name: unimaster-blog-core
         restart: always
         build: .
-        env_file: .env
+        env_file: .env.development
         ports:
             - 10010:10010
         depends_on:
@@ -14,7 +15,7 @@ services:
     postgres:
         container_name: unimaster-blog-db
         restart: always
-        image: postgres:9.6.2-apline
+        image: postgres:9.6.2-alpine
         environment:
             - POSTGRES_DB=blogdb
             - POSTGRES_USER=postgres
