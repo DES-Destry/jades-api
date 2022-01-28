@@ -17,6 +17,7 @@ import { v4 as uuid } from 'uuid';
 import { UserStrikeLevel } from 'src/shared/domain/common/user-strike-level';
 import { UserStrike } from 'src/shared/domain/user-strike';
 import { UserModel } from 'src/user/user.model';
+import { UserStrikeAppealModel } from './modules/user-strike-appeal/user-strike-appeal.model';
 
 export interface UserStrikeModelCreationAttributes {
   userId: string;
@@ -59,10 +60,14 @@ export class UserStrikeModel extends Model<
   @Column
   expiredAt: Date;
 
+  @ForeignKey(() => UserStrikeAppealModel)
   @Unique(true)
   @AllowNull
   @Column({ field: 'appeal_id' })
   appealId?: string;
+
+  @BelongsTo(() => UserStrikeAppealModel)
+  appeal: UserStrikeAppealModel;
 
   @CreatedAt
   @Default(new Date())
