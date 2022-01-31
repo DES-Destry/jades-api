@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { AppConfig } from './shared/config/app.config';
+import { GlobalExceptionFilter } from './shared/filters/global-exception.filter';
 import { BetaKeyGuard } from './shared/guards/beta-key.guard';
 
 async function bootstrap() {
@@ -9,6 +10,7 @@ async function bootstrap() {
 
   app.setGlobalPrefix('/api');
   app.useGlobalGuards(new BetaKeyGuard());
+  app.useGlobalFilters(new GlobalExceptionFilter());
 
   const config = new DocumentBuilder()
     .setTitle('Unimaster Blog API')
