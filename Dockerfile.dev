@@ -1,0 +1,14 @@
+FROM node:16.13-alpine
+
+# Set working directory
+WORKDIR /srv/app
+
+# Install dependecies
+COPY package.json .
+RUN npm install --save-prod
+
+# Copy project
+COPY . .
+
+# Build and run the nest project
+CMD ["npm", "run", "start:debug"]
