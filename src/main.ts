@@ -21,6 +21,17 @@ async function bootstrap() {
     .addTag('Unimaster Blog')
     .setLicense('GPL 3.0 License', 'unavailable')
     .setTermsOfService('Test terms of service')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'JWT Authorization',
+        description: 'Enter JWT access token',
+        in: 'header',
+      },
+      'jwt-token',
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

@@ -1,8 +1,13 @@
 # ------------ STAGE: Build application
-FROM node:16.13-alpine as build
+FROM node:16.13-buster-slim as build
 
 # Set working directory of application
 WORKDIR /srv/build
+
+# Install python for bcrypt successful building
+RUN apt-get -y upgrade
+RUN apt-get update
+RUN apt-get install -y python3 build-essential
 
 # Copy files about dependecies
 COPY package.json .

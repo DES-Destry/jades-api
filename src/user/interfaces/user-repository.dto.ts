@@ -1,5 +1,5 @@
 import { IUser } from 'src/shared/domain/interfaces/user.interface';
-import { CreateUserDto } from '../dtos/create-user.dto';
+import { CreateUserDto } from '../../shared/dtos/create-user.dto';
 
 export interface IUserRepository {
   getById(userId: string): Promise<IUser>;

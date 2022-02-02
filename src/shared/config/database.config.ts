@@ -1,4 +1,5 @@
 import { SequelizeModuleOptions } from '@nestjs/sequelize';
+import { TokenBlacklistItemModel } from 'src/auth/modules/token/models/token-blacklist-item.model';
 import { RolePrivilegeModel } from 'src/user/modules/role/modules/role-privilege/role-privilege.model';
 import { RoleModel } from 'src/user/modules/role/role.model';
 import { UserContactModel } from 'src/user/modules/user-contact/user-contact.model';
@@ -26,6 +27,7 @@ export class DbConfig {
       UserStrikeRateModel,
       RoleModel,
       RolePrivilegeModel,
+      TokenBlacklistItemModel,
     ],
   };
 }

@@ -1,7 +1,7 @@
 import { InjectModel } from '@nestjs/sequelize';
 import { IUser } from 'src/shared/domain/interfaces/user.interface';
 import { User } from 'src/shared/domain/user';
-import { CreateUserDto } from '../dtos/create-user.dto';
+import { CreateUserDto } from '../../shared/dtos/create-user.dto';
 import { IUserRepository } from '../interfaces/user-repository.dto';
 import { UserModel } from '../user.model';
 

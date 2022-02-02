@@ -9,11 +9,15 @@ export class ResultFactory {
     };
   }
 
-  public static badRequest(errorMessage = 'No message'): void {
+  public static badRequest(
+    errorMessage = 'No message',
+    validationErrors: string[] = [],
+  ): void {
     throw new HttpException(
       {
         data: {
           message: errorMessage,
+          validationErrors,
         },
         isOk: false,
       },

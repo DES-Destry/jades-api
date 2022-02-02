@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { IUser } from 'src/shared/domain/interfaces/user.interface';
 import { UserEmailService } from 'src/user/modules/user-email/user-email.service';
-import { CreateUserDto } from './dtos/create-user.dto';
+import { CreateUserDto } from '../shared/dtos/create-user.dto';
 import { UserRepository } from './repositories/user.repository';
 
 @Injectable()
@@ -16,13 +16,13 @@ export class UserService {
     return user;
   }
 
-  public async getByLoginOrNull(login: string): Promise<IUser> {
-    const user = await this._userRepository.getByLogin(login);
+  public async getByEmailOrNull(email: string): Promise<IUser> {
+    const user = await this._userRepository.getByEmail(email);
     return user;
   }
 
-  public async getByEmailOrNull(email: string): Promise<IUser> {
-    const user = await this._userRepository.getByEmail(email);
+  public async getByLoginOrNull(login: string): Promise<IUser> {
+    const user = await this._userRepository.getByLogin(login);
     return user;
   }
 
