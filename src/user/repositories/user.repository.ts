@@ -1,4 +1,5 @@
 import { InjectModel } from '@nestjs/sequelize';
+import { UserPayload } from 'src/shared/domain/common/user.payload';
 import { IUser } from 'src/shared/domain/interfaces/user.interface';
 import { User } from 'src/shared/domain/user';
 import { CreateUserDto } from '../../shared/dtos/create-user.dto';
@@ -55,6 +56,23 @@ export class UserRepository implements IUserRepository {
     }
 
     return null;
+  }
+  public async getForPayload(payload: UserPayload): Promise<IUser> {
+    if (!payload) {
+      return null;
+    }
+
+    const model = await this._userModel.findOne({
+      where: {
+        id: payload.id,
+        username: payload.username,
+        emails: [payload.primaryEmail],
+        lastPasswordChanged: payload.lastPasswordChanged,
+      },
+      include: { all: true, nested: true },
+    });
+
+    return model && User.transform(model);
   }
 
   public async create(dto: CreateUserDto): Promise<IUser> {

@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { UserPayload } from 'src/shared/domain/common/user.payload';
 import { IUser } from 'src/shared/domain/interfaces/user.interface';
 import { UserEmailService } from 'src/user/modules/user-email/user-email.service';
 import { CreateUserDto } from '../shared/dtos/create-user.dto';
@@ -23,6 +24,11 @@ export class UserService {
 
   public async getByLoginOrNull(login: string): Promise<IUser> {
     const user = await this._userRepository.getByLogin(login);
+    return user;
+  }
+
+  public async getForPayloadOrNull(payload: UserPayload): Promise<IUser> {
+    const user = await this._userRepository.getForPayload(payload);
     return user;
   }
 

@@ -1,8 +1,11 @@
 import { Body, Controller, Post, Request } from '@nestjs/common';
 import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { ApiServerOperation } from 'src/shared/decorators/api-server-operation.decorator';
+import { Auth } from 'src/shared/decorators/auth.decorator';
+import { User } from 'src/shared/decorators/user.decorator';
 import { IUser } from 'src/shared/domain/interfaces/user.interface';
 import { ActionResultDto } from 'src/shared/result/dtos/action-result.dto';
+import { ResultFactory } from 'src/shared/result/result-factory';
 import { AuthService } from './auth.service';
 import {
   AuthorizedResponseDoc,
@@ -23,14 +26,10 @@ export class AuthController {
     type: null,
     description: 'User data, that got by JWT access token.',
   })
-  @ApiBearerAuth('jwt-token')
+  @Auth()
   @Post('/get-me')
-  // TODO implement @User decorator
-  public async getMe(@Request() req): Promise<ActionResultDto<IUser>> {
-    const user = req.user;
-    delete user.password;
-
-    return user;
+  public async getMe(@User() user: IUser): Promise<ActionResultDto<IUser>> {
+    return ResultFactory.ok(user);
   }
 
   @ApiServerOperation(
