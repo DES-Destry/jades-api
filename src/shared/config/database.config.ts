@@ -9,6 +9,7 @@ import { UserStrikeAppealModel } from 'src/user/modules/strike/modules/appeal/ap
 import { UserStrikeRateModel } from 'src/user/modules/strike/modules/rate/rate.model';
 import { UserStrikeModel } from 'src/user/modules/strike/strike.model';
 import { UserModel } from 'src/user/user.model';
+import { UserSubscriptionModel } from 'src/user/modules/subscription/subscription.model';
 
 export class DbConfig {
   public static readonly Options: SequelizeModuleOptions = {
@@ -22,6 +23,7 @@ export class DbConfig {
       UserIdentityModel,
       UserEmailModel,
       UserContactModel,
+      UserSubscriptionModel,
       UserStrikeModel,
       UserStrikeAppealModel,
       UserStrikeRateModel,

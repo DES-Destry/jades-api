@@ -1,4 +1,4 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { UserEmailModule } from 'src/user/modules/email/email.module';
 import { UserIdentityModule } from './modules/identity/identity.module';
@@ -9,11 +9,13 @@ import { UserService } from './user.service';
 import { UserRoleModule } from './modules/role/role.module';
 import { UserContactModule } from './modules/contact/contact.module';
 import { UserStrikeModule } from './modules/strike/strike.module';
+import { UserSubscriptionModule } from './modules/subscription/subscription.module';
 
 @Module({
   imports: [
     SequelizeModule.forFeature([UserModel]),
-    forwardRef(() => UserIdentityModule),
+    UserIdentityModule,
+    UserSubscriptionModule,
     UserEmailModule,
     UserContactModule,
     UserRoleModule,

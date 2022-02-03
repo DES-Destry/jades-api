@@ -4,6 +4,7 @@ export class LoginRequestDto {
   @ApiProperty({
     description:
       'Login to enter in the system. It can be a username or one of emails.',
+    example: 'username/email',
     examples: ['Destry.Unimaster', 'test@example.ua'],
   })
   login: string;
