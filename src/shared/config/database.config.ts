@@ -1,13 +1,13 @@
 import { SequelizeModuleOptions } from '@nestjs/sequelize';
 import { TokenBlacklistItemModel } from 'src/auth/modules/token/models/token-blacklist-item.model';
-import { RolePrivilegeModel } from 'src/user/modules/role/modules/role-privilege/role-privilege.model';
-import { RoleModel } from 'src/user/modules/role/role.model';
-import { UserContactModel } from 'src/user/modules/user-contact/user-contact.model';
-import { UserEmailModel } from 'src/user/modules/user-email/user-email.model';
-import { UserIdentityModel } from 'src/user/modules/user-identity/user-identity.model';
-import { UserStrikeAppealModel } from 'src/user/modules/user-strike/modules/user-strike-appeal/user-strike-appeal.model';
-import { UserStrikeRateModel } from 'src/user/modules/user-strike/modules/user-strike-rate/user-strike-rate.model';
-import { UserStrikeModel } from 'src/user/modules/user-strike/user-strike.model';
+import { UserRolePrivilegeModel } from 'src/user/modules/role/modules/privilege/privilege.model';
+import { UserRoleModel } from 'src/user/modules/role/role.model';
+import { UserContactModel } from 'src/user/modules/contact/contact.model';
+import { UserEmailModel } from 'src/user/modules/email/email.model';
+import { UserIdentityModel } from 'src/user/modules/identity/identity.model';
+import { UserStrikeAppealModel } from 'src/user/modules/strike/modules/appeal/appeal.model';
+import { UserStrikeRateModel } from 'src/user/modules/strike/modules/rate/rate.model';
+import { UserStrikeModel } from 'src/user/modules/strike/strike.model';
 import { UserModel } from 'src/user/user.model';
 
 export class DbConfig {
@@ -25,8 +25,8 @@ export class DbConfig {
       UserStrikeModel,
       UserStrikeAppealModel,
       UserStrikeRateModel,
-      RoleModel,
-      RolePrivilegeModel,
+      UserRoleModel,
+      UserRolePrivilegeModel,
       TokenBlacklistItemModel,
     ],
   };

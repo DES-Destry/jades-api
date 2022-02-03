@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { IRole } from 'src/shared/domain/interfaces/role.interface';
+import { IUserRole } from 'src/shared/domain/interfaces/user-role.interface';
 import { DeleteRoleResponseDto } from './dtos/delete-role.dto';
-import { RoleRepository } from './repository/role.repository';
+import { UserRoleRepository } from './repository/role.repository';
 
 @Injectable()
-export class RoleService {
-  constructor(private readonly _roleRepository: RoleRepository) {}
+export class UserRoleService {
+  constructor(private readonly _roleRepository: UserRoleRepository) {}
 
-  public async getByIdOrNull(id: string): Promise<IRole> {
+  public async getByIdOrNull(id: string): Promise<IUserRole> {
     const role = await this._roleRepository.getById(id);
     return role;
   }
 
-  public async createRoleOrNull(name: string): Promise<IRole> {
+  public async createRoleOrNull(name: string): Promise<IUserRole> {
     const role = await this._roleRepository.createRole(name);
     return role;
   }

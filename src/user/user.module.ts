@@ -1,14 +1,14 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { UserEmailModule } from 'src/user/modules/user-email/user-email.module';
-import { UserIdentityModule } from './modules/user-identity/user-identity.module';
+import { UserEmailModule } from 'src/user/modules/email/email.module';
+import { UserIdentityModule } from './modules/identity/identity.module';
 import { UserRepository } from './repositories/user.repository';
 import { UserController } from './user.controller';
 import { UserModel } from './user.model';
 import { UserService } from './user.service';
-import { RoleModule } from './modules/role/role.module';
-import { UserContactModule } from './modules/user-contact/user-contact.module';
-import { UserStrikeModule } from './modules/user-strike/user-strike.module';
+import { UserRoleModule } from './modules/role/role.module';
+import { UserContactModule } from './modules/contact/contact.module';
+import { UserStrikeModule } from './modules/strike/strike.module';
 
 @Module({
   imports: [
@@ -16,7 +16,7 @@ import { UserStrikeModule } from './modules/user-strike/user-strike.module';
     forwardRef(() => UserIdentityModule),
     UserEmailModule,
     UserContactModule,
-    RoleModule,
+    UserRoleModule,
     UserStrikeModule,
   ],
   controllers: [UserController],

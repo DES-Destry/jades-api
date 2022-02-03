@@ -15,10 +15,10 @@ import {
 } from 'sequelize-typescript';
 import { v4 as uuid } from 'uuid';
 import { User } from 'src/shared/domain/user';
-import { UserEmailModel } from 'src/user/modules/user-email/user-email.model';
-import { UserIdentityModel } from './modules/user-identity/user-identity.model';
-import { RoleModel } from './modules/role/role.model';
-import { UserContactModel } from './modules/user-contact/user-contact.model';
+import { UserEmailModel } from 'src/user/modules/email/email.model';
+import { UserIdentityModel } from './modules/identity/identity.model';
+import { UserRoleModel } from './modules/role/role.model';
+import { UserContactModel } from './modules/contact/contact.model';
 import { UserGender } from 'src/shared/domain/common/user-gender';
 
 interface UserModelCreationAttributes {
@@ -67,12 +67,12 @@ export class UserModel extends Model<User, UserModelCreationAttributes> {
   location?: string;
 
   @AllowNull
-  @ForeignKey(() => RoleModel)
+  @ForeignKey(() => UserRoleModel)
   @Column({ field: 'role_id' })
   roleId?: string;
 
-  @BelongsTo(() => RoleModel)
-  role?: RoleModel;
+  @BelongsTo(() => UserRoleModel)
+  role?: UserRoleModel;
 
   @HasMany(() => UserContactModel)
   contacts: UserContactModel[];

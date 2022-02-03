@@ -1,29 +1,30 @@
 import { InjectModel } from '@nestjs/sequelize';
-import { IRole } from 'src/shared/domain/interfaces/role.interface';
-import { Role } from 'src/shared/domain/role';
-import { IRoleRepository } from '../interfaces/role-repository.interface';
-import { RoleModel } from '../role.model';
+import { IUserRole } from 'src/shared/domain/interfaces/user-role.interface';
+import { UserRole } from 'src/shared/domain/user-role';
+import { IUserRoleRepository } from '../interfaces/role-repository.interface';
+import { UserRoleModel } from '../role.model';
 
-export class RoleRepository implements IRoleRepository {
+export class UserRoleRepository implements IUserRoleRepository {
   constructor(
-    @InjectModel(RoleModel) private readonly _roleModel: typeof RoleModel,
+    @InjectModel(UserRoleModel)
+    private readonly _roleModel: typeof UserRoleModel,
   ) {}
 
-  public async getById(id: string): Promise<IRole> {
+  public async getById(id: string): Promise<IUserRole> {
     if (!id) {
       return null;
     }
 
     const model = await this._roleModel.findByPk(id);
-    return model && Role.transform(model);
+    return model && UserRole.transform(model);
   }
 
-  public async createRole(name: string): Promise<IRole> {
+  public async createRole(name: string): Promise<IUserRole> {
     if (!name) {
       return null;
     }
 
-    const roleDomain = Role.create({ name });
+    const roleDomain = UserRole.create({ name });
     await this._roleModel.create(roleDomain);
     return roleDomain;
   }

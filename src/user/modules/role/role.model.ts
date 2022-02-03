@@ -9,15 +9,18 @@ import {
   UpdatedAt,
 } from 'sequelize-typescript';
 import { v4 as uuid } from 'uuid';
-import { Role } from 'src/shared/domain/role';
-import { RolePrivilegeModel } from './modules/role-privilege/role-privilege.model';
+import { UserRole } from 'src/shared/domain/user-role';
+import { UserRolePrivilegeModel } from './modules/privilege/privilege.model';
 
-interface RoleModelCreationAttributes {
+interface UserRoleModelCreationAttributes {
   name: string;
 }
 
-@Table({ tableName: 'roles' })
-export class RoleModel extends Model<Role, RoleModelCreationAttributes> {
+@Table({ tableName: 'user_roles' })
+export class UserRoleModel extends Model<
+  UserRole,
+  UserRoleModelCreationAttributes
+> {
   @PrimaryKey
   @Default(uuid())
   @Column
@@ -26,8 +29,8 @@ export class RoleModel extends Model<Role, RoleModelCreationAttributes> {
   @Column
   name: string;
 
-  @HasMany(() => RolePrivilegeModel)
-  privileges: RolePrivilegeModel[];
+  @HasMany(() => UserRolePrivilegeModel)
+  privileges: UserRolePrivilegeModel[];
 
   @CreatedAt
   @Default(new Date())

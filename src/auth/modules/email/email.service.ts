@@ -8,14 +8,14 @@ import { CreateUserDto } from 'src/shared/dtos/create-user.dto';
 import { ActionResultDto } from 'src/shared/result/dtos/action-result.dto';
 import { ResultFactory } from 'src/shared/result/result-factory';
 import { UserService } from 'src/user/user.service';
-import { TokenService } from '../token/token.service';
+import { AuthTokenService } from '../token/token.service';
 import { LoginRequestDto } from './dtos/login.dto';
 
 @Injectable()
 export class AuthEmailService {
   constructor(
     private readonly _userService: UserService,
-    private readonly _tokenService: TokenService,
+    private readonly _tokenService: AuthTokenService,
   ) {}
 
   // Sign up

@@ -3,7 +3,7 @@ import { UserPayload } from 'src/shared/domain/common/user.payload';
 import { IUser } from 'src/shared/domain/interfaces/user.interface';
 import { User } from 'src/shared/domain/user';
 import { CreateUserDto } from '../../shared/dtos/create-user.dto';
-import { IUserRepository } from '../interfaces/user-repository.dto';
+import { IUserRepository } from '../interfaces/user-repository.interface';
 import { UserModel } from '../user.model';
 
 export class UserRepository implements IUserRepository {

@@ -1,9 +1,9 @@
-import { IRole } from 'src/shared/domain/interfaces/role.interface';
+import { IUserRole } from 'src/shared/domain/interfaces/user-role.interface';
 
-export interface IRoleRepository {
-  getById(id: string): Promise<IRole>;
+export interface IUserRoleRepository {
+  getById(id: string): Promise<IUserRole>;
 
-  createRole(name: string): Promise<IRole>;
+  createRole(name: string): Promise<IUserRole>;
 
   deleteRole(roleId: string): Promise<boolean>;
 }

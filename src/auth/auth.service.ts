@@ -4,11 +4,11 @@ import { UserPayload } from 'src/shared/domain/common/user.payload';
 import { ActionResultDto } from 'src/shared/result/dtos/action-result.dto';
 import { ResultFactory } from 'src/shared/result/result-factory';
 import { AuthorizedResponseDto } from './dtos/common/auth.dto';
-import { TokenService } from './modules/token/token.service';
+import { AuthTokenService } from './modules/token/token.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly _tokenService: TokenService) {}
+  constructor(private readonly _tokenService: AuthTokenService) {}
 
   public async refreshToken(
     refreshToken: string,

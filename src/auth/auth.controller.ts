@@ -1,5 +1,5 @@
-import { Body, Controller, Post, Request } from '@nestjs/common';
-import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Post } from '@nestjs/common';
+import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { ApiServerOperation } from 'src/shared/decorators/api-server-operation.decorator';
 import { Auth } from 'src/shared/decorators/auth.decorator';
 import { User } from 'src/shared/decorators/user.decorator';

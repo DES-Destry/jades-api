@@ -5,7 +5,7 @@ import { TokenPairDto } from './dtos/token-pair.dto';
 import { TokenBlacklistRepository } from './repositories/token-blacklist.repository';
 
 @Injectable()
-export class TokenService {
+export class AuthTokenService {
   constructor(
     private readonly _tokenBlacklistRepository: TokenBlacklistRepository,
   ) {}
