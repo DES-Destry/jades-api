@@ -3,7 +3,7 @@ import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { ApiServerOperation } from 'src/shared/decorators/api-server-operation.decorator';
 import { Auth } from 'src/shared/decorators/auth.decorator';
 import { User } from 'src/shared/decorators/user.decorator';
-import { IUser } from 'src/shared/domain/interfaces/user.interface';
+import { IUser, IUserDoc } from 'src/shared/domain/interfaces/user.interface';
 import { ActionResultDto } from 'src/shared/result/dtos/action-result.dto';
 import { ResultFactory } from 'src/shared/result/result-factory';
 import { AuthService } from './auth.service';
@@ -23,12 +23,15 @@ export class AuthController {
     'Only provide a JWT access token to the header to get full info about user.',
   )
   @ApiCreatedResponse({
-    type: null,
+    type: IUserDoc,
     description: 'User data, that got by JWT access token.',
   })
   @Auth()
   @Post('/get-me')
   public async getMe(@User() user: IUser): Promise<ActionResultDto<IUser>> {
+    delete user.password;
+    delete user.userIdentities;
+
     return ResultFactory.ok(user);
   }
 

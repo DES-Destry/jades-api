@@ -21,7 +21,7 @@ export function ApiServerOperation(
     ApiHeader({
       name: 'Beta-Key',
       description:
-        "USED ONLY IF YOU VISIT A DEVELOPMENT SERVER! If you don't know a beta key, you cannot have an access for development server anyway. This header don't need when requests send to production server.",
+        "USE ONLY IF YOU VISIT A DEVELOPMENT SERVER! If you don't know a beta key, you cannot have an access for development server anyway. This header don't need when requests send to production server.",
       required: false,
       example: '49e6df5c02ba95f1284fe3b9d7480db1',
     }),
