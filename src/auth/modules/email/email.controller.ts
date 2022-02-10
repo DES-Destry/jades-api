@@ -1,5 +1,9 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { ApiCreatedResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import {
+  ApiCreatedResponse,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 import {
   AuthorizedResponseDoc,
   AuthorizedResponseDto,

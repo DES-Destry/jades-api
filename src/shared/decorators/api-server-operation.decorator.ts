@@ -1,4 +1,4 @@
-import { applyDecorators } from '@nestjs/common';
+import { applyDecorators, Version } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiHeader,
@@ -13,6 +13,7 @@ interface IApiServerOperationSettings {
   description?: string;
   deprecated?: boolean;
   validationApplied?: boolean;
+  version?: string;
 }
 
 export function ApiServerOperation(settings: IApiServerOperationSettings) {
@@ -45,5 +46,6 @@ export function ApiServerOperation(settings: IApiServerOperationSettings) {
       required: false,
       example: '49e6df5c02ba95f1284fe3b9d7480db1',
     }),
+    Version(settings?.version || '0'),
   );
 }
