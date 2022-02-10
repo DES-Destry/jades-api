@@ -19,10 +19,12 @@ export class UserSubscriptionController {
     private readonly _userSubscriptionService: UserSubscriptionService,
   ) {}
 
-  @ApiServerOperation(
-    'Toggle subscription.',
-    'Subscribe to writer with authorized user. If current user already subscribed on this writer - delete subscription.',
-  )
+  @ApiServerOperation({
+    summary: 'Toggle subscription.',
+    description:
+      'Subscribe to writer with authorized user. If current user already subscribed on this writer - delete subscription.',
+    validationApplied: true,
+  })
   @ApiCreatedResponse({
     type: ToggleSubscriptionResponseDoc,
     description: 'Shows subscribing was created or removed.',

@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import {
   AuthorizedResponseDoc,
   AuthorizedResponseDto,
@@ -7,6 +7,7 @@ import {
 import { ApiServerOperation } from 'src/shared/decorators/api-server-operation.decorator';
 import { CreateUserDto } from 'src/shared/dtos/create-user.dto';
 import { ActionResultDto } from 'src/shared/result/dtos/action-result.dto';
+import { ErrorDataDoc } from 'src/shared/result/dtos/error-data.doc';
 import { LoginRequestDto } from './dtos/login.dto';
 import { AuthEmailService } from './email.service';
 
@@ -15,10 +16,12 @@ import { AuthEmailService } from './email.service';
 export class AuthEmailController {
   constructor(private readonly _authEmailService: AuthEmailService) {}
 
-  @ApiServerOperation(
-    'Create new user.',
-    'Sign up with provided parameters in request body - email, username and password.',
-  )
+  @ApiServerOperation({
+    summary: 'Create new user.',
+    description:
+      'Sign up with provided parameters in request body - email, username and password.',
+    validationApplied: true,
+  })
   @ApiCreatedResponse({
     type: AuthorizedResponseDoc,
     description: 'Credentials for authorization.',
@@ -31,13 +34,19 @@ export class AuthEmailController {
     return response;
   }
 
-  @ApiServerOperation(
-    'Login user.',
-    'Sign in via user login and password. Login can be a username or one of his emails.',
-  )
+  @ApiServerOperation({
+    summary: 'Login user.',
+    description:
+      'Sign in via user login and password. Login can be a username or one of his emails.',
+    validationApplied: true,
+  })
   @ApiCreatedResponse({
     type: AuthorizedResponseDoc,
     description: 'Credentials for authorization.',
+  })
+  @ApiUnauthorizedResponse({
+    type: ErrorDataDoc,
+    description: 'If login and password is incorrect.',
   })
   @Post('/login')
   public async loginUser(

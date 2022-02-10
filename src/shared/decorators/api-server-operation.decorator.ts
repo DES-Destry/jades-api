@@ -1,5 +1,6 @@
 import { applyDecorators } from '@nestjs/common';
 import {
+  ApiBadRequestResponse,
   ApiHeader,
   ApiInternalServerErrorResponse,
   ApiOperation,
@@ -7,17 +8,36 @@ import {
 import { AppConfig } from '../config/app.config';
 import { ErrorDataDoc } from '../result/dtos/error-data.doc';
 
-export function ApiServerOperation(
-  summary: string,
-  description = '',
-  deprecated = false,
-) {
-  return applyDecorators(
-    ApiOperation({ summary, description, deprecated }),
+interface IApiServerOperationSettings {
+  summary: string;
+  description?: string;
+  deprecated?: boolean;
+  validationApplied?: boolean;
+}
+
+export function ApiServerOperation(settings: IApiServerOperationSettings) {
+  // Always apply 500 error code documentation for all of endpoints
+  const errorDecorators = [
     ApiInternalServerErrorResponse({
       type: ErrorDataDoc,
       description: AppConfig.Swagger500Description,
     }),
+  ];
+
+  // If endpoint can validate request - add 400 error code documentation
+  if (settings.validationApplied) {
+    errorDecorators.push(
+      ApiBadRequestResponse({
+        type: ErrorDataDoc,
+        description:
+          'Input data in request body, query or params was provided incorrect',
+      }),
+    );
+  }
+
+  return applyDecorators(
+    ...errorDecorators,
+    ApiOperation(settings),
     ApiHeader({
       name: 'Beta-Key',
       description:

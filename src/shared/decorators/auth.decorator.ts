@@ -1,7 +1,8 @@
 import { applyDecorators, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { AuthGuard } from '../guards/auth.guard';
 import { AuthOptionalGuard } from '../guards/auth-optional.guard';
+import { ErrorDataDoc } from '../result/dtos/error-data.doc';
 
 interface IAuthOptions {
   isOptional?: boolean;
@@ -9,9 +10,23 @@ interface IAuthOptions {
 }
 
 export function Auth(options: IAuthOptions = { isOptional: false, roles: [] }) {
+  const errorDocumentations = [];
   const authGuard = options.isOptional
     ? UseGuards(AuthOptionalGuard)
     : UseGuards(AuthGuard);
 
-  return applyDecorators(ApiBearerAuth('jwt-token'), authGuard);
+  if (!options.isOptional) {
+    errorDocumentations.push(
+      ApiUnauthorizedResponse({
+        type: ErrorDataDoc,
+        description: 'If token is not provided or it is not correct.',
+      }),
+    );
+  }
+
+  return applyDecorators(
+    ApiBearerAuth('jwt-token'),
+    authGuard,
+    ...errorDocumentations,
+  );
 }

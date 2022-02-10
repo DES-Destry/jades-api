@@ -35,20 +35,20 @@ export class UserModel extends Model<User, UserModelCreationAttributes> {
   id: string;
 
   @Unique(true)
-  @Column
+  @Column({ type: DataType.STRING(16) })
   username: string;
 
   @AllowNull
-  @Column
+  @Column({ type: DataType.STRING(24) })
   alias?: string;
 
   @Unique(true)
   @AllowNull
-  @Column({ field: 'url_alias' })
+  @Column({ field: 'url_alias', type: DataType.STRING(24) })
   urlAlias?: string;
 
   @AllowNull
-  @Column
+  @Column({ type: DataType.STRING(5000) })
   description?: string;
 
   @Column({ type: DataType.STRING })
@@ -64,7 +64,7 @@ export class UserModel extends Model<User, UserModelCreationAttributes> {
   @Column
   karma: number;
 
-  @Column
+  @Column({ type: DataType.STRING(64) })
   location?: string;
 
   @AllowNull
@@ -83,7 +83,7 @@ export class UserModel extends Model<User, UserModelCreationAttributes> {
   scope: UserScope;
 
   @AllowNull
-  @Column
+  @Column({ type: DataType.STRING(64) })
   company?: string;
 
   @HasMany(() => UserIdentityModel)

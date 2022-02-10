@@ -4,7 +4,7 @@ export class ErrorDataDto {
   @ApiProperty({
     description:
       'Message of the error. If you catches 500 it send err.message of try-catch block',
-    example: 'User input wrong - validation error',
+    example: 'Some error message',
   })
   message: string;
   @ApiProperty({

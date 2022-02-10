@@ -18,10 +18,11 @@ import { RefreshTokenRequestDto } from './dtos/refresh-token.dto';
 export class AuthController {
   constructor(private readonly _authService: AuthService) {}
 
-  @ApiServerOperation(
-    'Get data about authenticated user.',
-    'Only provide a JWT access token to the header to get full info about user.',
-  )
+  @ApiServerOperation({
+    summary: 'Get data about authenticated user.',
+    description:
+      'Only provide a JWT access token to the header to get full info about user.',
+  })
   @ApiCreatedResponse({
     type: IUserDoc,
     description: 'User data, that got by JWT access token.',
@@ -35,10 +36,12 @@ export class AuthController {
     return ResultFactory.ok(user);
   }
 
-  @ApiServerOperation(
-    'Refresh tokens.',
-    'Use refresh token to get new pair of access and refresh token. Provided refresh token will be deprecated.',
-  )
+  @ApiServerOperation({
+    summary: 'Refresh tokens.',
+    description:
+      'Use refresh token to get new pair of access and refresh token. Provided refresh token will be deprecated.',
+    validationApplied: true,
+  })
   @ApiCreatedResponse({
     type: AuthorizedResponseDoc,
     description: 'Credentials for authorization.',

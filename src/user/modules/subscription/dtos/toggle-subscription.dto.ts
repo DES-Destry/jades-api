@@ -1,10 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class ToggleSubscriptionRequestDto {
   @ApiProperty({
     description: 'ID of user on to which authorized user subscribe.',
     example: '610ccd5e-fc43-42a7-80c6-d9561872c213',
   })
+  @IsNotEmpty({ message: 'Writer id must be not empty' })
+  @IsString({ message: 'Writer id be a string' })
   writerId: string;
 }
 

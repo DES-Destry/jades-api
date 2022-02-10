@@ -14,17 +14,17 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private readonly _userService: UserService) {}
 
-  @ApiServerOperation(
-    'Check user existence by username',
-    'Used to know, user with this username already exists or not',
-  )
+  @ApiServerOperation({
+    summary: 'Check user existence by username.',
+    description: 'Used to know, user with this username already exists or not.',
+  })
   @ApiOkResponse({
     type: UserExistsResponseDoc,
-    description: 'User with this username found or not successfully',
+    description: 'User with this username found or not successfully.',
   })
   @ApiParam({
     name: 'username',
-    description: 'Username by which will finding already existed users',
+    description: 'Username by which will finding already existed users.',
   })
   @Get('/username/:username/exists')
   public async isByUsernameExists(
@@ -36,17 +36,17 @@ export class UserController {
     });
   }
 
-  @ApiServerOperation(
-    'Check user existence by email',
-    'Used to know, user with this email already exists or not',
-  )
+  @ApiServerOperation({
+    summary: 'Check user existence by email.',
+    description: 'Used to know, user with this email already exists or not.',
+  })
   @ApiOkResponse({
     type: UserExistsResponseDoc,
-    description: 'User with this email found or not successfully',
+    description: 'User with this email found or not successfully.',
   })
   @ApiParam({
     name: 'email',
-    description: 'Email by which will finding already existed users',
+    description: 'Email by which will finding already existed users.',
   })
   @Get('/email/:email/exists')
   public async isByEmailExists(
