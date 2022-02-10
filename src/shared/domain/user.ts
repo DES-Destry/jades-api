@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import { AggregateRoot } from './abstract/aggregate-root';
+import { UserScope } from './common/user-interests';
 import { IUser } from './interfaces/user.interface';
 
 export class User extends AggregateRoot<IUser> {
@@ -16,6 +17,8 @@ export class User extends AggregateRoot<IUser> {
   public readonly roleId? = this.props.roleId;
   public readonly role? = this.props.role;
   public readonly contacts = this.props.contacts;
+  public readonly scope = this.props.scope;
+  public readonly company? = this.props.company;
   public readonly userIdentities = this.props.userIdentities;
   public readonly isVerified = this.props.isVerified;
   public readonly lastPasswordChanged = this.props.lastPasswordChanged;
@@ -24,6 +27,7 @@ export class User extends AggregateRoot<IUser> {
 
   public static create(props: IUser): User {
     return new User({
+      scope: UserScope.Other,
       ...props,
       id: uuid(),
       karma: 0,

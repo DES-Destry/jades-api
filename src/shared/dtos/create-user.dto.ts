@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { UserScope } from '../domain/common/user-interests';
 
 export class CreateUserDto {
   @ApiProperty({
@@ -21,7 +22,17 @@ export class CreateUserDto {
     example: '7bB1f@71a25',
   })
   password: string;
-  // TODO
-  // interestedIn: Interests;
-  // company: string;
+
+  @ApiProperty({
+    description: "Scope of user's work.",
+    example: UserScope.DevOps,
+    enum: UserScope,
+  })
+  scope: UserScope;
+
+  @ApiProperty({
+    description: 'Company where user works.',
+    example: 'Google Inc.',
+  })
+  company?: string;
 }

@@ -20,6 +20,7 @@ import { UserIdentityModel } from './modules/identity/identity.model';
 import { UserRoleModel } from './modules/role/role.model';
 import { UserContactModel } from './modules/contact/contact.model';
 import { UserGender } from 'src/shared/domain/common/user-gender';
+import { UserScope } from 'src/shared/domain/common/user-interests';
 
 interface UserModelCreationAttributes {
   username: string;
@@ -76,6 +77,14 @@ export class UserModel extends Model<User, UserModelCreationAttributes> {
 
   @HasMany(() => UserContactModel)
   contacts: UserContactModel[];
+
+  @Default(UserScope.Other)
+  @Column({ type: DataType.STRING })
+  scope: UserScope;
+
+  @AllowNull
+  @Column
+  company?: string;
 
   @HasMany(() => UserIdentityModel)
   userIdentities: UserIdentityModel[];

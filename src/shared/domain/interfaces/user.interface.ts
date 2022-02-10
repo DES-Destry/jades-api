@@ -4,6 +4,7 @@ import { IUserContact, UserContactDoc } from './user-contact.interface';
 import { IUserEmail, UserEmailDoc } from './user-email.interface';
 import { IUserIdentity } from './user-identity.interface';
 import { ApiProperty } from '@nestjs/swagger';
+import { UserScope } from '../common/user-interests';
 
 export interface IUser {
   id?: string;
@@ -19,6 +20,8 @@ export interface IUser {
   roleId?: string;
   role?: IUserRole;
   contacts: IUserContact[];
+  scope: UserScope;
+  company?: string;
   userIdentities?: IUserIdentity[];
   isVerified: boolean;
   lastPasswordChanged: Date;
@@ -105,6 +108,19 @@ export abstract class UserDocData implements IUser {
     type: [UserContactDoc],
   })
   contacts: IUserContact[];
+
+  @ApiProperty({
+    description: "Scope of user's work.",
+    example: UserScope.DevOps,
+    enum: UserScope,
+  })
+  scope: UserScope;
+
+  @ApiProperty({
+    description: 'Company where user works.',
+    example: 'Google Inc.',
+  })
+  company?: string;
 
   @ApiProperty({
     description: 'If user not verified he has any constraints in the system.',
