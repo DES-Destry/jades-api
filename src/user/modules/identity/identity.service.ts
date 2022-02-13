@@ -27,7 +27,7 @@ export class UserIdentityService {
       await this._emailSender.send({
         from: '',
         to: mainMail,
-        topic: 'Verify your Unimaster Blog account!',
+        topic: 'Verify your account on JADES!',
         message: userIdentity.verificationCode,
       });
     }

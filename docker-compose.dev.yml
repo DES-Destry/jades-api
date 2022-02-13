@@ -2,8 +2,8 @@ version: '3.7'
 
 services:
     application:
-        image: unimaster-blog-core:0.0.1
-        container_name: unimaster-blog-core
+        image: jades-core:0.0.1
+        container_name: jades-core
         restart: always
         build: .
         env_file: .env.development
@@ -13,10 +13,10 @@ services:
             - postgres
 
     postgres:
-        container_name: unimaster-blog-db
+        container_name: jades-db
         restart: always
         image: postgres:9.6.21-alpine
         environment:
-            - POSTGRES_DB=blogdb
+            - POSTGRES_DB=jadesdb
             - POSTGRES_USER=postgres
             - POSTGRES_PASSWORD=admin

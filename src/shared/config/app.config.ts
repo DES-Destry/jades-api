@@ -15,7 +15,7 @@ export class AppConfig {
     secret: process.env.JWT_SECRET,
     signOptions: {
       expiresIn: process.env.JWT_TTL,
-      issuer: 'Unimaster-Blog-API-AT-Manager',
+      issuer: 'Jades-API-AT-Manager',
       subject: 'API-AT',
     },
   };
@@ -24,11 +24,11 @@ export class AppConfig {
     secret: process.env.RT_SECRET,
     signOptions: {
       expiresIn: process.env.RT_TTL,
-      issuer: 'Unimaster-Blog-API-RT-Manager',
+      issuer: 'Jades-API-RT-Manager',
       subject: 'API-RT',
     },
   };
 
   public static readonly Swagger500Description =
-    'Server throws exception. Create an issue in https://github.com/DES-Destry/unimaster-blog-api/issues, please. It will help to grow up.';
+    'Server throws exception. Create an issue in https://github.com/DES-Destry/jades-api/issues, please. It will help to grow up.';
 }

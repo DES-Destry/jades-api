@@ -1,7 +1,7 @@
-# Unimaster blog API
+# JADES API
 
-Blog core for my own website. 
+Core for my own website. 
 
 <br/>
 
-Unimaster blog frontend: https://github.com/DES-Destry/Unimaster-blog-frontend
+Jades frontend: repository not created yet

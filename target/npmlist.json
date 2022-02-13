@@ -1,1 +1,1 @@
-{"version":"0.0.1","name":"unimaster-blog-api","dependencies":{"@nestjs/common":{"version":"7.6.18"},"@nestjs/core":{"version":"7.6.18"},"@nestjs/platform-express":{"version":"7.6.18"},"reflect-metadata":{"version":"0.1.13"},"rimraf":{"version":"3.0.2"},"rxjs":{"version":"6.6.7"}}}
+{"version":"0.0.1","name":"jades-api","dependencies":{"@nestjs/common":{"version":"7.6.18"},"@nestjs/core":{"version":"7.6.18"},"@nestjs/platform-express":{"version":"7.6.18"},"reflect-metadata":{"version":"0.1.13"},"rimraf":{"version":"3.0.2"},"rxjs":{"version":"6.6.7"}}}

@@ -20,12 +20,10 @@ async function bootstrap() {
   app.useGlobalFilters(new GlobalExceptionFilter());
 
   const config = new DocumentBuilder()
-    .setTitle('Unimaster Blog API')
-    .setDescription(
-      'Description of the Unimaster Blog API. This API can be used by everyone, but main API user - Unimaster Blog Website',
-    )
+    .setTitle('Jades API')
+    .setDescription('Jades API full documentation.')
     .setVersion('0.0.1')
-    .addTag('Unimaster Blog')
+    .addTag('Jades')
     .setLicense('GPL 3.0 License', 'unavailable')
     .setTermsOfService('Test terms of service')
     .addBearerAuth(
