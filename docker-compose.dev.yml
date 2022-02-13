@@ -2,8 +2,8 @@ version: '3.7'
 
 services:
     application:
-        image: jades-core:0.0.1
-        container_name: jades-core
+        image: jades-api:0.0.1
+        container_name: jades-api
         restart: always
         build: .
         env_file: .env.development
@@ -17,6 +17,6 @@ services:
         restart: always
         image: postgres:9.6.21-alpine
         environment:
-            - POSTGRES_DB=jadesdb
+            - POSTGRES_DB=jades
             - POSTGRES_USER=postgres
             - POSTGRES_PASSWORD=admin
