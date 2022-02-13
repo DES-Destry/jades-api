@@ -7,13 +7,15 @@ export class UserEmail extends AggregateRoot<IUserEmail> {
   public readonly userId = this.props.userId;
   public readonly user? = this.props.user;
   public readonly email = this.props.email;
-  public readonly isMain = this.props.isMain;
-  public readonly isVisible = this.props.isVisible;
+  public readonly isMain? = this.props.isMain;
+  public readonly isVisible? = this.props.isVisible;
   public readonly createdAt? = this.props.createdAt;
   public readonly updatedAt? = this.props.updatedAt;
 
   public static create(props: IUserEmail): UserEmail {
     return new UserEmail({
+      isMain: false,
+      isVisible: false,
       ...props,
       id: uuid(),
       createdAt: new Date(),

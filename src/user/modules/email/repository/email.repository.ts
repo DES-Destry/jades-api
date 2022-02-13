@@ -1,7 +1,6 @@
 import { InjectModel } from '@nestjs/sequelize';
 import { IUserEmail } from 'src/shared/domain/interfaces/user-email.interface';
 import { UserEmail } from 'src/shared/domain/user-email';
-import { CreateUserEmailDto } from '../dtos/create-user-email.dto';
 import { IUserEmailRepository } from '../interfaces/email-repository.interface';
 import { UserEmailModel } from '../email.model';
 
@@ -20,15 +19,12 @@ export class UserEmailRepository implements IUserEmailRepository {
     return model && UserEmail.transform(model);
   }
 
-  public async create(dto: CreateUserEmailDto): Promise<IUserEmail> {
-    if (!dto) {
+  public async create(props: IUserEmail): Promise<IUserEmail> {
+    if (!props) {
       return null;
     }
 
-    const userEmailDomain = UserEmail.create({
-      isVisible: false,
-      ...dto,
-    });
+    const userEmailDomain = UserEmail.create(props);
     const model = await this._userEmailModel.create(userEmailDomain);
     return model;
   }

@@ -6,8 +6,8 @@ export interface IUserEmail {
   userId: string;
   user?: IUser;
   email: string;
-  isMain: boolean;
-  isVisible: boolean;
+  isMain?: boolean;
+  isVisible?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }
