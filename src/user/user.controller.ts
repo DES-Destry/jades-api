@@ -9,7 +9,7 @@ import {
 } from './dtos/user-exists.dto';
 import { UserService } from './user.service';
 
-@ApiTags('User controller')
+@ApiTags('User - Main')
 @Controller('user')
 export class UserController {
   constructor(private readonly _userService: UserService) {}
