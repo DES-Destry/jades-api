@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { IUserEmail } from 'src/shared/domain/interfaces/user-email.interface';
 import { IUser } from 'src/shared/domain/interfaces/user.interface';
 import { ActionResultDto } from 'src/shared/result/dtos/action-result.dto';
+import { VoidResultDto } from 'src/shared/result/dtos/void-result.dto';
 import { ResultFactory } from 'src/shared/result/result-factory';
 import { CreateUserEmailRequestDto } from './dtos/create-user-email.dto';
 import {
@@ -9,9 +10,14 @@ import {
   DeleteUserEmailResponseDto,
 } from './dtos/delete-user-email.dto';
 import {
-  RefreshIdentityRequestDto,
-  RefreshIdentityResponseDto,
-} from './dtos/refresh-identity.dto';
+  RefreshUserEmailIdentityRequestDto,
+  RefreshUserEmailIdentityResponseDto,
+} from './dtos/refresh-user-email-identity.dto';
+import {
+  ToggleMainUserEmailRequestDto,
+  ToggleMainUserEmailResponseDto,
+} from './dtos/toggle-main-user-email.dto';
+import { ToggleVisibleUserEmailRequestDto } from './dtos/toggle-visible-user-email.dto';
 import { UserEmailIdentityService } from './modules/identity/identity.service';
 import { UserEmailRepository } from './repository/email.repository';
 
@@ -54,18 +60,10 @@ export class UserEmailService {
   }
 
   public async refreshIdentity(
-    dto: RefreshIdentityRequestDto,
+    dto: RefreshUserEmailIdentityRequestDto,
     user: IUser,
-  ): Promise<ActionResultDto<RefreshIdentityResponseDto>> {
-    const userEmail = await this._userEmailRepository.getById(dto.emailId);
-
-    if (!userEmail) {
-      ResultFactory.notFound('Email with this email not found');
-    }
-
-    if (userEmail.userId !== user.id) {
-      ResultFactory.forbidden('You are not a owner of this email');
-    }
+  ): Promise<ActionResultDto<RefreshUserEmailIdentityResponseDto>> {
+    const userEmail = await this.getEmailForUser(dto.emailId, user.id);
 
     const identity = await this._userEmailIdentityService.createIdentityOrNull(
       userEmail,
@@ -76,21 +74,50 @@ export class UserEmailService {
     });
   }
 
+  public async toggleMainEmail(
+    dto: ToggleMainUserEmailRequestDto,
+    user: IUser,
+  ): Promise<ActionResultDto<VoidResultDto>> {
+    await this.getEmailForUser(dto.emailId, user.id);
+    await this._userEmailRepository.toggleMain(dto.emailId);
+
+    return ResultFactory.ok({ executed: true });
+  }
+
+  public async toggleVisibleEmail(
+    dto: ToggleVisibleUserEmailRequestDto,
+    user: IUser,
+  ): Promise<ActionResultDto<VoidResultDto>> {
+    await this.getEmailForUser(dto.emailId, user.id);
+    await this._userEmailRepository.toggleVisible(dto.emailId);
+
+    return ResultFactory.ok({ executed: true });
+  }
+
   public async deleteEmail(
     dto: DeleteUserEmailRequestDto,
     user: IUser,
   ): Promise<ActionResultDto<DeleteUserEmailResponseDto>> {
-    const userEmail = await this._userEmailRepository.getById(dto.emailId);
+    await this.getEmailForUser(dto.emailId, user.id);
+
+    const isDeleted = await this._userEmailRepository.deleteEmail(dto.emailId);
+    return ResultFactory.ok({ isDeleted });
+  }
+
+  private async getEmailForUser(
+    emailId: string,
+    userId: string,
+  ): Promise<IUserEmail> {
+    const userEmail = await this._userEmailRepository.getById(emailId);
 
     if (!userEmail) {
       ResultFactory.notFound('Email with this email not found');
     }
 
-    if (userEmail.userId !== user.id) {
+    if (userEmail.userId !== userId) {
       ResultFactory.forbidden('You are not a owner of this email');
     }
 
-    const isDeleted = await this._userEmailRepository.deleteEmail(dto.emailId);
-    return ResultFactory.ok({ isDeleted });
+    return userEmail;
   }
 }
