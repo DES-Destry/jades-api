@@ -5,6 +5,10 @@ import { ActionResultDto } from 'src/shared/result/dtos/action-result.dto';
 import { ResultFactory } from 'src/shared/result/result-factory';
 import { CreateUserEmailRequestDto } from './dtos/create-user-email.dto';
 import {
+  DeleteUserEmailRequestDto,
+  DeleteUserEmailResponseDto,
+} from './dtos/delete-user-email.dto';
+import {
   RefreshIdentityRequestDto,
   RefreshIdentityResponseDto,
 } from './dtos/refresh-identity.dto';
@@ -70,5 +74,23 @@ export class UserEmailService {
     return ResultFactory.ok({
       identityId: identity.id,
     });
+  }
+
+  public async deleteEmail(
+    dto: DeleteUserEmailRequestDto,
+    user: IUser,
+  ): Promise<ActionResultDto<DeleteUserEmailResponseDto>> {
+    const userEmail = await this._userEmailRepository.getById(dto.emailId);
+
+    if (!userEmail) {
+      ResultFactory.notFound('Email with this email not found');
+    }
+
+    if (userEmail.userId !== user.id) {
+      ResultFactory.forbidden('You are not a owner of this email');
+    }
+
+    const isDeleted = await this._userEmailRepository.deleteEmail(dto.emailId);
+    return ResultFactory.ok({ isDeleted });
   }
 }
