@@ -19,8 +19,6 @@ export class User extends AggregateRoot<IUser> {
   public readonly contacts = this.props.contacts;
   public readonly scope = this.props.scope;
   public readonly company? = this.props.company;
-  public readonly userIdentities = this.props.userIdentities;
-  public readonly isVerified = this.props.isVerified;
   public readonly lastPasswordChanged = this.props.lastPasswordChanged;
   public readonly createdAt? = this.props.createdAt;
   public readonly updatedAt? = this.props.updatedAt;
@@ -31,7 +29,6 @@ export class User extends AggregateRoot<IUser> {
       ...props,
       id: uuid(),
       karma: 0,
-      isVerified: false,
       lastPasswordChanged: new Date(),
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -45,5 +42,11 @@ export class User extends AggregateRoot<IUser> {
   public getPrimaryMail(): string {
     const emailData = this.emails.find((email) => email.isMain);
     return emailData.email;
+  }
+
+  public isVerified(): boolean {
+    return this.emails.some(
+      (email) => email.identity?.isVerified && email.isMain,
+    );
   }
 }

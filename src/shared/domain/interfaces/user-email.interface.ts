@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IUserEmailIdentity } from './user-email-identity.interface';
 import { IUser, UserDocData } from './user.interface';
 
 export interface IUserEmail {
@@ -8,6 +9,7 @@ export interface IUserEmail {
   email: string;
   isMain?: boolean;
   isVisible?: boolean;
+  identity?: IUserEmailIdentity;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -48,6 +50,13 @@ export abstract class UserEmailDoc implements IUserEmail {
     example: false,
   })
   isVisible: boolean;
+
+  @ApiProperty({
+    description:
+      'After email adding it must be verified with OTP code. It will show, that we can trust for this email.',
+    example: true,
+  })
+  isVerified?: boolean;
 
   @ApiProperty({
     description: "Date of email's creating.",

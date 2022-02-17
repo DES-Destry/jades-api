@@ -9,11 +9,13 @@ import {
   BelongsTo,
   CreatedAt,
   UpdatedAt,
+  HasOne,
 } from 'sequelize-typescript';
 import { v4 as uuid } from 'uuid';
 import { User } from 'src/shared/domain/user';
 import { UserEmail } from 'src/shared/domain/user-email';
 import { UserModel } from 'src/user/user.model';
+import { UserEmailIdentityModel } from './modules/identity/identity.model';
 
 interface UserEmailModelCreationAttributes {
   userId: string;
@@ -48,6 +50,9 @@ export class UserEmailModel extends Model<
   @Default(false)
   @Column({ field: 'is_visible' })
   isVisible: boolean;
+
+  @HasOne(() => UserEmailIdentityModel)
+  identity: UserEmailIdentityModel;
 
   @CreatedAt
   @Default(new Date())

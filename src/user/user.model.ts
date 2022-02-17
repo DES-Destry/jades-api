@@ -16,7 +16,6 @@ import {
 import { v4 as uuid } from 'uuid';
 import { User } from 'src/shared/domain/user';
 import { UserEmailModel } from 'src/user/modules/email/email.model';
-import { UserIdentityModel } from './modules/identity/identity.model';
 import { UserRoleModel } from './modules/role/role.model';
 import { UserContactModel } from './modules/contact/contact.model';
 import { UserGender } from 'src/shared/domain/common/user-gender';
@@ -85,13 +84,6 @@ export class UserModel extends Model<User, UserModelCreationAttributes> {
   @AllowNull
   @Column({ type: DataType.STRING(64) })
   company?: string;
-
-  @HasMany(() => UserIdentityModel)
-  userIdentities: UserIdentityModel[];
-
-  @Default(false)
-  @Column({ field: 'is_verified' })
-  isVerified: boolean;
 
   @Default(new Date())
   @Column({ field: 'last_password_changed' })

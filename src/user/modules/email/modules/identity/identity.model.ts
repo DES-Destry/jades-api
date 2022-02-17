@@ -8,32 +8,34 @@ import {
   BelongsTo,
   CreatedAt,
   UpdatedAt,
+  Unique,
 } from 'sequelize-typescript';
 import { v4 as uuid } from 'uuid';
-import { UserIdentity } from 'src/shared/domain/user-identity';
-import { UserModel } from 'src/user/user.model';
+import { UserEmailIdentity } from 'src/shared/domain/user-email-identity';
+import { UserEmailModel } from '../../email.model';
 
-interface UserIdentityModelCreationAttributes {
-  userId: string;
+interface UserEmailIdentityModelCreationAttributes {
+  emailId: string;
   verificationCode: string;
 }
 
-@Table({ tableName: 'user_identities' })
-export class UserIdentityModel extends Model<
-  UserIdentity,
-  UserIdentityModelCreationAttributes
+@Table({ tableName: 'user_email_identities' })
+export class UserEmailIdentityModel extends Model<
+  UserEmailIdentity,
+  UserEmailIdentityModelCreationAttributes
 > {
   @PrimaryKey
   @Default(uuid())
   @Column
   id?: string;
 
-  @ForeignKey(() => UserModel)
-  @Column({ field: 'user_id' })
-  userId: string;
+  @ForeignKey(() => UserEmailModel)
+  @Unique
+  @Column({ field: 'email_id' })
+  emailId: string;
 
-  @BelongsTo(() => UserModel)
-  user: UserModel;
+  @BelongsTo(() => UserEmailModel)
+  email: UserEmailModel;
 
   @Column({ field: 'verification_code' })
   verificationCode: string;

@@ -45,16 +45,14 @@ export class UserService {
     }
 
     const user = await this._userRepository.create(dto);
-    await this._userEmailService.createUserEmailOrNull({
-      email: dto.email,
-      isMain: true,
-      userId: user?.id,
-    });
+    await this._userEmailService.createUserEmailOrNull(
+      {
+        email: dto.email,
+        isMain: true,
+      },
+      user,
+    );
 
     return user;
-  }
-
-  public async verify(userId: string): Promise<void> {
-    await this._userRepository.verify(userId);
   }
 }

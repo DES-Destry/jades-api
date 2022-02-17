@@ -12,5 +12,4 @@ export interface IUserRepository {
   create(dto: CreateUserDto): Promise<IUser>;
 
   updateProfile(user: Partial<IUser>): Promise<IUser>;
-  verify(userId: string): Promise<void>;
 }

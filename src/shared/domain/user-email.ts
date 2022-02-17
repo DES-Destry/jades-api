@@ -9,6 +9,7 @@ export class UserEmail extends AggregateRoot<IUserEmail> {
   public readonly email = this.props.email;
   public readonly isMain? = this.props.isMain;
   public readonly isVisible? = this.props.isVisible;
+  public readonly identity? = this.props.identity;
   public readonly createdAt? = this.props.createdAt;
   public readonly updatedAt? = this.props.updatedAt;
 
@@ -25,5 +26,9 @@ export class UserEmail extends AggregateRoot<IUserEmail> {
 
   public static transform(props: IUserEmail): UserEmail {
     return new UserEmail(props);
+  }
+
+  public isVerified(): boolean {
+    return this.identity?.isVerified;
   }
 }

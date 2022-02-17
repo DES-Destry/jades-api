@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { UserEmailModule } from 'src/user/modules/email/email.module';
-import { UserIdentityModule } from './modules/identity/identity.module';
+import { UserEmailIdentityModule } from './modules/email/modules/identity/identity.module';
 import { UserRepository } from './repositories/user.repository';
 import { UserController } from './user.controller';
 import { UserModel } from './user.model';
@@ -14,7 +14,7 @@ import { UserSubscriptionModule } from './modules/subscription/subscription.modu
 @Module({
   imports: [
     SequelizeModule.forFeature([UserModel]),
-    UserIdentityModule,
+    UserEmailIdentityModule,
     UserSubscriptionModule,
     UserEmailModule,
     UserContactModule,

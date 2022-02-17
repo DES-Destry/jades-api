@@ -1,4 +1,4 @@
-export class ITokenBlacklistItem {
+export interface ITokenBlacklistItem {
   id?: string;
   accessToken: string;
   refreshToken: string;

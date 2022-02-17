@@ -102,18 +102,4 @@ export class UserRepository implements IUserRepository {
 
     return model;
   }
-  public async verify(userId: string): Promise<void> {
-    if (!userId) {
-      return;
-    }
-
-    const model = await this._userModel.findByPk(userId);
-
-    if (!model) {
-      return;
-    }
-
-    model.isVerified = true;
-    await model.save();
-  }
 }

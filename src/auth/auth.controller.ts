@@ -28,10 +28,12 @@ export class AuthController {
     description: 'User data, that got by JWT access token.',
   })
   @Auth()
-  @Post('/get-me')
+  @Post('/me')
   public async getMe(@User() user: IUser): Promise<ActionResultDto<IUser>> {
     delete user.password;
-    delete user.userIdentities;
+    for (const email of user.emails) {
+      delete email.identity;
+    }
 
     return ResultFactory.ok(user);
   }
