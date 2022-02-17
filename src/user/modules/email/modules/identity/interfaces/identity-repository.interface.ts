@@ -2,6 +2,7 @@ import { IUserEmailIdentity } from 'src/shared/domain/interfaces/user-email-iden
 
 export interface IUserEmailIdentityRepository {
   getById(identityId: string): Promise<IUserEmailIdentity>;
+  getByEmailId(emailId: string): Promise<IUserEmailIdentity>;
 
   createIdentity(emailId: string, code: string): Promise<IUserEmailIdentity>;
   verifyIdentity(identityId: string, code: string): Promise<boolean>;

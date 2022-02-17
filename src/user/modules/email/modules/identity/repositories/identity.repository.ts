@@ -20,6 +20,16 @@ export class UserEmailIdentityRepository
     const model = await this._userEmailIdentityModel.findByPk(id);
     return model && UserEmailIdentity.transform(model);
   }
+  public async getByEmailId(emailId: string): Promise<IUserEmailIdentity> {
+    if (!emailId) {
+      return null;
+    }
+
+    const model = await this._userEmailIdentityModel.findOne({
+      where: { emailId },
+    });
+    return model && UserEmailIdentity.transform(model);
+  }
 
   public async createIdentity(
     emailId: string,
@@ -27,6 +37,15 @@ export class UserEmailIdentityRepository
   ): Promise<IUserEmailIdentity> {
     if (!emailId || !code) {
       return null;
+    }
+
+    const userEmailIdentityCandidate =
+      await this._userEmailIdentityModel.findOne({
+        where: { emailId },
+      });
+
+    if (userEmailIdentityCandidate) {
+      await userEmailIdentityCandidate.destroy();
     }
 
     const userIdentityDomain = new UserEmailIdentity({
