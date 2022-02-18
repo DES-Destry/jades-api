@@ -16,7 +16,7 @@ import { LoginRequestDto } from './dtos/login.dto';
 import { AuthEmailService } from './email.service';
 
 @ApiTags('Auth - via Email')
-@Controller('email')
+@Controller('auth/email')
 export class AuthEmailController {
   constructor(private readonly _authEmailService: AuthEmailService) {}
 

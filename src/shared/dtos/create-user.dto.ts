@@ -34,10 +34,6 @@ export class CreateUserDto {
     example: 'test@example.ua',
   })
   @IsNotEmpty({ message: 'Email must be not empty' })
-  @IsString({
-    message:
-      'Email must be not null string and correct email format must be provided.',
-  })
   @IsString({ message: 'Email must be a string' })
   @IsEmail()
   email: string;

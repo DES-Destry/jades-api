@@ -13,7 +13,7 @@ import {
 import { UserSubscriptionService } from './subscription.service';
 
 @ApiTags('User - Subscriptions')
-@Controller('subscription')
+@Controller('user/subscription')
 export class UserSubscriptionController {
   constructor(
     private readonly _userSubscriptionService: UserSubscriptionService,

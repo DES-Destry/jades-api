@@ -4,7 +4,10 @@ import { IUser } from 'src/shared/domain/interfaces/user.interface';
 import { ActionResultDto } from 'src/shared/result/dtos/action-result.dto';
 import { VoidResultDto } from 'src/shared/result/dtos/void-result.dto';
 import { ResultFactory } from 'src/shared/result/result-factory';
-import { CreateUserEmailRequestDto } from './dtos/create-user-email.dto';
+import {
+  CreateUserEmailRequestDto,
+  CreateUserEmailResponseDto,
+} from './dtos/create-user-email.dto';
 import {
   DeleteUserEmailRequestDto,
   DeleteUserEmailResponseDto,
@@ -13,10 +16,7 @@ import {
   RefreshUserEmailIdentityRequestDto,
   RefreshUserEmailIdentityResponseDto,
 } from './dtos/refresh-user-email-identity.dto';
-import {
-  ToggleMainUserEmailRequestDto,
-  ToggleMainUserEmailResponseDto,
-} from './dtos/toggle-main-user-email.dto';
+import { ToggleMainUserEmailRequestDto } from './dtos/toggle-main-user-email.dto';
 import { ToggleVisibleUserEmailRequestDto } from './dtos/toggle-visible-user-email.dto';
 import { UserEmailIdentityService } from './modules/identity/identity.service';
 import { UserEmailRepository } from './repository/email.repository';
@@ -36,7 +36,7 @@ export class UserEmailService {
   public async createUserEmailOrNull(
     dto: CreateUserEmailRequestDto,
     user: IUser,
-  ): Promise<ActionResultDto<IUserEmail>> {
+  ): Promise<ActionResultDto<CreateUserEmailResponseDto>> {
     const userEmail = await this._userEmailRepository.create({
       userId: user.id,
       ...dto,
@@ -54,9 +54,14 @@ export class UserEmailService {
       await this._userEmailRepository.toggleMain(userEmail.id);
     }
 
-    await this._userEmailIdentityService.createIdentityOrNull(userEmail);
+    const identity = await this._userEmailIdentityService.createIdentityOrNull(
+      userEmail,
+    );
 
-    return ResultFactory.ok(userEmail);
+    return ResultFactory.ok({
+      emailId: userEmail.id,
+      emailIdentityId: identity.id,
+    });
   }
 
   public async refreshIdentity(
