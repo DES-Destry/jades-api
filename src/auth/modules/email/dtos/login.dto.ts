@@ -17,8 +17,7 @@ export class LoginRequestDto {
   login: string;
 
   @ApiProperty({
-    description:
-      'Password to enter in the system. It can be a username or one of emails.',
+    description: 'Password to enter in the system.',
     example: '7bB1f@71a25',
   })
   @IsNotEmpty({ message: 'Password must be not empty' })
