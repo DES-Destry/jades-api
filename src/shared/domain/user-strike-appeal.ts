@@ -7,7 +7,6 @@ export class UserStrikeAppeal extends AggregateRoot<IUserStrikeAppeal> {
   public readonly strike = this.props.strike;
   public readonly createdAt? = this.props.createdAt;
   public readonly updatedAt? = this.props.updatedAt;
-  public readonly deletedAt? = this.props.deletedAt;
 
   public static create(props: IUserStrikeAppeal): UserStrikeAppeal {
     return new UserStrikeAppeal({
@@ -15,7 +14,6 @@ export class UserStrikeAppeal extends AggregateRoot<IUserStrikeAppeal> {
       id: '',
       createdAt: new Date(),
       updatedAt: new Date(),
-      deletedAt: null,
     });
   }
 

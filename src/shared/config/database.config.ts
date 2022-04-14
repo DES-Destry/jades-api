@@ -10,6 +10,7 @@ import { UserStrikeRateModel } from 'src/user/modules/strike/modules/rate/rate.m
 import { UserStrikeModel } from 'src/user/modules/strike/strike.model';
 import { UserModel } from 'src/user/user.model';
 import { UserSubscriptionModel } from 'src/user/modules/subscription/subscription.model';
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 export class DbConfig {
   public static readonly Options: SequelizeModuleOptions = {
@@ -31,5 +32,18 @@ export class DbConfig {
       UserRolePrivilegeModel,
       TokenBlacklistItemModel,
     ],
+  };
+
+  public static readonly TOptions: TypeOrmModuleOptions = {
+    type: 'postgres',
+    host: process.env.POSTGRES_HOST,
+    username: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD,
+    database: process.env.POSTGRES_DB,
+    entities: [__dirname + '/**/*.entity{.ts,.js}'],
+    migrations: [__dirname + '/../database/migrations/*{.ts,.js}'],
+    cli: {
+      migrationsDir: __dirname + '/migrations',
+    },
   };
 }

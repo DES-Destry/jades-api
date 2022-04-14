@@ -6,5 +6,4 @@ export interface IUserStrikeAppeal {
   strike: IUserStrike;
   createdAt?: Date;
   updatedAt?: Date;
-  deletedAt?: Date;
 }
