@@ -1,7 +1,7 @@
 import { IUserSubscription } from 'src/shared/domain/interfaces/user-subscription.interface';
-import { IUser } from 'src/shared/domain/interfaces/user.interface';
 import { DateAudit } from 'src/shared/entities/date-audit';
-import { Column, Entity } from 'typeorm';
+import { UserEntity } from 'src/user/user.entity';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity('user_subscriptions')
 export class UserSubscriptionEntity
@@ -10,9 +10,15 @@ export class UserSubscriptionEntity
 {
   @Column('varchar', { name: 'subscriber_id' })
   subscriberId: string;
-  subscriber?: IUser; // TODO UserEntity
+
+  @ManyToOne(() => UserEntity) // TODO Add subscriptions field in user entity
+  @JoinColumn({ name: 'subscriber_id' })
+  subscriber?: UserEntity;
 
   @Column('varchar', { name: 'writer_id' })
   writerId: string;
-  writer?: IUser;
+
+  @ManyToOne(() => UserEntity) // TODO Add subscribers field in user entity
+  @JoinColumn({ name: 'writer_id' })
+  writer?: UserEntity;
 }

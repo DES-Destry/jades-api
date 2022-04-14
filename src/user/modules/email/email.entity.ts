@@ -1,14 +1,17 @@
-import { IUserEmailIdentity } from 'src/shared/domain/interfaces/user-email-identity.interface';
 import { IUserEmail } from 'src/shared/domain/interfaces/user-email.interface';
-import { IUser } from 'src/shared/domain/interfaces/user.interface';
 import { DateAudit } from 'src/shared/entities/date-audit';
-import { Column, Entity } from 'typeorm';
+import { UserEntity } from 'src/user/user.entity';
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
+import { UserEmailIdentityEntity } from './modules/identity/identity.entity';
 
 @Entity('user_emails')
 export class UserEmailEntity extends DateAudit implements IUserEmail {
   @Column('varchar', { name: 'user_id' })
   userId: string;
-  user?: IUser; // TODO UserEntity
+
+  @ManyToOne(() => UserEntity, (entity) => entity.emails)
+  @JoinColumn({ name: 'user_id' })
+  user?: UserEntity;
 
   @Column('varchar')
   email: string;
@@ -19,5 +22,6 @@ export class UserEmailEntity extends DateAudit implements IUserEmail {
   @Column('bool', { name: 'is_visible', default: false })
   isVisible: boolean;
 
-  identity?: IUserEmailIdentity; // TODO UserEmailIdentityEntity
+  @OneToOne(() => UserEmailIdentityEntity, (entity) => entity.email)
+  identity?: UserEmailIdentityEntity;
 }

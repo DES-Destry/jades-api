@@ -1,8 +1,8 @@
 import { RateType } from 'src/shared/domain/common/rate-type';
 import { IUserStrikeRate } from 'src/shared/domain/interfaces/user-strike-rate.interface';
-import { IUser } from 'src/shared/domain/interfaces/user.interface';
 import { DateAudit } from 'src/shared/entities/date-audit';
-import { Column, Entity } from 'typeorm';
+import { UserEntity } from 'src/user/user.entity';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity('user_strike_rates')
 export class UserStrikeRateEntity extends DateAudit implements IUserStrikeRate {
@@ -11,5 +11,8 @@ export class UserStrikeRateEntity extends DateAudit implements IUserStrikeRate {
 
   @Column('varchar', { name: 'user_id' })
   userId: string;
-  user?: IUser; // TODO UserEntity
+
+  @ManyToOne(() => UserEntity) // TODO add strikeRates in UserEntity
+  @JoinColumn({ name: 'user_id' })
+  user?: UserEntity;
 }

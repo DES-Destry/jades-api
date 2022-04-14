@@ -1,21 +1,28 @@
 import { UserGender } from 'src/shared/domain/common/user-gender';
 import { UserScope } from 'src/shared/domain/common/user-interests';
-import { IUserContact } from 'src/shared/domain/interfaces/user-contact.interface';
-import { IUserEmail } from 'src/shared/domain/interfaces/user-email.interface';
-import { IUserRole } from 'src/shared/domain/interfaces/user-role.interface';
 import { IUser } from 'src/shared/domain/interfaces/user.interface';
 import { DateAudit } from 'src/shared/entities/date-audit';
-import { Entity, Column } from 'typeorm';
+import {
+  Entity,
+  Column,
+  OneToMany,
+  JoinTable,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { UserContactEntity } from './modules/contact/contact.entity';
+import { UserEmailEntity } from './modules/email/email.entity';
+import { UserRoleEntity } from './modules/role/role.entity';
 
 @Entity('users')
 export class UserEntity extends DateAudit implements IUser {
-  @Column('varchar')
+  @Column('varchar', { unique: true })
   username: string;
 
   @Column('varchar', { nullable: true })
   alias?: string;
 
-  @Column('varchar', { name: 'url_alias', nullable: true })
+  @Column('varchar', { name: 'url_alias', nullable: true, unique: true })
   urlAlias?: string;
 
   @Column('varchar', { nullable: true })
@@ -24,7 +31,9 @@ export class UserEntity extends DateAudit implements IUser {
   @Column('enum', { enum: UserGender })
   gender: UserGender;
 
-  emails: IUserEmail[]; // TODO UserEmailEntity
+  @OneToMany(() => UserEmailEntity, (entity) => entity.user)
+  @JoinTable()
+  emails: UserEmailEntity[];
 
   @Column('varchar')
   password: string;
@@ -38,8 +47,13 @@ export class UserEntity extends DateAudit implements IUser {
   @Column('varchar', { name: 'role_id', nullable: true })
   roleId?: string;
 
-  role?: IUserRole; // TODO UserRoleEntity
-  contacts: IUserContact[]; // TODO UserContactEntity
+  @ManyToOne(() => UserRoleEntity, (entity) => entity.users)
+  @JoinColumn({ name: 'role_id' })
+  role?: UserRoleEntity;
+
+  @OneToMany(() => UserContactEntity, (entity) => entity.user)
+  @JoinTable()
+  contacts: UserContactEntity[];
 
   @Column('enum', { enum: UserScope })
   scope: UserScope;

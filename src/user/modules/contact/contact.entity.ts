@@ -1,13 +1,15 @@
 import { IUserContact } from 'src/shared/domain/interfaces/user-contact.interface';
-import { IUser } from 'src/shared/domain/interfaces/user.interface';
 import { DateAudit } from 'src/shared/entities/date-audit';
-import { Column, Entity } from 'typeorm';
+import { UserEntity } from 'src/user/user.entity';
+import { Column, Entity, ManyToOne } from 'typeorm';
 
 @Entity('user_contacts')
 export class UserContactEntity extends DateAudit implements IUserContact {
   @Column('varchar', { name: 'user_id' })
   userId: string;
-  user?: IUser; // TODO UserEntity
+
+  @ManyToOne(() => UserEntity, (entity) => entity.contacts)
+  user?: UserEntity;
 
   @Column('varchar')
   title: string;

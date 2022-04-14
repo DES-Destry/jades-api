@@ -1,19 +1,25 @@
 import { UserStrikeLevel } from 'src/shared/domain/common/user-strike-level';
-import { IUserStrikeAppeal } from 'src/shared/domain/interfaces/user-strike-appeal.interface';
 import { IUserStrike } from 'src/shared/domain/interfaces/user-strike.interface';
-import { IUser } from 'src/shared/domain/interfaces/user.interface';
+import { UserStrikeAppeal } from 'src/shared/domain/user-strike-appeal';
 import { DateAudit } from 'src/shared/entities/date-audit';
-import { Column, Entity } from 'typeorm';
+import { UserEntity } from 'src/user/user.entity';
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 
 @Entity('user_strikes')
-export class UserStrikeModel extends DateAudit implements IUserStrike {
+export class UserStrikeEntity extends DateAudit implements IUserStrike {
   @Column('varchar', { name: 'user_id' })
   userId: string;
-  user?: IUser; // TODO UserEntity
+
+  @ManyToOne(() => UserEntity) // TODO: add strikes in UserEntity
+  @JoinColumn({ name: 'user_id' })
+  user?: UserEntity;
 
   @Column('varchar', { name: 'issuer_id' })
   issuerId: string;
-  issuer?: IUser; // TODO UserEntity
+
+  @ManyToOne(() => UserEntity) // TODO: add strikeIssuing in UserEntity
+  @JoinColumn({ name: 'user_id' })
+  issuer?: UserEntity;
 
   @Column('enum', { enum: UserStrikeLevel })
   level: UserStrikeLevel;
@@ -26,7 +32,10 @@ export class UserStrikeModel extends DateAudit implements IUserStrike {
 
   @Column('varchar', { name: 'appeal_id', nullable: true, unique: true })
   appealId?: string;
-  appeal: IUserStrikeAppeal; // TODO UserStrikeAppealEntity
+
+  @OneToOne(() => UserStrikeAppeal, (entity) => entity.strike)
+  @JoinColumn({ name: 'appeal_id' })
+  appeal: UserStrikeAppeal;
 
   @Column('timestamp', { name: 'deleted_at', nullable: true })
   deletedAt?: Date;

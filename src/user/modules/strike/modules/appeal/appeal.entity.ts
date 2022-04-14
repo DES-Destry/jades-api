@@ -1,7 +1,7 @@
 import { IUserStrikeAppeal } from 'src/shared/domain/interfaces/user-strike-appeal.interface';
-import { IUserStrike } from 'src/shared/domain/interfaces/user-strike.interface';
 import { DateAudit } from 'src/shared/entities/date-audit';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToOne } from 'typeorm';
+import { UserStrikeEntity } from '../../strike.entity';
 
 @Entity('user_strike_appeals')
 export class UserStrikeAppealEntity
@@ -10,5 +10,7 @@ export class UserStrikeAppealEntity
 {
   @Column('varchar', { length: 4096 })
   appealContent: string;
-  strike: IUserStrike; // TODO UserStrikeEntity
+
+  @OneToOne(() => UserStrikeEntity, (entity) => entity.appeal)
+  strike: UserStrikeEntity;
 }
