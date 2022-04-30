@@ -2,13 +2,13 @@ import { forwardRef, Module } from '@nestjs/common';
 import { UserSubscriptionService } from './subscription.service';
 import { UserSubscriptionController } from './subscription.controller';
 import { UserSubscriptionRepository } from './repositories/subscription.repository';
-import { SequelizeModule } from '@nestjs/sequelize';
-import { UserSubscriptionModel } from './subscription.model';
 import { UserModule } from 'src/user/user.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserSubscriptionEntity } from './subscription.entity';
 
 @Module({
   imports: [
-    SequelizeModule.forFeature([UserSubscriptionModel]),
+    TypeOrmModule.forFeature([UserSubscriptionEntity]),
     forwardRef(() => UserModule),
   ],
   providers: [UserSubscriptionService, UserSubscriptionRepository],

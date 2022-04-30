@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { SequelizeModule } from '@nestjs/sequelize';
-import { UserContactModel } from './contact.model';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserContactEntity } from './contact.entity';
 import { UserContactService } from './contact.service';
 
 @Module({
-  imports: [SequelizeModule.forFeature([UserContactModel])],
+  imports: [TypeOrmModule.forFeature([UserContactEntity])],
   providers: [UserContactService],
 })
 export class UserContactModule {}

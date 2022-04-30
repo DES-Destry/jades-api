@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { SequelizeModule } from '@nestjs/sequelize';
 import { UserStrikeRateRepository } from './repositories/rate.repository';
-import { UserStrikeRateModel } from './rate.model';
 import { UserStrikeRateService } from './rate.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserStrikeRateEntity } from './rate.entity';
 
 @Module({
-  imports: [SequelizeModule.forFeature([UserStrikeRateModel])],
+  imports: [TypeOrmModule.forFeature([UserStrikeRateEntity])],
   providers: [UserStrikeRateService, UserStrikeRateRepository],
   exports: [UserStrikeRateService],
 })

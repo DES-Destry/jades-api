@@ -1,13 +1,14 @@
-import { InjectModel } from '@nestjs/sequelize';
+import { InjectRepository } from '@nestjs/typeorm';
 import { IUserSubscription } from 'src/shared/domain/interfaces/user-subscription.interface';
 import { UserSubscription } from 'src/shared/domain/user-subscription';
+import { Repository } from 'typeorm';
 import { IUserSubscriptionRepository } from '../interfaces/subscription-repository.interface';
-import { UserSubscriptionModel } from '../subscription.model';
+import { UserSubscriptionEntity } from '../subscription.entity';
 
 export class UserSubscriptionRepository implements IUserSubscriptionRepository {
   constructor(
-    @InjectModel(UserSubscriptionModel)
-    private readonly _userSubscriptionModel: typeof UserSubscriptionModel,
+    @InjectRepository(UserSubscriptionEntity)
+    private readonly _userSubscriptionEntity: Repository<UserSubscriptionEntity>,
   ) {}
 
   public async getById(id: string): Promise<IUserSubscription> {
@@ -15,7 +16,7 @@ export class UserSubscriptionRepository implements IUserSubscriptionRepository {
       return null;
     }
 
-    const model = await this._userSubscriptionModel.findByPk(id);
+    const model = await this._userSubscriptionEntity.findOne(id);
     return model && UserSubscription.transform(model);
   }
   public async getAllForSubscriber(
@@ -25,7 +26,7 @@ export class UserSubscriptionRepository implements IUserSubscriptionRepository {
       return null;
     }
 
-    const models = await this._userSubscriptionModel.findAll({
+    const models = await this._userSubscriptionEntity.find({
       where: { subscriberId },
     });
 
@@ -36,7 +37,7 @@ export class UserSubscriptionRepository implements IUserSubscriptionRepository {
       return null;
     }
 
-    const models = await this._userSubscriptionModel.findAll({
+    const models = await this._userSubscriptionEntity.find({
       where: { writerId },
     });
 
@@ -51,12 +52,12 @@ export class UserSubscriptionRepository implements IUserSubscriptionRepository {
       return null;
     }
 
-    const model = await this._userSubscriptionModel.findOne({
+    const model = await this._userSubscriptionEntity.findOne({
       where: { subscriberId, writerId },
     });
 
     if (model) {
-      await model.destroy();
+      await this._userSubscriptionEntity.delete(model);
       return false;
     }
 
@@ -64,7 +65,9 @@ export class UserSubscriptionRepository implements IUserSubscriptionRepository {
       subscriberId,
       writerId,
     });
-    await this._userSubscriptionModel.create(subscriptionDomain);
+    const createdEntity =
+      this._userSubscriptionEntity.create(subscriptionDomain);
+    await createdEntity.save();
 
     return true;
   }

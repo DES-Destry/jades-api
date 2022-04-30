@@ -1,13 +1,14 @@
-import { InjectModel } from '@nestjs/sequelize';
+import { InjectRepository } from '@nestjs/typeorm';
 import { IUserRole } from 'src/shared/domain/interfaces/user-role.interface';
 import { UserRole } from 'src/shared/domain/user-role';
+import { Repository } from 'typeorm';
 import { IUserRoleRepository } from '../interfaces/role-repository.interface';
-import { UserRoleModel } from '../role.model';
+import { UserRoleEntity } from '../role.entity';
 
 export class UserRoleRepository implements IUserRoleRepository {
   constructor(
-    @InjectModel(UserRoleModel)
-    private readonly _roleModel: typeof UserRoleModel,
+    @InjectRepository(UserRoleEntity)
+    private readonly _roleEntity: Repository<UserRoleEntity>,
   ) {}
 
   public async getById(id: string): Promise<IUserRole> {
@@ -15,8 +16,8 @@ export class UserRoleRepository implements IUserRoleRepository {
       return null;
     }
 
-    const model = await this._roleModel.findByPk(id);
-    return model && UserRole.transform(model);
+    const entity = await this._roleEntity.findOne(id);
+    return entity && UserRole.transform(entity);
   }
 
   public async createRole(name: string): Promise<IUserRole> {
@@ -25,7 +26,8 @@ export class UserRoleRepository implements IUserRoleRepository {
     }
 
     const roleDomain = UserRole.create({ name });
-    await this._roleModel.create(roleDomain);
+    const createdEntity = this._roleEntity.create(roleDomain);
+    await createdEntity.save();
     return roleDomain;
   }
 
@@ -34,9 +36,7 @@ export class UserRoleRepository implements IUserRoleRepository {
       return false;
     }
 
-    const count = await this._roleModel.destroy({
-      where: { id: roleId },
-    });
-    return count > 0;
+    const deleteResult = await this._roleEntity.delete({ id: roleId });
+    return deleteResult.affected > 0;
   }
 }

@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { SequelizeModule } from '@nestjs/sequelize';
-import { TokenBlacklistItemModel } from './models/token-blacklist-item.model';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { TokenBlacklistItemEntity } from './entities/token-blacklist-item.entity';
 import { TokenBlacklistRepository } from './repositories/token-blacklist.repository';
 import { AuthTokenService } from './token.service';
 
 @Module({
-  imports: [SequelizeModule.forFeature([TokenBlacklistItemModel])],
+  imports: [TypeOrmModule.forFeature([TokenBlacklistItemEntity])],
   providers: [AuthTokenService, TokenBlacklistRepository],
   exports: [AuthTokenService],
 })

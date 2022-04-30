@@ -1,14 +1,16 @@
-import { InjectModel } from '@nestjs/sequelize';
+import { InjectRepository } from '@nestjs/typeorm';
 import { UserPayload } from 'src/shared/domain/common/user.payload';
 import { IUser } from 'src/shared/domain/interfaces/user.interface';
 import { User } from 'src/shared/domain/user';
+import { Repository } from 'typeorm';
 import { CreateUserDto } from '../../shared/dtos/create-user.dto';
 import { IUserRepository } from '../interfaces/user-repository.interface';
-import { UserModel } from '../user.model';
+import { UserEntity } from '../user.entity';
 
 export class UserRepository implements IUserRepository {
   constructor(
-    @InjectModel(UserModel) private readonly _userModel: typeof UserModel,
+    @InjectRepository(UserEntity)
+    private readonly _userEntity: Repository<UserEntity>,
   ) {}
 
   public async getById(userId: string): Promise<IUser> {
@@ -16,43 +18,43 @@ export class UserRepository implements IUserRepository {
       return null;
     }
 
-    const model = await this._userModel.findByPk(userId);
-    return model && User.transform(model);
+    const entity = await this._userEntity.findOne(userId);
+    return entity && User.transform(entity);
   }
   public async getByUsername(username: string): Promise<IUser> {
     if (username) {
       return null;
     }
 
-    const model = await this._userModel.findOne({
+    const entity = await this._userEntity.findOne({
       where: { username },
     });
-    return model && User.transform(model);
+    return entity && User.transform(entity);
   }
   public async getByEmail(email: string): Promise<IUser> {
     if (!email) {
       return null;
     }
 
-    const model = await this._userModel.findOne({
+    const entity = await this._userEntity.findOne({
       where: { emails: [email] },
     });
-    return model && User.transform(model);
+    return entity && User.transform(entity);
   }
   public async getByLogin(login: string): Promise<IUser> {
     if (!login) {
       return null;
     }
 
-    const usernameModel = await this._userModel.findOne({
+    const usernameEntity = await this._userEntity.findOne({
       where: { username: login },
     });
-    const emailModel = await this._userModel.findOne({
+    const emailEntity = await this._userEntity.findOne({
       where: { emails: [login] },
     });
 
-    if (usernameModel || emailModel) {
-      return User.transform(usernameModel || emailModel);
+    if (usernameEntity || emailEntity) {
+      return User.transform(usernameEntity || emailEntity);
     }
 
     return null;
@@ -62,17 +64,16 @@ export class UserRepository implements IUserRepository {
       return null;
     }
 
-    const model = await this._userModel.findOne({
+    const entity = await this._userEntity.findOne({
       where: {
         id: payload.id,
         username: payload.username,
         emails: [payload.primaryEmail],
         lastPasswordChanged: payload.lastPasswordChanged,
       },
-      include: { all: true, nested: true },
     });
 
-    return model && User.transform(model);
+    return entity && User.transform(entity);
   }
 
   public async create(dto: CreateUserDto): Promise<IUser> {
@@ -80,26 +81,27 @@ export class UserRepository implements IUserRepository {
       return null;
     }
 
-    const model = await this._userModel.create(dto);
-    return model && User.transform(model);
+    const createdEntity = this._userEntity.create(dto);
+    await createdEntity.save();
+    return createdEntity && User.transform(createdEntity);
   }
 
   public async updateProfile(user: Partial<IUser>): Promise<IUser> {
     if (!user && !user.id) {
       return null;
     }
-    const model = await this._userModel.findByPk(user.id);
+    const entity = await this._userEntity.findOne(user.id);
 
-    if (!model) {
+    if (!entity) {
       return null;
     }
 
-    model.alias = user?.alias || model?.alias;
-    model.urlAlias = user?.urlAlias || model?.urlAlias;
-    model.description = user?.description || model?.description;
-    model.location = user?.location || model?.location;
-    await model.save();
+    entity.alias = user?.alias || entity?.alias;
+    entity.urlAlias = user?.urlAlias || entity?.urlAlias;
+    entity.description = user?.description || entity?.description;
+    entity.location = user?.location || entity?.location;
+    await entity.save();
 
-    return model;
+    return entity;
   }
 }

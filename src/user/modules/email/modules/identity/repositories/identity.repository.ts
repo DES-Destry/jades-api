@@ -1,15 +1,16 @@
-import { InjectModel } from '@nestjs/sequelize';
 import { IUserEmailIdentity } from 'src/shared/domain/interfaces/user-email-identity.interface';
 import { UserEmailIdentity } from 'src/shared/domain/user-email-identity';
 import { IUserEmailIdentityRepository } from '../interfaces/identity-repository.interface';
-import { UserEmailIdentityModel } from '../identity.model';
+import { InjectRepository } from '@nestjs/typeorm';
+import { UserEmailIdentityEntity } from '../identity.entity';
+import { Repository } from 'typeorm';
 
 export class UserEmailIdentityRepository
   implements IUserEmailIdentityRepository
 {
   constructor(
-    @InjectModel(UserEmailIdentityModel)
-    private readonly _userEmailIdentityModel: typeof UserEmailIdentityModel,
+    @InjectRepository(UserEmailIdentityEntity)
+    private readonly _userEmailIdentityEntity: Repository<UserEmailIdentityEntity>,
   ) {}
 
   public async getById(id: string): Promise<IUserEmailIdentity> {
@@ -17,18 +18,18 @@ export class UserEmailIdentityRepository
       return null;
     }
 
-    const model = await this._userEmailIdentityModel.findByPk(id);
-    return model && UserEmailIdentity.transform(model);
+    const entity = await this._userEmailIdentityEntity.findOne(id);
+    return entity && UserEmailIdentity.transform(entity);
   }
   public async getByEmailId(emailId: string): Promise<IUserEmailIdentity> {
     if (!emailId) {
       return null;
     }
 
-    const model = await this._userEmailIdentityModel.findOne({
+    const entity = await this._userEmailIdentityEntity.findOne({
       where: { emailId },
     });
-    return model && UserEmailIdentity.transform(model);
+    return entity && UserEmailIdentity.transform(entity);
   }
 
   public async createIdentity(
@@ -40,12 +41,12 @@ export class UserEmailIdentityRepository
     }
 
     const userEmailIdentityCandidate =
-      await this._userEmailIdentityModel.findOne({
+      await this._userEmailIdentityEntity.findOne({
         where: { emailId },
       });
 
     if (userEmailIdentityCandidate) {
-      await userEmailIdentityCandidate.destroy();
+      await this._userEmailIdentityEntity.delete(userEmailIdentityCandidate);
     }
 
     const userIdentityDomain = new UserEmailIdentity({
@@ -53,7 +54,9 @@ export class UserEmailIdentityRepository
       verificationCode: code,
       isVerified: false,
     });
-    await this._userEmailIdentityModel.create(userIdentityDomain);
+    const entity = this._userEmailIdentityEntity.create(userIdentityDomain);
+    await entity.save();
+
     return userIdentityDomain;
   }
   public async verifyIdentity(
@@ -64,11 +67,11 @@ export class UserEmailIdentityRepository
       return false;
     }
 
-    const model = await this._userEmailIdentityModel.findByPk(identityId);
-    const isVerified = model.verificationCode === code;
+    const entity = await this._userEmailIdentityEntity.findOne(identityId);
+    const isVerified = entity.verificationCode === code;
 
-    model.isVerified = isVerified;
-    await model.save();
+    entity.isVerified = isVerified;
+    await entity.save();
 
     return isVerified;
   }

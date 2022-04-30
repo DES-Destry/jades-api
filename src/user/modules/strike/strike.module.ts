@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common';
-import { SequelizeModule } from '@nestjs/sequelize';
 import { UserStrikeRepository } from './repositories/strike.repository';
-import { UserStrikeModel } from './strike.model';
 import { UserStrikeService } from './strike.service';
 import { UserStrikeAppealModule } from './modules/appeal/appeal.module';
 import { UserStrikeRateModule } from './modules/rate/rate.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserStrikeEntity } from './strike.entity';
+import { UserStrikeAppealEntity } from './modules/appeal/appeal.entity';
 
 @Module({
   imports: [
-    SequelizeModule.forFeature([UserStrikeModel]),
+    TypeOrmModule.forFeature([UserStrikeEntity, UserStrikeAppealEntity]),
     UserStrikeAppealModule,
     UserStrikeRateModule,
   ],

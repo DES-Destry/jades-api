@@ -1,13 +1,14 @@
-import { InjectModel } from '@nestjs/sequelize';
+import { InjectRepository } from '@nestjs/typeorm';
 import { IUserStrike } from 'src/shared/domain/interfaces/user-strike.interface';
 import { UserStrike } from 'src/shared/domain/user-strike';
+import { Repository } from 'typeorm';
 import { IUserStrikeRepository } from '../interfaces/strike-repository.interface';
-import { UserStrikeModel } from '../strike.model';
+import { UserStrikeEntity } from '../strike.entity';
 
 export class UserStrikeRepository implements IUserStrikeRepository {
   constructor(
-    @InjectModel(UserStrikeModel)
-    private readonly _userStrikeModel: typeof UserStrikeModel,
+    @InjectRepository(UserStrikeEntity)
+    private readonly _userStrikeEntity: Repository<UserStrikeEntity>,
   ) {}
 
   public async getById(id: string): Promise<IUserStrike> {
@@ -15,8 +16,8 @@ export class UserStrikeRepository implements IUserStrikeRepository {
       return null;
     }
 
-    const model = await this._userStrikeModel.findByPk(id);
-    return model && UserStrike.transform(model);
+    const entity = await this._userStrikeEntity.findOne(id);
+    return entity && UserStrike.transform(entity);
   }
 
   public async createUserStrike(props: IUserStrike): Promise<IUserStrike> {
@@ -25,7 +26,8 @@ export class UserStrikeRepository implements IUserStrikeRepository {
     }
 
     const userStrikeDomain = UserStrike.create(props);
-    await this._userStrikeModel.create(userStrikeDomain);
+    const createdEntity = this._userStrikeEntity.create(userStrikeDomain);
+    await createdEntity.save();
     return userStrikeDomain;
   }
 
@@ -35,9 +37,7 @@ export class UserStrikeRepository implements IUserStrikeRepository {
     }
 
     // TODO: check that entry not deleted and deletedAt value just was set
-    const count = await this._userStrikeModel.destroy({
-      where: { id: strikeId },
-    });
-    return count > 0;
+    const deleteResult = await this._userStrikeEntity.delete({ id: strikeId });
+    return deleteResult.affected > 0;
   }
 }

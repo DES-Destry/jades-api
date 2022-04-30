@@ -1,13 +1,14 @@
-import { InjectModel } from '@nestjs/sequelize';
+import { InjectRepository } from '@nestjs/typeorm';
 import { ITokenBlacklistItem } from 'src/shared/domain/interfaces/token-blacklist-item.interface';
 import { TokenBlacklistItem } from 'src/shared/domain/token-blacklist-item';
+import { Repository } from 'typeorm';
+import { TokenBlacklistItemEntity } from '../entities/token-blacklist-item.entity';
 import { ITokenBlacklistRepository } from '../interfaces/token-blacklist-repository.interface';
-import { TokenBlacklistItemModel } from '../models/token-blacklist-item.model';
 
 export class TokenBlacklistRepository implements ITokenBlacklistRepository {
   constructor(
-    @InjectModel(TokenBlacklistItemModel)
-    private readonly _tokenBlacklistItemModel: typeof TokenBlacklistItemModel,
+    @InjectRepository(TokenBlacklistItemEntity)
+    private readonly _tokenBlacklistItemEntity: Repository<TokenBlacklistItemEntity>,
   ) {}
 
   public async getById(id: string): Promise<ITokenBlacklistItem> {
@@ -15,8 +16,8 @@ export class TokenBlacklistRepository implements ITokenBlacklistRepository {
       return null;
     }
 
-    const model = await this._tokenBlacklistItemModel.findByPk(id);
-    return model && TokenBlacklistItem.transform(model);
+    const entity = await this._tokenBlacklistItemEntity.findOne(id);
+    return entity && TokenBlacklistItem.transform(entity);
   }
   public async getByAccessToken(
     accessToken: string,
@@ -25,10 +26,10 @@ export class TokenBlacklistRepository implements ITokenBlacklistRepository {
       return null;
     }
 
-    const model = await this._tokenBlacklistItemModel.findOne({
+    const entity = await this._tokenBlacklistItemEntity.findOne({
       where: { accessToken },
     });
-    return model && TokenBlacklistItem.transform(model);
+    return entity && TokenBlacklistItem.transform(entity);
   }
   public async getByRefreshToken(
     refreshToken: string,
@@ -37,10 +38,10 @@ export class TokenBlacklistRepository implements ITokenBlacklistRepository {
       return null;
     }
 
-    const model = await this._tokenBlacklistItemModel.findOne({
+    const entity = await this._tokenBlacklistItemEntity.findOne({
       where: { refreshToken },
     });
-    return model && TokenBlacklistItem.transform(model);
+    return entity && TokenBlacklistItem.transform(entity);
   }
 
   public async createBlacklistItem(
@@ -51,7 +52,10 @@ export class TokenBlacklistRepository implements ITokenBlacklistRepository {
       accessToken,
       refreshToken,
     });
-    await this._tokenBlacklistItemModel.create(tokenBlacklistItemDomain);
+    const createdEntity = this._tokenBlacklistItemEntity.create(
+      tokenBlacklistItemDomain,
+    );
+    await createdEntity.save();
     return tokenBlacklistItemDomain;
   }
 }

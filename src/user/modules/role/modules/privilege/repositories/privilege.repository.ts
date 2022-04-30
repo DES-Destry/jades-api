@@ -1,18 +1,19 @@
-import { InjectModel } from '@nestjs/sequelize';
+import { InjectRepository } from '@nestjs/typeorm';
 import {
   IUserRolePrivilege,
   Privilege,
 } from 'src/shared/domain/interfaces/user-role-privilege.interface';
 import { UserRolePrivilege } from 'src/shared/domain/user-role-privilege';
+import { Repository } from 'typeorm';
 import { IUserRolePrivilegeRepository } from '../interfaces/privilege-repository.interface';
-import { UserRolePrivilegeModel } from '../privilege.model';
+import { UserRolePrivilegeEntity } from '../privilege.entity';
 
 export class UserRolePrivilegeRepository
   implements IUserRolePrivilegeRepository
 {
   constructor(
-    @InjectModel(UserRolePrivilegeModel)
-    private readonly _rolePrivilegeModel: typeof UserRolePrivilegeModel,
+    @InjectRepository(UserRolePrivilegeEntity)
+    private readonly _rolePrivilegeEntity: Repository<UserRolePrivilegeEntity>,
   ) {}
 
   public async getById(id: string): Promise<IUserRolePrivilege> {
@@ -20,8 +21,8 @@ export class UserRolePrivilegeRepository
       return null;
     }
 
-    const model = await this._rolePrivilegeModel.findByPk(id);
-    return model && UserRolePrivilege.transform(model);
+    const entity = await this._rolePrivilegeEntity.findOne(id);
+    return entity && UserRolePrivilege.transform(entity);
   }
 
   public async createRolePrivilege(
@@ -33,7 +34,8 @@ export class UserRolePrivilegeRepository
     }
 
     const rolePrivilegeDomain = UserRolePrivilege.create({ roleId, privilege });
-    await this._rolePrivilegeModel.create(rolePrivilegeDomain);
+    const entity = this._rolePrivilegeEntity.create(rolePrivilegeDomain);
+    await entity.save();
 
     return rolePrivilegeDomain;
   }
@@ -43,9 +45,9 @@ export class UserRolePrivilegeRepository
       return null;
     }
 
-    const count = await this._rolePrivilegeModel.destroy({
-      where: { id: privilegeId },
+    const deleteResult = await this._rolePrivilegeEntity.delete({
+      id: privilegeId,
     });
-    return count > 0;
+    return deleteResult.raw > 0;
   }
 }

@@ -1,13 +1,14 @@
-import { InjectModel } from '@nestjs/sequelize';
 import { IUserStrikeAppeal } from 'src/shared/domain/interfaces/user-strike-appeal.interface';
 import { UserStrikeAppeal } from 'src/shared/domain/user-strike-appeal';
 import { IUserStrikeAppealRepository } from '../interfaces/appeal-repository.interface';
-import { UserStrikeAppealModel } from '../appeal.model';
+import { InjectRepository } from '@nestjs/typeorm';
+import { UserStrikeAppealEntity } from '../appeal.entity';
+import { Repository } from 'typeorm';
 
 export class UserStrikeAppealRepository implements IUserStrikeAppealRepository {
   constructor(
-    @InjectModel(UserStrikeAppealModel)
-    private readonly _userStrikeAppealModel: typeof UserStrikeAppealModel,
+    @InjectRepository(UserStrikeAppealEntity)
+    private readonly _userStrikeAppealEntity: Repository<UserStrikeAppealEntity>,
   ) {}
 
   public async getById(id: string): Promise<IUserStrikeAppeal> {
@@ -15,8 +16,8 @@ export class UserStrikeAppealRepository implements IUserStrikeAppealRepository {
       return null;
     }
 
-    const model = await this._userStrikeAppealModel.findByPk(id);
-    return model && UserStrikeAppeal.transform(model);
+    const entity = await this._userStrikeAppealEntity.findOne(id);
+    return entity && UserStrikeAppeal.transform(entity);
   }
 
   public async createAppeal(
@@ -27,7 +28,8 @@ export class UserStrikeAppealRepository implements IUserStrikeAppealRepository {
     }
 
     const appealDomain = UserStrikeAppeal.create(props);
-    await this._userStrikeAppealModel.create(appealDomain);
+    const entity = this._userStrikeAppealEntity.create(appealDomain);
+    await entity.save();
     return appealDomain;
   }
   public async updateAppealContent(
@@ -38,14 +40,14 @@ export class UserStrikeAppealRepository implements IUserStrikeAppealRepository {
       return false;
     }
 
-    const model = await this._userStrikeAppealModel.findByPk(appealId);
+    const entity = await this._userStrikeAppealEntity.findOne(appealId);
 
-    if (!model) {
+    if (!entity) {
       return false;
     }
 
-    model.appealContent = content;
-    await model.save();
+    entity.appealContent = content;
+    await entity.save();
 
     return true;
   }
@@ -55,10 +57,10 @@ export class UserStrikeAppealRepository implements IUserStrikeAppealRepository {
       return false;
     }
 
-    const count = await this._userStrikeAppealModel.destroy({
-      where: { id: appealId },
+    const deleteResult = await this._userStrikeAppealEntity.delete({
+      id: appealId,
     });
 
-    return count > 0;
+    return deleteResult.affected > 0;
   }
 }

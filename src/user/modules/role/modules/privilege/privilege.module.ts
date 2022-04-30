@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { SequelizeModule } from '@nestjs/sequelize';
 import { UserRolePrivilegeRepository } from './repositories/privilege.repository';
-import { UserRolePrivilegeModel } from './privilege.model';
 import { UserRolePrivilegeService } from './privilege.service';
+import { UserRolePrivilegeEntity } from './privilege.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [SequelizeModule.forFeature([UserRolePrivilegeModel])],
+  imports: [TypeOrmModule.forFeature([UserRolePrivilegeEntity])],
   providers: [UserRolePrivilegeService, UserRolePrivilegeRepository],
   exports: [UserRolePrivilegeService],
 })

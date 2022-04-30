@@ -1,13 +1,14 @@
-import { InjectModel } from '@nestjs/sequelize';
 import { IUserEmail } from 'src/shared/domain/interfaces/user-email.interface';
 import { UserEmail } from 'src/shared/domain/user-email';
 import { IUserEmailRepository } from '../interfaces/email-repository.interface';
-import { UserEmailModel } from '../email.model';
+import { InjectRepository } from '@nestjs/typeorm';
+import { UserEmailEntity } from '../email.entity';
+import { Repository } from 'typeorm';
 
 export class UserEmailRepository implements IUserEmailRepository {
   constructor(
-    @InjectModel(UserEmailModel)
-    private readonly _userEmailModel: typeof UserEmailModel,
+    @InjectRepository(UserEmailEntity)
+    private readonly _userEmailEntity: Repository<UserEmailEntity>,
   ) {}
 
   public async getById(id: string): Promise<IUserEmail> {
@@ -15,8 +16,8 @@ export class UserEmailRepository implements IUserEmailRepository {
       return null;
     }
 
-    const model = await this._userEmailModel.findByPk(id);
-    return model && UserEmail.transform(model);
+    const entity = await this._userEmailEntity.findOne(id);
+    return entity && UserEmail.transform(entity);
   }
 
   public async create(props: IUserEmail): Promise<IUserEmail> {
@@ -25,8 +26,9 @@ export class UserEmailRepository implements IUserEmailRepository {
     }
 
     const userEmailDomain = UserEmail.create(props);
-    const model = await this._userEmailModel.create(userEmailDomain);
-    return model;
+    const createdEntity = this._userEmailEntity.create(userEmailDomain);
+    await createdEntity.save();
+    return userEmailDomain;
   }
 
   public async toggleMain(emailId: string): Promise<void> {
@@ -34,40 +36,40 @@ export class UserEmailRepository implements IUserEmailRepository {
       return;
     }
 
-    const model = await this._userEmailModel.findByPk(emailId);
+    const entity = await this._userEmailEntity.findOne(emailId);
 
-    if (!model) {
+    if (!entity) {
       return;
     }
 
-    model.isMain = true;
+    entity.isMain = true;
 
-    const userEmails = await this._userEmailModel.findAll({
-      where: { userId: model.userId },
+    const userEmails = await this._userEmailEntity.find({
+      where: { userId: entity.userId },
     });
 
     for await (const userEmail of userEmails) {
-      if (userEmail.id !== model.id) {
+      if (userEmail.id !== entity.id) {
         userEmail.isMain = false;
         await userEmail.save();
       }
     }
 
-    await model.save();
+    await entity.save();
   }
   public async toggleVisible(emailId: string): Promise<void> {
     if (!emailId) {
       return;
     }
 
-    const model = await this._userEmailModel.findByPk(emailId);
+    const entity = await this._userEmailEntity.findOne(emailId);
 
-    if (!model) {
+    if (!entity) {
       return;
     }
 
-    model.isVisible = !model.isVisible;
-    await model.save();
+    entity.isVisible = !entity.isVisible;
+    await entity.save();
   }
 
   public async deleteEmail(emailId: string): Promise<boolean> {
@@ -75,13 +77,13 @@ export class UserEmailRepository implements IUserEmailRepository {
       return false;
     }
 
-    const model = await this._userEmailModel.findByPk(emailId);
+    const entity = await this._userEmailEntity.findOne(emailId);
 
-    if (model.isMain) {
+    if (entity.isMain) {
       return false;
     }
 
-    await model.destroy();
+    await this._userEmailEntity.delete(entity);
     return true;
   }
 }

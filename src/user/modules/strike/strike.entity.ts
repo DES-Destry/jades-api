@@ -1,9 +1,16 @@
 import { UserStrikeLevel } from 'src/shared/domain/common/user-strike-level';
 import { IUserStrike } from 'src/shared/domain/interfaces/user-strike.interface';
-import { UserStrikeAppeal } from 'src/shared/domain/user-strike-appeal';
 import { DateAudit } from 'src/shared/entities/date-audit';
 import { UserEntity } from 'src/user/user.entity';
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
+import {
+  Column,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+} from 'typeorm';
+import { UserStrikeAppealEntity } from './modules/appeal/appeal.entity';
 
 @Entity('user_strikes')
 export class UserStrikeEntity extends DateAudit implements IUserStrike {
@@ -33,10 +40,10 @@ export class UserStrikeEntity extends DateAudit implements IUserStrike {
   @Column('varchar', { name: 'appeal_id', nullable: true, unique: true })
   appealId?: string;
 
-  @OneToOne(() => UserStrikeAppeal, (entity) => entity.strike)
+  @OneToOne(() => UserStrikeAppealEntity, (entity) => entity.strike)
   @JoinColumn({ name: 'appeal_id' })
-  appeal: UserStrikeAppeal;
-
-  @Column('timestamp', { name: 'deleted_at', nullable: true })
+  appeal: UserStrikeAppealEntity;
+ 
+  @DeleteDateColumn({ name: 'deleted_at', nullable: true })
   deletedAt?: Date;
 }

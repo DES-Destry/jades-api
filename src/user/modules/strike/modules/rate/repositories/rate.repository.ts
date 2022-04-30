@@ -1,17 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/sequelize';
+import { InjectRepository } from '@nestjs/typeorm';
 import { RateType } from 'src/shared/domain/common/rate-type';
 import { IUserStrikeRate } from 'src/shared/domain/interfaces/user-strike-rate.interface';
 import { UserStrikeRate } from 'src/shared/domain/user-strike-rate';
+import { Repository } from 'typeorm';
 import { ToggleRateResponseDto } from '../dtos/toggle-rate.dto';
 import { IUserStrikeRateRepository } from '../interfaces/rate-repository.interface';
-import { UserStrikeRateModel } from '../rate.model';
+import { UserStrikeRateEntity } from '../rate.entity';
 
 @Injectable()
 export class UserStrikeRateRepository implements IUserStrikeRateRepository {
   constructor(
-    @InjectModel(UserStrikeRateModel)
-    private readonly _userStrikeRateModel: typeof UserStrikeRateModel,
+    @InjectRepository(UserStrikeRateEntity)
+    private readonly _userStrikeRateEntity: Repository<UserStrikeRateEntity>,
   ) {}
 
   public async getById(id: string): Promise<IUserStrikeRate> {
@@ -19,8 +20,8 @@ export class UserStrikeRateRepository implements IUserStrikeRateRepository {
       return null;
     }
 
-    const model = await this._userStrikeRateModel.findByPk(id);
-    return model && UserStrikeRate.transform(model);
+    const entity = await this._userStrikeRateEntity.findOne(id);
+    return entity && UserStrikeRate.transform(entity);
   }
 
   public async toggleLike(userId: string): Promise<ToggleRateResponseDto> {
@@ -28,33 +29,35 @@ export class UserStrikeRateRepository implements IUserStrikeRateRepository {
       return null;
     }
 
-    const model = await this._userStrikeRateModel.findOne({
+    const entity = await this._userStrikeRateEntity.findOne({
       where: { userId },
     });
 
     // If user not rated strike earlier
-    if (!model) {
+    if (!entity) {
       const rateDomain = UserStrikeRate.create({
         userId,
         rateType: RateType.Like,
       });
-      await this._userStrikeRateModel.create(rateDomain);
+      const entity = this._userStrikeRateEntity.create(rateDomain);
+      await entity.save();
       return { isRateAdded: true };
     }
 
     // If user already liked strike - delete this like
-    if (model.rateType === RateType.Like) {
-      await model.destroy();
+    if (entity.rateType === RateType.Like) {
+      await this._userStrikeRateEntity.delete(entity);
       return { isRateAdded: false };
     }
     // If user already disliked strike - delete this dislike and like this strike
-    if (model.rateType === RateType.Dislike) {
-      await model.destroy();
+    if (entity.rateType === RateType.Dislike) {
+      await this._userStrikeRateEntity.delete(entity);
       const rateDomain = UserStrikeRate.create({
         userId,
         rateType: RateType.Like,
       });
-      await this._userStrikeRateModel.create(rateDomain);
+      const createdEntity = this._userStrikeRateEntity.create(rateDomain);
+      await createdEntity.save();
       return { isRateAdded: true };
     }
   }
@@ -63,33 +66,35 @@ export class UserStrikeRateRepository implements IUserStrikeRateRepository {
       return null;
     }
 
-    const model = await this._userStrikeRateModel.findOne({
+    const entity = await this._userStrikeRateEntity.findOne({
       where: { userId },
     });
 
     // If user not rated strike earlier
-    if (!model) {
+    if (!entity) {
       const rateDomain = UserStrikeRate.create({
         userId,
         rateType: RateType.Dislike,
       });
-      await this._userStrikeRateModel.create(rateDomain);
+      const createdEntity = this._userStrikeRateEntity.create(rateDomain);
+      await createdEntity.save();
       return { isRateAdded: true };
     }
 
     // If user already disliked strike - delete this dislike
-    if (model.rateType === RateType.Dislike) {
-      await model.destroy();
+    if (entity.rateType === RateType.Dislike) {
+      await this._userStrikeRateEntity.delete(entity);
       return { isRateAdded: false };
     }
     // If user already liked strike - delete this like and dislike this strike
-    if (model.rateType === RateType.Like) {
-      await model.destroy();
+    if (entity.rateType === RateType.Like) {
+      await this._userStrikeRateEntity.delete(entity);
       const rateDomain = UserStrikeRate.create({
         userId,
         rateType: RateType.Dislike,
       });
-      await this._userStrikeRateModel.create(rateDomain);
+      const createdEntity = this._userStrikeRateEntity.create(rateDomain);
+      await createdEntity.save();
       return { isRateAdded: true };
     }
   }

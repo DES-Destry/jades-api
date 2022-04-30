@@ -3,9 +3,11 @@ import {
   BaseEntity,
   Column,
   CreateDateColumn,
+  Entity,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+@Entity('token-blacklist')
 export class TokenBlacklistItemEntity
   extends BaseEntity
   implements ITokenBlacklistItem

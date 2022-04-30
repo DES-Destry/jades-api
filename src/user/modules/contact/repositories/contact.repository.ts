@@ -1,13 +1,14 @@
-import { InjectModel } from '@nestjs/sequelize';
+import { InjectRepository } from '@nestjs/typeorm';
 import { IUserContact } from 'src/shared/domain/interfaces/user-contact.interface';
 import { UserContact } from 'src/shared/domain/user-contact';
 import { IUserContactRepository } from '../interfaces/contact-repository.interface';
-import { UserContactModel } from '../contact.model';
+import { UserContactEntity } from '../contact.entity';
+import { Repository } from 'typeorm';
 
 export class UserContactRepository implements IUserContactRepository {
   constructor(
-    @InjectModel(UserContactModel)
-    private readonly _userContactModel: typeof UserContactModel,
+    @InjectRepository(UserContactEntity)
+    private readonly _userContactEntity: Repository<UserContactEntity>,
   ) {}
 
   public async getById(id: string): Promise<IUserContact> {
@@ -15,8 +16,8 @@ export class UserContactRepository implements IUserContactRepository {
       return null;
     }
 
-    const model = await this._userContactModel.findByPk(id);
-    return model && UserContact.transform(model);
+    const entity = await this._userContactEntity.findOne(id);
+    return entity && UserContact.transform(entity);
   }
 
   public async createContact(contact: IUserContact): Promise<IUserContact> {
@@ -25,7 +26,8 @@ export class UserContactRepository implements IUserContactRepository {
     }
 
     const userContactDomain = UserContact.create(contact);
-    await this._userContactModel.create(userContactDomain);
+    const createdEntity = this._userContactEntity.create(userContactDomain);
+    await createdEntity.save();
 
     return userContactDomain;
   }
@@ -34,20 +36,20 @@ export class UserContactRepository implements IUserContactRepository {
       return null;
     }
 
-    const model = await this._userContactModel.findByPk(contact.id);
+    const entity = await this._userContactEntity.findOne(contact.id);
 
-    if (!model) {
+    if (!entity) {
       return null;
     }
 
-    model.title = contact.title;
-    model.description = contact.description;
-    model.mediaType = contact.mediaType;
-    model.link = contact.link;
-    model.updatedAt = new Date();
+    entity.title = contact.title;
+    entity.description = contact.description;
+    entity.mediaType = contact.mediaType;
+    entity.link = contact.link;
+    entity.updatedAt = new Date();
 
-    await model.save();
-    return UserContact.transform(model);
+    await entity.save();
+    return UserContact.transform(entity);
   }
 
   public async deleteContact(contactId: string): Promise<boolean> {
@@ -55,10 +57,10 @@ export class UserContactRepository implements IUserContactRepository {
       return false;
     }
 
-    const count = await this._userContactModel.destroy({
-      where: { id: contactId },
+    const deleteResult = await this._userContactEntity.delete({
+      id: contactId,
     });
 
-    return count > 0;
+    return deleteResult.affected > 0;
   }
 }
