@@ -6,7 +6,7 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity('user_strike_rates')
 export class UserStrikeRateEntity extends DateAudit implements IUserStrikeRate {
-  @Column('enum', { enum: RateType })
+  @Column('enum', { name: 'rate_type', enum: RateType })
   rateType: RateType;
 
   @Column('varchar', { name: 'user_id' })

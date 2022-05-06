@@ -8,7 +8,7 @@ export class UserStrikeAppealEntity
   extends DateAudit
   implements IUserStrikeAppeal
 {
-  @Column('varchar', { length: 4096 })
+  @Column('varchar', { name: 'appeal_content', length: 4096 })
   appealContent: string;
 
   @OneToOne(() => UserStrikeEntity, (entity) => entity.appeal)

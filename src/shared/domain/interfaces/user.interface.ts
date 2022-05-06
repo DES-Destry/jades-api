@@ -21,7 +21,7 @@ export interface IUser {
   contacts: IUserContact[];
   scope: UserScope;
   company?: string;
-  lastPasswordChanged: Date;
+  lastPasswordChangedAt: Date;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -124,7 +124,7 @@ export abstract class UserDocData implements IUser {
       'Date of last password changing. Used to generate user payload, therefore if this value will changed - access token automatically become not valid.',
     example: new Date(),
   })
-  lastPasswordChanged: Date;
+  lastPasswordChangedAt: Date;
 
   @ApiProperty({
     description: "Date of user's creating. Register date.",

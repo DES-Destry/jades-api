@@ -69,7 +69,7 @@ export class UserRepository implements IUserRepository {
         id: payload.id,
         username: payload.username,
         emails: [payload.primaryEmail],
-        lastPasswordChanged: payload.lastPasswordChanged,
+        lastPasswordChangedAt: payload.lastPasswordChanged,
       },
     });
 

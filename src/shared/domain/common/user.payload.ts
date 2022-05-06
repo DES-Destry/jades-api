@@ -15,7 +15,7 @@ export class UserPayload {
 
     this.id = user.id;
     this.username = user.username;
-    this.lastPasswordChanged = user.lastPasswordChanged;
+    this.lastPasswordChanged = user.lastPasswordChangedAt;
     this.primaryEmail = user.getPrimaryMail();
   }
 

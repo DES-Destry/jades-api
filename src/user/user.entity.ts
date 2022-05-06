@@ -62,5 +62,5 @@ export class UserEntity extends DateAudit implements IUser {
   company?: string;
 
   @Column('timestamp', { name: 'last_password_changed_at' })
-  lastPasswordChanged: Date;
+  lastPasswordChangedAt: Date;
 }

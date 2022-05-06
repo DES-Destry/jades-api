@@ -1,0 +1,16 @@
+{
+    "type": "postgres",
+    "host": "localhost",
+    "port": 10020,
+    "username": "postgres",
+    "password": "admin",
+    "database": "jades",
+    "entities": ["dist/**/*.entity{.ts,.js}"],
+    "factories": ["dist/database/factories/*.js"],
+    "seeds": ["dist/database/seeds/*.js"],
+    "migrations": ["dist/database/migrations/*.js"],
+    "cli": {
+      "migrationsDir": "dist/database/migrations"
+    },
+    "synchronize": false
+}

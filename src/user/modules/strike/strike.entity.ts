@@ -43,7 +43,7 @@ export class UserStrikeEntity extends DateAudit implements IUserStrike {
   @OneToOne(() => UserStrikeAppealEntity, (entity) => entity.strike)
   @JoinColumn({ name: 'appeal_id' })
   appeal: UserStrikeAppealEntity;
- 
+
   @DeleteDateColumn({ name: 'deleted_at', nullable: true })
   deletedAt?: Date;
 }

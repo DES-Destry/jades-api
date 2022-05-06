@@ -19,7 +19,7 @@ export class User extends AggregateRoot<IUser> {
   public readonly contacts = this.props.contacts;
   public readonly scope = this.props.scope;
   public readonly company? = this.props.company;
-  public readonly lastPasswordChanged = this.props.lastPasswordChanged;
+  public readonly lastPasswordChangedAt = this.props.lastPasswordChangedAt;
   public readonly createdAt? = this.props.createdAt;
   public readonly updatedAt? = this.props.updatedAt;
 
@@ -29,7 +29,7 @@ export class User extends AggregateRoot<IUser> {
       ...props,
       id: uuid(),
       karma: 0,
-      lastPasswordChanged: new Date(),
+      lastPasswordChangedAt: new Date(),
       createdAt: new Date(),
       updatedAt: new Date(),
     });
