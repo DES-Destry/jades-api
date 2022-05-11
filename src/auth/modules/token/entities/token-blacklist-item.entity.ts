@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity('token-blacklist')
+@Entity('token_blacklist')
 export class TokenBlacklistItemEntity
   extends BaseEntity
   implements ITokenBlacklistItem

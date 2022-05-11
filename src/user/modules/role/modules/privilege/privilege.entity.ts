@@ -11,7 +11,7 @@ export class UserRolePrivilegeEntity
   extends DateAudit
   implements IUserRolePrivilege
 {
-  @Column('varchar', { name: 'role_id' })
+  @Column('uuid', { name: 'role_id' })
   roleId: string;
 
   @ManyToOne(() => UserRoleEntity, (entity) => entity.privileges)

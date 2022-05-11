@@ -9,7 +9,7 @@ export class UserStrikeRateEntity extends DateAudit implements IUserStrikeRate {
   @Column('enum', { name: 'rate_type', enum: RateType })
   rateType: RateType;
 
-  @Column('varchar', { name: 'user_id' })
+  @Column('uuid', { name: 'user_id' })
   userId: string;
 
   @ManyToOne(() => UserEntity) // TODO add strikeRates in UserEntity

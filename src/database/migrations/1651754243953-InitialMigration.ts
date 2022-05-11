@@ -3,9 +3,63 @@ import { UserGender } from 'src/shared/domain/common/user-gender';
 import { UserScope } from 'src/shared/domain/common/user-interests';
 import { UserStrikeLevel } from 'src/shared/domain/common/user-strike-level';
 import { Privilege } from 'src/shared/domain/interfaces/user-role-privilege.interface';
-import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import {
+  MigrationInterface,
+  QueryRunner,
+  Table,
+  TableForeignKey,
+} from 'typeorm';
 
 export class InitialMigration1651754243953 implements MigrationInterface {
+  private readonly _userIdFk = new TableForeignKey({
+    columnNames: ['user_id'],
+    referencedColumnNames: ['id'],
+    referencedTableName: 'users',
+    onDelete: 'CASCADE',
+  });
+
+  private readonly _issuerIdFk = new TableForeignKey({
+    columnNames: ['issuer_id'],
+    referencedColumnNames: ['id'],
+    referencedTableName: 'users',
+    onDelete: 'CASCADE',
+  });
+
+  private readonly _subscriberIdFk = new TableForeignKey({
+    columnNames: ['subscriber_id'],
+    referencedColumnNames: ['id'],
+    referencedTableName: 'users',
+    onDelete: 'CASCADE',
+  });
+
+  private readonly _writerIdFk = new TableForeignKey({
+    columnNames: ['writer_id'],
+    referencedColumnNames: ['id'],
+    referencedTableName: 'users',
+    onDelete: 'CASCADE',
+  });
+
+  private readonly _appealIdFk = new TableForeignKey({
+    columnNames: ['appeal_id'],
+    referencedColumnNames: ['id'],
+    referencedTableName: 'user_strike_appeals',
+    onDelete: 'CASCADE',
+  });
+
+  private readonly _emailIdFk = new TableForeignKey({
+    columnNames: ['email_id'],
+    referencedColumnNames: ['id'],
+    referencedTableName: 'user_emails',
+    onDelete: 'CASCADE',
+  });
+
+  private readonly _roleIdFk = new TableForeignKey({
+    columnNames: ['role_id'],
+    referencedColumnNames: ['id'],
+    referencedTableName: 'user_roles',
+    onDelete: 'CASCADE',
+  });
+
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       // Users table
@@ -73,7 +127,7 @@ export class InitialMigration1651754243953 implements MigrationInterface {
             generationStrategy: 'uuid',
           },
           { name: 'rate_type', type: 'enum', enum: Object.keys(RateType) },
-          { name: 'user_id', type: 'varchar' },
+          { name: 'user_id', type: 'uuid' },
           { name: 'created_at', type: 'timestamp', default: 'now()' },
           { name: 'updated_at', type: 'timestamp', default: 'now()' },
         ],
@@ -92,7 +146,7 @@ export class InitialMigration1651754243953 implements MigrationInterface {
             isGenerated: true,
             generationStrategy: 'uuid',
           },
-          { name: 'user_id', type: 'varchar' },
+          { name: 'user_id', type: 'uuid' },
           { name: 'email', type: 'varchar' },
           { name: 'is_main', type: 'bool', default: false },
           { name: 'is_visible', type: 'bool', default: false },
@@ -114,12 +168,12 @@ export class InitialMigration1651754243953 implements MigrationInterface {
             isGenerated: true,
             generationStrategy: 'uuid',
           },
-          { name: 'user_id', type: 'varchar' },
-          { name: 'issuer_id', type: 'varchar' },
+          { name: 'user_id', type: 'uuid' },
+          { name: 'issuer_id', type: 'uuid' },
           { name: 'level', type: 'enum', enum: Object.keys(UserStrikeLevel) },
           { name: 'reason', type: 'varchar', length: '1024' },
           { name: 'expired_at', type: 'timestamp' },
-          { name: 'appeal_id', type: 'varchar', isNullable: true },
+          { name: 'appeal_id', type: 'uuid', isNullable: true },
           { name: 'deleted_at', type: 'timestamp', isNullable: true },
           { name: 'created_at', type: 'timestamp', default: 'now()' },
           { name: 'updated_at', type: 'timestamp', default: 'now()' },
@@ -158,7 +212,7 @@ export class InitialMigration1651754243953 implements MigrationInterface {
             isGenerated: true,
             generationStrategy: 'uuid',
           },
-          { name: 'user_id', type: 'varchar' },
+          { name: 'user_id', type: 'uuid' },
           { name: 'title', type: 'varchar' },
           { name: 'description', type: 'varchar' },
           { name: 'media_type', type: 'varchar' },
@@ -181,7 +235,7 @@ export class InitialMigration1651754243953 implements MigrationInterface {
             isGenerated: true,
             generationStrategy: 'uuid',
           },
-          { name: 'email_id', type: 'varchar', isUnique: true },
+          { name: 'email_id', type: 'uuid', isUnique: true },
           { name: 'verification_code', type: 'varchar' },
           { name: 'is_verified', type: 'bool' },
           { name: 'created_at', type: 'timestamp', default: 'now()' },
@@ -202,7 +256,7 @@ export class InitialMigration1651754243953 implements MigrationInterface {
             isGenerated: true,
             generationStrategy: 'uuid',
           },
-          { name: 'role_id', type: 'varchar' },
+          { name: 'role_id', type: 'uuid' },
           { name: 'privilege', type: 'enum', enum: Object.keys(Privilege) },
           { name: 'created_at', type: 'timestamp', default: 'now()' },
           { name: 'updated_at', type: 'timestamp', default: 'now()' },
@@ -222,8 +276,8 @@ export class InitialMigration1651754243953 implements MigrationInterface {
             isGenerated: true,
             generationStrategy: 'uuid',
           },
-          { name: 'subscriber_id', type: 'varchar' },
-          { name: 'writer_id', type: 'varchar' },
+          { name: 'subscriber_id', type: 'uuid' },
+          { name: 'writer_id', type: 'uuid' },
           { name: 'created_at', type: 'timestamp', default: 'now()' },
           { name: 'updated_at', type: 'timestamp', default: 'now()' },
         ],
@@ -248,9 +302,52 @@ export class InitialMigration1651754243953 implements MigrationInterface {
         ],
       }),
     );
+
+    queryRunner.clearSqlMemory();
+
+    await queryRunner.createForeignKey('user_strike_rates', this._userIdFk);
+    await queryRunner.createForeignKey('user_emails', this._userIdFk);
+    await queryRunner.createForeignKey('user_contacts', this._userIdFk);
+    await queryRunner.createForeignKey('user_strikes', this._userIdFk);
+
+    await queryRunner.createForeignKey('user_strikes', this._appealIdFk);
+    await queryRunner.createForeignKey('user_strikes', this._issuerIdFk);
+
+    await queryRunner.createForeignKey('user_subscriptions', this._writerIdFk);
+    await queryRunner.createForeignKey(
+      'user_subscriptions',
+      this._subscriberIdFk,
+    );
+
+    await queryRunner.createForeignKey(
+      'user_email_identities',
+      this._emailIdFk,
+    );
+
+    await queryRunner.createForeignKey('user_role_privileges', this._roleIdFk);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropForeignKey('user_role_privileges', this._roleIdFk);
+
+    await queryRunner.dropForeignKey('user_email_identities', this._emailIdFk);
+
+    await queryRunner.dropForeignKey(
+      'user_subscriptions',
+      this._subscriberIdFk,
+    );
+    await queryRunner.dropForeignKey('user_subscriptions', this._writerIdFk);
+
+    await queryRunner.dropForeignKey('user_strikes', this._issuerIdFk);
+    await queryRunner.dropForeignKey('user_strikes', this._appealIdFk);
+
+    await queryRunner.dropForeignKey('user_strikes', this._userIdFk);
+    await queryRunner.dropForeignKey('user_contacts', this._userIdFk);
+    await queryRunner.dropForeignKey('user_emails', this._userIdFk);
+    await queryRunner.dropForeignKey('user_strike_rates', this._userIdFk);
+
+    queryRunner.clearSqlMemory();
+
     await queryRunner.dropTable('token_blacklist');
     await queryRunner.dropTable('user_subscriptions');
     await queryRunner.dropTable('user_role_privileges');

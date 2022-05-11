@@ -8,7 +8,7 @@ export class UserEmailIdentityEntity
   extends DateAudit
   implements IUserEmailIdentity
 {
-  @Column('varchar', { name: 'email_id', unique: true })
+  @Column('uuid', { name: 'email_id', unique: true })
   emailId: string;
 
   @OneToOne(() => UserEmailEntity, (entity) => entity.identity)

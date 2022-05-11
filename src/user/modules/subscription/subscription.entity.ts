@@ -8,14 +8,14 @@ export class UserSubscriptionEntity
   extends DateAudit
   implements IUserSubscription
 {
-  @Column('varchar', { name: 'subscriber_id' })
+  @Column('uuid', { name: 'subscriber_id' })
   subscriberId: string;
 
   @ManyToOne(() => UserEntity) // TODO Add subscriptions field in user entity
   @JoinColumn({ name: 'subscriber_id' })
   subscriber?: UserEntity;
 
-  @Column('varchar', { name: 'writer_id' })
+  @Column('uuid', { name: 'writer_id' })
   writerId: string;
 
   @ManyToOne(() => UserEntity) // TODO Add subscribers field in user entity

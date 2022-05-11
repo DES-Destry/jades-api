@@ -6,7 +6,7 @@ import { UserEmailIdentityEntity } from './modules/identity/identity.entity';
 
 @Entity('user_emails')
 export class UserEmailEntity extends DateAudit implements IUserEmail {
-  @Column('varchar', { name: 'user_id' })
+  @Column('uuid', { name: 'user_id' })
   userId: string;
 
   @ManyToOne(() => UserEntity, (entity) => entity.emails)

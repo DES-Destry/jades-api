@@ -5,7 +5,7 @@ import { Column, Entity, ManyToOne } from 'typeorm';
 
 @Entity('user_contacts')
 export class UserContactEntity extends DateAudit implements IUserContact {
-  @Column('varchar', { name: 'user_id' })
+  @Column('uuid', { name: 'user_id' })
   userId: string;
 
   @ManyToOne(() => UserEntity, (entity) => entity.contacts)
