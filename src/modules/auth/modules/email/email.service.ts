@@ -1,13 +1,13 @@
 import { Body, Injectable } from '@nestjs/common';
 import { hash as genHash, genSalt, compare } from 'bcrypt';
-import { AuthorizedResponseDto } from 'src/auth/dtos/common/auth.dto';
+import { AuthorizedResponseDto } from 'src/modules/auth/dtos/common/auth.dto';
 import { AppConfig } from 'src/shared/config/app.config';
 import { UserPayload } from 'src/shared/domain/common/user.payload';
 import { User } from 'src/shared/domain/user';
 import { CreateUserDto } from 'src/shared/dtos/create-user.dto';
 import { ActionResultDto } from 'src/shared/result/dtos/action-result.dto';
 import { ResultFactory } from 'src/shared/result/result-factory';
-import { UserService } from 'src/user/user.service';
+import { UserService } from 'src/modules/user/user.service';
 import { AuthTokenService } from '../token/token.service';
 import { LoginRequestDto } from './dtos/login.dto';
 

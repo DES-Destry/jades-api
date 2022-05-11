@@ -1,6 +1,6 @@
 import { UserPayload } from 'src/shared/domain/common/user.payload';
 import { IUser } from 'src/shared/domain/interfaces/user.interface';
-import { CreateUserDto } from '../../shared/dtos/create-user.dto';
+import { CreateUserDto } from '../../../shared/dtos/create-user.dto';
 
 export interface IUserRepository {
   getById(userId: string): Promise<IUser>;

@@ -3,7 +3,7 @@ import { UserPayload } from 'src/shared/domain/common/user.payload';
 import { IUser } from 'src/shared/domain/interfaces/user.interface';
 import { User } from 'src/shared/domain/user';
 import { Repository } from 'typeorm';
-import { CreateUserDto } from '../../shared/dtos/create-user.dto';
+import { CreateUserDto } from '../../../shared/dtos/create-user.dto';
 import { IUserRepository } from '../interfaces/user-repository.interface';
 import { UserEntity } from '../user.entity';
 

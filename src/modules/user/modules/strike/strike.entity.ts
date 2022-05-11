@@ -1,7 +1,7 @@
 import { UserStrikeLevel } from 'src/shared/domain/common/user-strike-level';
 import { IUserStrike } from 'src/shared/domain/interfaces/user-strike.interface';
 import { DateAudit } from 'src/shared/entities/date-audit';
-import { UserEntity } from 'src/user/user.entity';
+import { UserEntity } from 'src/modules/user/user.entity';
 import {
   Column,
   DeleteDateColumn,

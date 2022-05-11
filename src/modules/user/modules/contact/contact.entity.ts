@@ -1,6 +1,6 @@
 import { IUserContact } from 'src/shared/domain/interfaces/user-contact.interface';
 import { DateAudit } from 'src/shared/entities/date-audit';
-import { UserEntity } from 'src/user/user.entity';
+import { UserEntity } from 'src/modules/user/user.entity';
 import { Column, Entity, ManyToOne } from 'typeorm';
 
 @Entity('user_contacts')

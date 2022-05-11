@@ -3,7 +3,7 @@ import { AuthEmailModule } from './modules/email/email.module';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { AuthTokenModule } from './modules/token/token.module';
-import { UserModule } from 'src/user/user.module';
+import { UserModule } from 'src/modules/user/user.module';
 
 @Module({
   imports: [AuthEmailModule, AuthTokenModule, UserModule],

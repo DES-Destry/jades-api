@@ -3,7 +3,7 @@ import { UserEmailRepository } from './repository/email.repository';
 import { UserEmailService } from './email.service';
 import { UserEmailIdentityModule } from './modules/identity/identity.module';
 import { UserEmailController } from './email.controller';
-import { UserModule } from 'src/user/user.module';
+import { UserModule } from 'src/modules/user/user.module';
 import { UserEmailEntity } from './email.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 

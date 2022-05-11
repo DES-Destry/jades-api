@@ -7,7 +7,7 @@ import {
 import {
   AuthorizedResponseDoc,
   AuthorizedResponseDto,
-} from 'src/auth/dtos/common/auth.dto';
+} from 'src/modules/auth/dtos/common/auth.dto';
 import { ApiServerOperation } from 'src/shared/decorators/api-server-operation.decorator';
 import { CreateUserDto } from 'src/shared/dtos/create-user.dto';
 import { ActionResultDto } from 'src/shared/result/dtos/action-result.dto';
