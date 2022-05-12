@@ -6,7 +6,13 @@ import { AuthTokenService } from './token.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([TokenBlacklistItemEntity])],
-  providers: [AuthTokenService, TokenBlacklistRepository],
+  providers: [
+    AuthTokenService,
+    {
+      provide: 'ITokenBlacklistRepository',
+      useClass: TokenBlacklistRepository,
+    },
+  ],
   exports: [AuthTokenService],
 })
 export class AuthTokenModule {}

@@ -13,7 +13,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     forwardRef(() => UserEmailIdentityModule),
     forwardRef(() => UserModule),
   ],
-  providers: [UserEmailService, UserEmailRepository],
+  providers: [
+    UserEmailService,
+    {
+      provide: 'IUserEmailRepository',
+      useClass: UserEmailRepository,
+    },
+  ],
   exports: [UserEmailService],
   controllers: [UserEmailController],
 })

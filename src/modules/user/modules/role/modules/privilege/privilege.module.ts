@@ -6,7 +6,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserRolePrivilegeEntity])],
-  providers: [UserRolePrivilegeService, UserRolePrivilegeRepository],
+  providers: [
+    UserRolePrivilegeService,
+    {
+      provide: 'IUserRolePrivilegeRepository',
+      useClass: UserRolePrivilegeRepository,
+    },
+  ],
   exports: [UserRolePrivilegeService],
 })
 export class UserRolePrivilegeModule {}

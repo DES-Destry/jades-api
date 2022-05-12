@@ -22,7 +22,13 @@ import { UserEntity } from './user.entity';
     UserStrikeModule,
   ],
   controllers: [UserController],
-  providers: [UserService, UserRepository],
+  providers: [
+    UserService,
+    {
+      provide: 'IUserRepository',
+      useClass: UserRepository,
+    },
+  ],
   exports: [UserService],
 })
 export class UserModule {}

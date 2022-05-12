@@ -1,13 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { IUserEmailIdentity } from 'src/shared/domain/interfaces/user-email-identity.interface';
 import { IUserEmail } from 'src/shared/domain/interfaces/user-email.interface';
 import { EmailSender } from 'src/shared/senders/email.sender';
-import { UserEmailIdentityRepository } from './repositories/identity.repository';
+import { IUserEmailIdentityRepository } from './interfaces/identity-repository.interface';
 
 @Injectable()
 export class UserEmailIdentityService {
   constructor(
-    private readonly _userEmailIdentityRepository: UserEmailIdentityRepository,
+    @Inject('UserEmailIdentityRepository')
+    private readonly _userEmailIdentityRepository: IUserEmailIdentityRepository,
     private readonly _emailSender: EmailSender,
   ) {}
 

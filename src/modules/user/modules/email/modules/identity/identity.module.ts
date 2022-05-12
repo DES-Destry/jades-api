@@ -13,7 +13,10 @@ import { UserEmailIdentityEntity } from './identity.entity';
   ],
   providers: [
     UserEmailIdentityService,
-    UserEmailIdentityRepository,
+    {
+      provide: 'IUserEmailIdentityRepository',
+      useClass: UserEmailIdentityRepository,
+    },
     EmailSender,
   ],
   exports: [UserEmailIdentityService],

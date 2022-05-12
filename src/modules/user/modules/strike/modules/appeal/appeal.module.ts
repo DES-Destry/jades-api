@@ -6,7 +6,13 @@ import { UserStrikeAppealEntity } from './appeal.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserStrikeAppealEntity])],
-  providers: [UserStrikeAppealService, UserStrikeAppealRepository],
+  providers: [
+    UserStrikeAppealService,
+    {
+      provide: 'IUserStrikeAppealRepository',
+      useClass: UserStrikeAppealRepository,
+    },
+  ],
   exports: [UserStrikeAppealService],
 })
 export class UserStrikeAppealModule {}

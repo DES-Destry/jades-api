@@ -1,13 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { AccessTokenPayload } from 'src/shared/domain/common/access-token.payload';
 import { UserPayload } from 'src/shared/domain/common/user.payload';
 import { TokenPairDto } from './dtos/token-pair.dto';
-import { TokenBlacklistRepository } from './repositories/token-blacklist.repository';
+import { ITokenBlacklistRepository } from './interfaces/token-blacklist-repository.interface';
 
 @Injectable()
 export class AuthTokenService {
   constructor(
-    private readonly _tokenBlacklistRepository: TokenBlacklistRepository,
+    @Inject('ITokenBlacklistRepository')
+    private readonly _tokenBlacklistRepository: ITokenBlacklistRepository,
   ) {}
 
   public async generateTokenPairForPayload(

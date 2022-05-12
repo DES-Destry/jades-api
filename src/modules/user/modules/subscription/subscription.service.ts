@@ -1,13 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ActionResultDto } from 'src/shared/result/dtos/action-result.dto';
 import { ResultFactory } from 'src/shared/result/result-factory';
 import { ToggleSubscriptionResponseDto } from './dtos/toggle-subscription.dto';
-import { UserSubscriptionRepository } from './repositories/subscription.repository';
+import { IUserSubscriptionRepository } from './interfaces/subscription-repository.interface';
 
 @Injectable()
 export class UserSubscriptionService {
   constructor(
-    private readonly _userSubscriptionRepository: UserSubscriptionRepository,
+    @Inject('IUserSubscriptionRepository')
+    private readonly _userSubscriptionRepository: IUserSubscriptionRepository,
   ) {}
 
   public async toggleSubscribe(

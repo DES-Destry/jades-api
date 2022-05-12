@@ -11,7 +11,13 @@ import { UserSubscriptionEntity } from './subscription.entity';
     TypeOrmModule.forFeature([UserSubscriptionEntity]),
     forwardRef(() => UserModule),
   ],
-  providers: [UserSubscriptionService, UserSubscriptionRepository],
+  providers: [
+    UserSubscriptionService,
+    {
+      provide: 'IUserSubscriptionRepository',
+      useClass: UserSubscriptionRepository,
+    },
+  ],
   controllers: [UserSubscriptionController],
 })
 export class UserSubscriptionModule {}

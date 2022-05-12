@@ -6,7 +6,13 @@ import { UserStrikeRateEntity } from './rate.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserStrikeRateEntity])],
-  providers: [UserStrikeRateService, UserStrikeRateRepository],
+  providers: [
+    UserStrikeRateService,
+    {
+      provide: 'IUserStrikeRateRepository',
+      useClass: UserStrikeRateRepository,
+    },
+  ],
   exports: [UserStrikeRateService],
 })
 export class UserStrikeRateModule {}

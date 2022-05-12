@@ -1,15 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import {
   IUserRolePrivilege,
   Privilege,
 } from 'src/shared/domain/interfaces/user-role-privilege.interface';
 import { DeleteRolePrivilegeResponseDto } from './dtos/delete-privilege.dto';
-import { UserRolePrivilegeRepository } from './repositories/privilege.repository';
+import { IUserRolePrivilegeRepository } from './interfaces/privilege-repository.interface';
 
 @Injectable()
 export class UserRolePrivilegeService {
   constructor(
-    private readonly _rolePrivilegeRepository: UserRolePrivilegeRepository,
+    @Inject('IUserRolePrivilegeRepository')
+    private readonly _rolePrivilegeRepository: IUserRolePrivilegeRepository,
   ) {}
 
   public async getByIdOrNull(id: string): Promise<IUserRolePrivilege> {

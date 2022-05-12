@@ -13,7 +13,13 @@ import { UserStrikeAppealEntity } from './modules/appeal/appeal.entity';
     UserStrikeAppealModule,
     UserStrikeRateModule,
   ],
-  providers: [UserStrikeService, UserStrikeRepository],
+  providers: [
+    UserStrikeService,
+    {
+      provide: 'IUserStrikeRepository',
+      useClass: UserStrikeRepository,
+    },
+  ],
   exports: [UserStrikeService],
 })
 export class UserStrikeModule {}

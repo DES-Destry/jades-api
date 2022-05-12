@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { IUserEmail } from 'src/shared/domain/interfaces/user-email.interface';
 import { IUser } from 'src/shared/domain/interfaces/user.interface';
 import { ActionResultDto } from 'src/shared/result/dtos/action-result.dto';
@@ -18,13 +18,14 @@ import {
 } from './dtos/refresh-user-email-identity.dto';
 import { ToggleMainUserEmailRequestDto } from './dtos/toggle-main-user-email.dto';
 import { ToggleVisibleUserEmailRequestDto } from './dtos/toggle-visible-user-email.dto';
+import { IUserEmailRepository } from './interfaces/email-repository.interface';
 import { UserEmailIdentityService } from './modules/identity/identity.service';
-import { UserEmailRepository } from './repository/email.repository';
 
 @Injectable()
 export class UserEmailService {
   constructor(
-    private readonly _userEmailRepository: UserEmailRepository,
+    @Inject('IUserEmailRepository')
+    private readonly _userEmailRepository: IUserEmailRepository,
     private readonly _userEmailIdentityService: UserEmailIdentityService,
   ) {}
 
