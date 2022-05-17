@@ -2,7 +2,7 @@ import {
   IUserRolePrivilege,
   Privilege,
 } from 'src/shared/domain/interfaces/user-role-privilege.interface';
-import { DateAudit } from 'src/shared/entities/date-audit';
+import { DateAudit } from 'src/shared/date-audit';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { UserRoleEntity } from '../../role.entity';
 

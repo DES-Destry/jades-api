@@ -1,5 +1,5 @@
 import { RateType } from '../common/rate-type';
-import { IUser } from './user.interface';
+import { IUser } from '../../../modules/user/domain/user.interface';
 
 export interface IUserStrikeRate {
   id?: string;

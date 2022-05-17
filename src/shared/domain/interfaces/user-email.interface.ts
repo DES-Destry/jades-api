@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IUserEmailIdentity } from './user-email-identity.interface';
-import { IUser, UserDocData } from './user.interface';
+import { IUser, UserDocData } from '../../../modules/user/domain/user.interface';
 
 export interface IUserEmail {
   id?: string;

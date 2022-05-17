@@ -1,5 +1,5 @@
 import { UserStrikeLevel } from '../common/user-strike-level';
-import { IUser } from './user.interface';
+import { IUser } from '../../../modules/user/domain/user.interface';
 
 export interface IUserStrike {
   id?: string;

@@ -8,8 +8,8 @@ import {
   AuthorizedResponseDoc,
   AuthorizedResponseDto,
 } from 'src/modules/auth/dtos/common/auth.dto';
-import { ApiServerOperation } from 'src/shared/decorators/api-server-operation.decorator';
-import { CreateUserDto } from 'src/shared/dtos/create-user.dto';
+import { ApiServerOperation } from 'src/infrastructure/decorators/api-server-operation.decorator';
+import { CreateUserDto } from 'src/shared/dtos (delete)/create-user.dto';
 import { ActionResultDto } from 'src/shared/result/dtos/action-result.dto';
 import { ErrorDataDoc } from 'src/shared/result/dtos/error-data.doc';
 import { LoginRequestDto } from './dtos/login.dto';

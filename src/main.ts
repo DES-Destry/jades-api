@@ -2,10 +2,10 @@ import { VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import { AppConfig } from './shared/config/app.config';
-import { GlobalExceptionFilter } from './shared/filters/global-exception.filter';
-import { BetaKeyGuard } from './shared/guards/beta-key.guard';
-import { ValidationPipe } from './shared/pipes/validation.pipe';
+import { AppConfig } from './infrastructure/config/app.config';
+import { GlobalExceptionFilter } from './infrastructure/filters/global-exception.filter';
+import { BetaKeyGuard } from './infrastructure/guards/beta-key.guard';
+import { ValidationPipe } from './infrastructure/pipes/validation.pipe';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

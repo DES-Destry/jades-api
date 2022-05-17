@@ -1,5 +1,5 @@
 import { JwtService } from '@nestjs/jwt';
-import { AppConfig } from 'src/shared/config/app.config';
+import { AppConfig } from 'src/infrastructure/config/app.config';
 
 export class AccessTokenPayload {
   // RT - Refresh Token. AT & RT are JWT

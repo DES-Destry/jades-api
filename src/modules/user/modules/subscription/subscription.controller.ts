@@ -1,9 +1,9 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
-import { ApiServerOperation } from 'src/shared/decorators/api-server-operation.decorator';
-import { Auth } from 'src/shared/decorators/auth.decorator';
-import { User } from 'src/shared/decorators/user.decorator';
-import { IUser } from 'src/shared/domain/interfaces/user.interface';
+import { ApiServerOperation } from 'src/infrastructure/decorators/api-server-operation.decorator';
+import { Auth } from 'src/infrastructure/decorators/auth.decorator';
+import { User } from 'src/infrastructure/decorators/user.decorator';
+import { IUser } from 'src/modules/user/domain/user.interface';
 import { ActionResultDto } from 'src/shared/result/dtos/action-result.dto';
 import {
   ToggleSubscriptionRequestDto,

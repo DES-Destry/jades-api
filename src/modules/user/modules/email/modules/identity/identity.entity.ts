@@ -1,5 +1,5 @@
 import { IUserEmailIdentity } from 'src/shared/domain/interfaces/user-email-identity.interface';
-import { DateAudit } from 'src/shared/entities/date-audit';
+import { DateAudit } from 'src/shared/date-audit';
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { UserEmailEntity } from '../../email.entity';
 

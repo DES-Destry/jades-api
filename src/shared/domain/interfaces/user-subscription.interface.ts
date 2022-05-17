@@ -1,4 +1,4 @@
-import { IUser } from './user.interface';
+import { IUser } from '../../../modules/user/domain/user.interface';
 
 export interface IUserSubscription {
   id?: string;

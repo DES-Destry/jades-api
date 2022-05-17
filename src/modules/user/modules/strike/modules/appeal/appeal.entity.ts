@@ -1,5 +1,5 @@
 import { IUserStrikeAppeal } from 'src/shared/domain/interfaces/user-strike-appeal.interface';
-import { DateAudit } from 'src/shared/entities/date-audit';
+import { DateAudit } from 'src/shared/date-audit';
 import { Column, Entity, OneToOne } from 'typeorm';
 import { UserStrikeEntity } from '../../strike.entity';
 

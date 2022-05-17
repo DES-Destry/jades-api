@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { IUserEmail } from 'src/shared/domain/interfaces/user-email.interface';
-import { IUser } from 'src/shared/domain/interfaces/user.interface';
+import { IUser } from 'src/modules/user/domain/user.interface';
 import { ActionResultDto } from 'src/shared/result/dtos/action-result.dto';
 import { VoidResultDto } from 'src/shared/result/dtos/void-result.dto';
 import { ResultFactory } from 'src/shared/result/result-factory';

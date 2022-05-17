@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IUser, UserDocData } from './user.interface';
+import { IUser, UserDocData } from '../../../modules/user/domain/user.interface';
 
 export interface IUserContact {
   id?: string;

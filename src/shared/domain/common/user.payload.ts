@@ -1,6 +1,6 @@
 import { JwtService } from '@nestjs/jwt';
-import { AppConfig } from 'src/shared/config/app.config';
-import { User } from '../user';
+import { AppConfig } from 'src/infrastructure/config/app.config';
+import { User } from '../../../modules/user/domain/user.aggregate-root';
 
 export class UserPayload {
   // AT - Access Token. AT & RT are JWT

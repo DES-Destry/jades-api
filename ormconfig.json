@@ -6,11 +6,11 @@
     "password": "admin",
     "database": "jades",
     "entities": ["dist/**/*.entity{.ts,.js}"],
-    "factories": ["dist/database/factories/*.js"],
-    "seeds": ["dist/database/seeds/*.js"],
-    "migrations": ["dist/database/migrations/*.js"],
+    "factories": ["dist/infrastructure/database/factories/*.js"],
+    "seeds": ["dist/infrastructure/database/seeds/*.js"],
+    "migrations": ["dist/infrastructure/database/migrations/*.js"],
     "cli": {
-      "migrationsDir": "dist/database/migrations"
+      "migrationsDir": "dist/infrastructure/database/migrations"
     },
     "synchronize": false
 }

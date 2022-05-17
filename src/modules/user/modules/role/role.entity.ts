@@ -1,6 +1,6 @@
 import { IUserRole } from 'src/shared/domain/interfaces/user-role.interface';
-import { DateAudit } from 'src/shared/entities/date-audit';
-import { UserEntity } from 'src/modules/user/user.entity';
+import { DateAudit } from 'src/shared/date-audit';
+import { UserEntity } from 'src/modules/user/infrastructure/user.entity';
 import { Column, Entity, JoinTable, OneToMany } from 'typeorm';
 import { UserRolePrivilegeEntity } from './modules/privilege/privilege.entity';
 
