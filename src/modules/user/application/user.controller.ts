@@ -1,18 +1,19 @@
 import { Controller, Get, Param } from '@nestjs/common';
+import { QueryBus } from '@nestjs/cqrs';
 import { ApiOkResponse, ApiParam, ApiTags } from '@nestjs/swagger';
 import { ApiServerOperation } from 'src/infrastructure/decorators/api-server-operation.decorator';
 import { ActionResultDto } from 'src/shared/result/dtos/action-result.dto';
-import { ResultFactory } from 'src/shared/result/result-factory';
 import {
   UserExistsResponseDoc,
   UserExistsResponseDto,
 } from './dtos/user-exists.dto';
-import { UserService } from '../user.service';
+import { IsByEmailExistsQuery } from './queries/is-by-email-exists/is-by-email-exists.query';
+import { IsByUsernameExistsQuery } from './queries/is-by-username-exists/is-by-username-exists.query';
 
 @ApiTags('User - Main')
 @Controller('user')
 export class UserController {
-  constructor(private readonly _userService: UserService) {}
+  constructor(private readonly _queryBus: QueryBus) {}
 
   @ApiServerOperation({
     summary: 'Check user existence by username.',
@@ -30,10 +31,7 @@ export class UserController {
   public async isByUsernameExists(
     @Param('username') username: string,
   ): Promise<ActionResultDto<UserExistsResponseDto>> {
-    const user = await this._userService.getByUsernameOrNull(username);
-    return ResultFactory.ok({
-      exists: Boolean(user),
-    });
+    return this._queryBus.execute(new IsByUsernameExistsQuery(username));
   }
 
   @ApiServerOperation({
@@ -52,9 +50,6 @@ export class UserController {
   public async isByEmailExists(
     @Param('email') email: string,
   ): Promise<ActionResultDto<UserExistsResponseDto>> {
-    const user = await this._userService.getByEmailOrNull(email);
-    return ResultFactory.ok({
-      exists: Boolean(user),
-    });
+    return this._queryBus.execute(new IsByEmailExistsQuery(email));
   }
 }
