@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { IUserEmail } from 'src/shared/domain/interfaces/user-email.interface';
+import { IUserEmail } from 'src/modules/user/modules/email/domain/email.interface';
 import { IUser } from 'src/modules/user/domain/user.interface';
 import { ActionResultDto } from 'src/shared/result/dtos/action-result.dto';
 import { VoidResultDto } from 'src/shared/result/dtos/void-result.dto';
@@ -7,19 +7,19 @@ import { ResultFactory } from 'src/shared/result/result-factory';
 import {
   CreateUserEmailRequestDto,
   CreateUserEmailResponseDto,
-} from './dtos/create-user-email.dto';
+} from '../application/dtos/create-user-email.dto';
 import {
   DeleteUserEmailRequestDto,
   DeleteUserEmailResponseDto,
-} from './dtos/delete-user-email.dto';
+} from '../application/dtos/delete-user-email.dto';
 import {
   RefreshUserEmailIdentityRequestDto,
   RefreshUserEmailIdentityResponseDto,
-} from './dtos/refresh-user-email-identity.dto';
-import { ToggleMainUserEmailRequestDto } from './dtos/toggle-main-user-email.dto';
-import { ToggleVisibleUserEmailRequestDto } from './dtos/toggle-visible-user-email.dto';
-import { IUserEmailRepository } from './interfaces/email-repository.interface';
-import { UserEmailIdentityService } from './modules/identity/identity.service';
+} from '../application/dtos/refresh-user-email-identity.dto';
+import { ToggleMainUserEmailRequestDto } from '../application/dtos/toggle-main-user-email.dto';
+import { ToggleVisibleUserEmailRequestDto } from '../application/dtos/toggle-visible-user-email.dto';
+import { IUserEmailRepository } from '../domain/repositories/email-repository.interface';
+import { UserEmailIdentityService } from '../modules/identity/identity.service';
 
 @Injectable()
 export class UserEmailService {

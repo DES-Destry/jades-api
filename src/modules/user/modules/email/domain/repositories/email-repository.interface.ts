@@ -1,5 +1,5 @@
-import { IUserEmail } from 'src/shared/domain/interfaces/user-email.interface';
-import { CreateUserEmailRequestDto } from '../dtos/create-user-email.dto';
+import { IUserEmail } from 'src/modules/user/modules/email/domain/email.interface';
+import { CreateUserEmailRequestDto } from '../../application/dtos/create-user-email.dto';
 
 export interface IUserEmailRepository {
   getById(id: string): Promise<IUserEmail>;

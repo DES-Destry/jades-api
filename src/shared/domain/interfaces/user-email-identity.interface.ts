@@ -1,4 +1,4 @@
-import { IUserEmail } from './user-email.interface';
+import { IUserEmail } from '../../../modules/user/modules/email/domain/email.interface';
 
 export interface IUserEmailIdentity {
   id?: string;

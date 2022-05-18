@@ -1,11 +1,11 @@
 import { IUserEmailIdentity } from 'src/shared/domain/interfaces/user-email-identity.interface';
-import { DateAudit } from 'src/shared/date-audit';
+import { BaseDateEntity } from 'src/shared/ddd/infrastructure/database/base-classes/base-date-entity';
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
-import { UserEmailEntity } from '../../email.entity';
+import { UserEmailEntity } from '../../infrastructure/email.entity';
 
 @Entity('user_email_identities')
 export class UserEmailIdentityEntity
-  extends DateAudit
+  extends BaseDateEntity
   implements IUserEmailIdentity
 {
   @Column('uuid', { name: 'email_id', unique: true })

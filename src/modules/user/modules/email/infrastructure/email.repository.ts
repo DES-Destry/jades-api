@@ -1,8 +1,8 @@
-import { IUserEmail } from 'src/shared/domain/interfaces/user-email.interface';
-import { UserEmail } from 'src/shared/domain/user-email';
-import { IUserEmailRepository } from '../interfaces/email-repository.interface';
+import { IUserEmail } from 'src/modules/user/modules/email/domain/email.interface';
+import { UserEmail } from 'src/modules/user/modules/email/domain/email.domain-entity';
+import { IUserEmailRepository } from '../domain/repositories/email-repository.interface';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEmailEntity } from '../email.entity';
+import { UserEmailEntity } from './email.entity';
 import { Repository } from 'typeorm';
 
 export class UserEmailRepository implements IUserEmailRepository {

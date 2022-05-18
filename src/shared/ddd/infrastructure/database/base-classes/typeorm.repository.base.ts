@@ -53,7 +53,7 @@ export abstract class TypeormRepositoryBase<
     this.logger.debug(
       `[${entity.constructor.name}] persisted ${entity.id.value}`,
     );
-    return this.mapper.toDomainEntity(result);
+    return this.mapper.toDomain(result);
   }
 
   async saveMultiple(entities: Entity[]): Promise<Entity[]> {
@@ -70,7 +70,7 @@ export abstract class TypeormRepositoryBase<
     this.logger.debug(
       `[${entities}]: persisted ${entities.map(entity => entity.id)}`,
     );
-    return result.map(entity => this.mapper.toDomainEntity(entity));
+    return result.map(entity => this.mapper.toDomain(entity));
   }
 
   async findOne(
@@ -81,7 +81,7 @@ export abstract class TypeormRepositoryBase<
       where,
       relations: this.relations,
     });
-    return found ? this.mapper.toDomainEntity(found) : undefined;
+    return found ? this.mapper.toDomain(found) : undefined;
   }
 
   async findOneOrThrow(params: QueryParams<EntityProps> = {}): Promise<Entity> {
@@ -99,7 +99,7 @@ export abstract class TypeormRepositoryBase<
     if (!found) {
       throw new NotFoundException();
     }
-    return this.mapper.toDomainEntity(found);
+    return this.mapper.toDomain(found);
   }
 
   async findMany(params: QueryParams<EntityProps> = {}): Promise<Entity[]> {
@@ -108,7 +108,7 @@ export abstract class TypeormRepositoryBase<
       relations: this.relations,
     });
 
-    return result.map(item => this.mapper.toDomainEntity(item));
+    return result.map(item => this.mapper.toDomain(item));
   }
 
   async findManyPaginated({
@@ -127,7 +127,7 @@ export abstract class TypeormRepositoryBase<
     });
 
     const result: DataWithPaginationMeta<Entity[]> = {
-      data: data.map(item => this.mapper.toDomainEntity(item)),
+      data: data.map(item => this.mapper.toDomain(item)),
       count,
       limit: pagination?.limit,
       page: pagination?.page,

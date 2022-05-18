@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { IUserEmailIdentity } from 'src/shared/domain/interfaces/user-email-identity.interface';
-import { IUserEmail } from 'src/shared/domain/interfaces/user-email.interface';
+import { IUserEmail } from 'src/modules/user/modules/email/domain/email.interface';
 import { EmailSender } from 'src/shared/senders/email.sender';
 import { IUserEmailIdentityRepository } from './interfaces/identity-repository.interface';
 

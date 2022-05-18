@@ -1,7 +1,6 @@
 import { UserGender } from 'src/shared/domain/common/user-gender';
 import { UserScope } from 'src/shared/domain/common/user-interests';
-import { IUser } from 'src/modules/user/domain/user.interface';
-import { DateAudit } from 'src/shared/date-audit';
+import { BaseDateEntity } from 'src/shared/ddd/infrastructure/database/base-classes/base-date-entity';
 import {
   Entity,
   Column,
@@ -11,11 +10,11 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { UserContactEntity } from '../modules/contact/contact.entity';
-import { UserEmailEntity } from '../modules/email/email.entity';
+import { UserEmailEntity } from '../modules/email/infrastructure/email.entity';
 import { UserRoleEntity } from '../modules/role/role.entity';
 
 @Entity('users')
-export class UserEntity extends DateAudit implements IUser {
+export class UserEntity extends BaseDateEntity {
   @Column('varchar', { unique: true })
   username: string;
 

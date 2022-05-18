@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { UserPayload } from 'src/shared/domain/common/user.payload';
 import { IUser } from 'src/modules/user/domain/user.interface';
-import { UserEmailService } from 'src/modules/user/modules/email/email.service';
+import { UserEmailService } from 'src/modules/user/modules/email/infrastructure/email.service';
 import { CreateUserDto } from '../../shared/dtos (delete)/create-user.dto';
 import { IUserRepository } from './interfaces/user-repository.interface';
 

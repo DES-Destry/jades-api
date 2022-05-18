@@ -1,10 +1,10 @@
 import { IUserContact } from 'src/shared/domain/interfaces/user-contact.interface';
-import { DateAudit } from 'src/shared/date-audit';
+import { BaseDateEntity } from 'src/shared/ddd/infrastructure/database/base-classes/base-date-entity';
 import { UserEntity } from 'src/modules/user/infrastructure/user.entity';
 import { Column, Entity, ManyToOne } from 'typeorm';
 
 @Entity('user_contacts')
-export class UserContactEntity extends DateAudit implements IUserContact {
+export class UserContactEntity extends BaseDateEntity implements IUserContact {
   @Column('uuid', { name: 'user_id' })
   userId: string;
 

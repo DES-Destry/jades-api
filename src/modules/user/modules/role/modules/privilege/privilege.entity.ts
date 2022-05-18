@@ -2,13 +2,13 @@ import {
   IUserRolePrivilege,
   Privilege,
 } from 'src/shared/domain/interfaces/user-role-privilege.interface';
-import { DateAudit } from 'src/shared/date-audit';
+import { BaseDateEntity } from 'src/shared/ddd/infrastructure/database/base-classes/base-date-entity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { UserRoleEntity } from '../../role.entity';
 
 @Entity('user_role_privileges')
 export class UserRolePrivilegeEntity
-  extends DateAudit
+  extends BaseDateEntity
   implements IUserRolePrivilege
 {
   @Column('uuid', { name: 'role_id' })

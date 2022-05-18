@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
-import { AggregateRoot } from './abstract/aggregate-root';
-import { IUserEmail } from './interfaces/user-email.interface';
+import { AggregateRoot } from '../../../../../shared/domain/abstract/aggregate-root';
+import { IUserEmail } from './email.interface';
 
 export class UserEmail extends AggregateRoot<IUserEmail> {
   public readonly id = this.props.id;

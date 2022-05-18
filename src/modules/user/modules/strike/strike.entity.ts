@@ -1,6 +1,6 @@
 import { UserStrikeLevel } from 'src/shared/domain/common/user-strike-level';
 import { IUserStrike } from 'src/shared/domain/interfaces/user-strike.interface';
-import { DateAudit } from 'src/shared/date-audit';
+import { BaseDateEntity } from 'src/shared/ddd/infrastructure/database/base-classes/base-date-entity';
 import { UserEntity } from 'src/modules/user/infrastructure/user.entity';
 import {
   Column,
@@ -13,7 +13,7 @@ import {
 import { UserStrikeAppealEntity } from './modules/appeal/appeal.entity';
 
 @Entity('user_strikes')
-export class UserStrikeEntity extends DateAudit implements IUserStrike {
+export class UserStrikeEntity extends BaseDateEntity implements IUserStrike {
   @Column('uuid', { name: 'user_id' })
   userId: string;
 

@@ -1,9 +1,9 @@
 /* eslint-disable new-cap */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AggregateRoot } from '@libs/ddd/domain/base-classes/aggregate-root.base';
-import { CreateEntityProps } from '@libs/ddd/domain/base-classes/entity.base';
-import { DateVO } from '@libs/ddd/domain/value-objects/date.value-object';
-import { ID } from '@libs/ddd/domain/value-objects/id.value-object';
+import { AggregateRoot } from 'src/shared/ddd/domain/base-classes/aggregate-root.base';
+import { CreateEntityProps } from 'src/shared/ddd/domain/base-classes/entity.base';
+import { DateVO } from 'src/shared/ddd/domain/value-objects/date.value-object';
+import { ID } from 'src/shared/ddd/domain/value-objects/id.value-object';
 import { TypeormEntityBase } from './typeorm.entity.base';
 
 export type OrmEntityProps<OrmEntity> = Omit<
@@ -18,7 +18,7 @@ export interface EntityProps<EntityProps> {
 
 export abstract class OrmMapper<
   Entity extends AggregateRoot<unknown>,
-  OrmEntity
+  OrmEntity,
 > {
   constructor(
     private entityConstructor: new (props: CreateEntityProps<any>) => Entity,
@@ -29,9 +29,14 @@ export abstract class OrmMapper<
 
   protected abstract toOrmProps(entity: Entity): OrmEntityProps<OrmEntity>;
 
-  toDomainEntity(ormEntity: OrmEntity): Entity {
+  toDomain(ormEntity: OrmEntity): Entity | null {
+    if (!ormEntity) {
+      return null;
+    }
+
     const { id, props } = this.toDomainProps(ormEntity);
-    const ormEntityBase: TypeormEntityBase = (ormEntity as unknown) as TypeormEntityBase;
+    const ormEntityBase: TypeormEntityBase =
+      ormEntity as unknown as TypeormEntityBase;
     return new this.entityConstructor({
       id,
       props,
@@ -40,7 +45,11 @@ export abstract class OrmMapper<
     });
   }
 
-  toOrmEntity(entity: Entity): OrmEntity {
+  toOrmEntity(entity: Entity): OrmEntity | null {
+    if (!entity) {
+      return null;
+    }
+
     const props = this.toOrmProps(entity);
     return new this.ormEntityConstructor({
       ...props,

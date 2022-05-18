@@ -9,6 +9,7 @@ import {
   VoidResultDoc,
   VoidResultDto,
 } from 'src/shared/result/dtos/void-result.dto';
+import { UserEmailService } from '../infrastructure/email.service';
 import {
   CreateUserEmailRequestDto,
   CreateUserEmailResponseDoc,
@@ -21,7 +22,6 @@ import {
 } from './dtos/refresh-user-email-identity.dto';
 import { ToggleMainUserEmailRequestDto } from './dtos/toggle-main-user-email.dto';
 import { ToggleVisibleUserEmailRequestDto } from './dtos/toggle-visible-user-email.dto';
-import { UserEmailService } from './email.service';
 
 @ApiTags('User - Email')
 @Controller('user/email')

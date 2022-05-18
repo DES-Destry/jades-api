@@ -1,11 +1,11 @@
-import { IUserEmail } from 'src/shared/domain/interfaces/user-email.interface';
-import { DateAudit } from 'src/shared/date-audit';
+import { IUserEmail } from 'src/modules/user/modules/email/domain/email.interface';
+import { BaseDateEntity } from 'src/shared/ddd/infrastructure/database/base-classes/base-date-entity';
 import { UserEntity } from 'src/modules/user/infrastructure/user.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
-import { UserEmailIdentityEntity } from './modules/identity/identity.entity';
+import { UserEmailIdentityEntity } from '../modules/identity/identity.entity';
 
 @Entity('user_emails')
-export class UserEmailEntity extends DateAudit implements IUserEmail {
+export class UserEmailEntity extends BaseDateEntity implements IUserEmail {
   @Column('uuid', { name: 'user_id' })
   userId: string;
 

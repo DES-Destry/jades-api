@@ -4,7 +4,7 @@ import { UserScope } from '../../../shared/domain/common/user-interests';
 import {
   IUserEmail,
   UserEmailDoc,
-} from 'src/shared/domain/interfaces/user-email.interface';
+} from 'src/modules/user/modules/email/domain/email.interface';
 import {
   IUserRole,
   UserRoleDoc,
@@ -17,7 +17,6 @@ import { Credentials } from './value-objects/credentials.vo';
 import { Location } from './value-objects/location.vo';
 
 export interface IUser {
-  id?: string;
   credentials: Credentials;
   alias?: string;
   urlAlias?: string;

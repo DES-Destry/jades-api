@@ -9,6 +9,18 @@ export interface ILocationProps {
 }
 
 export class Location extends ValueObject<ILocationProps> {
+  get city(): string | null {
+    return this.props.city;
+  }
+
+  get state(): string | null {
+    return this.props.state;
+  }
+
+  get country(): string {
+    return this.props.country;
+  }
+
   protected validate(props: ILocationProps): void {
     if (Guard.lengthIsBetween(props.country, 3, 32)) {
       throw new ArgumentOutOfRangeException('Country value out of range');

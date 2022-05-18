@@ -1,15 +1,15 @@
 import { UserPayload } from 'src/shared/domain/common/user.payload';
-import { IUser } from 'src/modules/user/domain/user.interface';
 import { CreateUserDto } from '../../../../shared/dtos (delete)/create-user.dto';
+import { User } from '../user.aggregate-root';
 
 export interface IUserRepository {
-  getById(userId: string): Promise<IUser>;
-  getByUsername(username: string): Promise<IUser>;
-  getByEmail(email: string): Promise<IUser>;
-  getByLogin(login: string): Promise<IUser>;
-  getForPayload(payload: UserPayload): Promise<IUser>;
+  getById(userId: string): Promise<User>;
+  getByUsername(username: string): Promise<User>;
+  getByEmail(email: string): Promise<User>;
+  getByLogin(login: string): Promise<User>;
+  getForPayload(payload: UserPayload): Promise<User>;
 
-  create(dto: CreateUserDto): Promise<IUser>;
+  create(dto: CreateUserDto): Promise<User>;
 
-  updateProfile(user: Partial<IUser>): Promise<IUser>;
+  updateProfile(user: Partial<User>): Promise<User>;
 }

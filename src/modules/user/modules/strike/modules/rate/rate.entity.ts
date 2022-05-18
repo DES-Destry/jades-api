@@ -1,11 +1,11 @@
 import { RateType } from 'src/shared/domain/common/rate-type';
 import { IUserStrikeRate } from 'src/shared/domain/interfaces/user-strike-rate.interface';
-import { DateAudit } from 'src/shared/date-audit';
+import { BaseDateEntity } from 'src/shared/ddd/infrastructure/database/base-classes/base-date-entity';
 import { UserEntity } from 'src/modules/user/infrastructure/user.entity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity('user_strike_rates')
-export class UserStrikeRateEntity extends DateAudit implements IUserStrikeRate {
+export class UserStrikeRateEntity extends BaseDateEntity implements IUserStrikeRate {
   @Column('enum', { name: 'rate_type', enum: RateType })
   rateType: RateType;
 

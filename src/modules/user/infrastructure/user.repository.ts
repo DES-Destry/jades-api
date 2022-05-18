@@ -1,27 +1,28 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserPayload } from 'src/shared/domain/common/user.payload';
-import { IUser } from 'src/modules/user/domain/user.interface';
 import { User } from 'src/modules/user/domain/user.aggregate-root';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from '../../../shared/dtos (delete)/create-user.dto';
 import { IUserRepository } from '../domain/repositories/user-repository.interface';
 import { UserEntity } from './user.entity';
+import { UserMapper } from './user.mapper';
 
 export class UserRepository implements IUserRepository {
   constructor(
     @InjectRepository(UserEntity)
     private readonly _userEntity: Repository<UserEntity>,
+    private readonly _userMapper: UserMapper,
   ) {}
 
-  public async getById(userId: string): Promise<IUser> {
+  public async getById(userId: string): Promise<User> {
     if (!userId) {
       return null;
     }
 
     const entity = await this._userEntity.findOne(userId);
-    return entity && User.transform(entity);
+    return this._userMapper.toDomain(entity);
   }
-  public async getByUsername(username: string): Promise<IUser> {
+  public async getByUsername(username: string): Promise<User> {
     if (username) {
       return null;
     }
@@ -29,9 +30,9 @@ export class UserRepository implements IUserRepository {
     const entity = await this._userEntity.findOne({
       where: { username },
     });
-    return entity && User.transform(entity);
+    return this._userMapper.toDomain(entity);
   }
-  public async getByEmail(email: string): Promise<IUser> {
+  public async getByEmail(email: string): Promise<User> {
     if (!email) {
       return null;
     }
@@ -39,9 +40,9 @@ export class UserRepository implements IUserRepository {
     const entity = await this._userEntity.findOne({
       where: { emails: [email] },
     });
-    return entity && User.transform(entity);
+    return this._userMapper.toDomain(entity);
   }
-  public async getByLogin(login: string): Promise<IUser> {
+  public async getByLogin(login: string): Promise<User> {
     if (!login) {
       return null;
     }
@@ -54,12 +55,12 @@ export class UserRepository implements IUserRepository {
     });
 
     if (usernameEntity || emailEntity) {
-      return User.transform(usernameEntity || emailEntity);
+      return this._userMapper.toDomain(usernameEntity || emailEntity);
     }
 
     return null;
   }
-  public async getForPayload(payload: UserPayload): Promise<IUser> {
+  public async getForPayload(payload: UserPayload): Promise<User> {
     if (!payload) {
       return null;
     }
@@ -73,24 +74,24 @@ export class UserRepository implements IUserRepository {
       },
     });
 
-    return entity && User.transform(entity);
+    return this._userMapper.toDomain(entity);
   }
 
-  public async create(dto: CreateUserDto): Promise<IUser> {
+  public async create(dto: CreateUserDto): Promise<User> {
     if (!dto) {
       return null;
     }
 
     const createdEntity = this._userEntity.create(dto);
     await createdEntity.save();
-    return createdEntity && User.transform(createdEntity);
+    return this._userMapper.toDomain(createdEntity);
   }
 
-  public async updateProfile(user: Partial<IUser>): Promise<IUser> {
+  public async updateProfile(user: Partial<User>): Promise<User> {
     if (!user && !user.id) {
       return null;
     }
-    const entity = await this._userEntity.findOne(user.id);
+    const entity = await this._userEntity.findOne(user.id.unpack());
 
     if (!entity) {
       return null;
@@ -99,9 +100,9 @@ export class UserRepository implements IUserRepository {
     entity.alias = user?.alias || entity?.alias;
     entity.urlAlias = user?.urlAlias || entity?.urlAlias;
     entity.description = user?.description || entity?.description;
-    entity.location = user?.location || entity?.location;
+    entity.location = user.location?.country || entity?.location;
     await entity.save();
 
-    return entity;
+    return this._userMapper.toDomain(entity);
   }
 }
